@@ -104,6 +104,27 @@ export const arbitraries = {
     createdAt: fc.date({ min: new Date('2020-01-01T00:00:00.000Z'), max: new Date('2025-12-31T23:59:59.999Z') }),
     updatedAt: fc.date({ min: new Date('2020-01-01T00:00:00.000Z'), max: new Date('2025-12-31T23:59:59.999Z') }),
   }),
+
+  // Vehicle image arbitrary
+  vehicleImage: fc.record({
+    id: fc.uuid(),
+    vehicleId: fc.uuid(),
+    originalUrl: fc.webUrl(),
+    processedUrl: fc.option(fc.webUrl()),
+    thumbnailUrl: fc.webUrl(),
+    imageType: fc.constantFrom(
+      'FRONT_QUARTER',
+      'FRONT',
+      'BACK_QUARTER',
+      'BACK',
+      'DRIVER_SIDE',
+      'PASSENGER_SIDE',
+      'GALLERY'
+    ),
+    sortOrder: fc.integer({ min: 0, max: 100 }),
+    isProcessed: fc.boolean(),
+    uploadedAt: fc.date({ min: new Date('2020-01-01T00:00:00.000Z'), max: new Date('2025-12-31T23:59:59.999Z') }),
+  }),
 }
 
 // Helper functions for creating test data

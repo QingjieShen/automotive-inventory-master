@@ -104,24 +104,24 @@ This implementation plan converts the vehicle inventory tool design into discret
   - Ensure all tests pass, verify authentication and basic vehicle management works
   - Ask the user if questions arise about core functionality
 
-- [ ] 7. Image Gallery and Management
-  - [ ] 7.1 Create vehicle detail page with image gallery layout
+- [x] 7. Image Gallery and Management
+  - [x] 7.1 Create vehicle detail page with image gallery layout
     - Build responsive layout: Front shot in individual row, other 5 key shots in two rows
     - Implement four-column grid for gallery images
     - Add navigation from vehicle list to detail page
     - _Requirements: 4.1, 4.2, 4.3_
 
-  - [ ] 7.2 Implement drag-and-drop photo reordering
+  - [x] 7.2 Implement drag-and-drop photo reordering
     - Integrate @dnd-kit/core for accessible drag-and-drop
     - Handle photo position updates and persistence
     - Maintain separate ordering for key images vs gallery images
     - _Requirements: 4.4_
 
-  - [ ] 7.3 Write property tests for photo interaction
+  - [x] 7.3 Write property tests for photo interaction
     - **Property 7: Photo Interaction and Management**
     - **Validates: Requirements 4.4, 4.5, 4.6**
 
-  - [ ] 7.4 Add photo deletion with confirmation
+  - [x] 7.4 Add photo deletion with confirmation
     - Implement hover-to-show delete button
     - Create confirmation modal for photo deletion
     - Handle photo removal from database and S3

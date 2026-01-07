@@ -3,6 +3,7 @@
 import { Vehicle } from '@/types'
 import { EyeIcon, PhotoIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 interface VehicleCardProps {
   vehicle: Vehicle
@@ -17,6 +18,8 @@ export default function VehicleCard({
   isSelected = false, 
   onSelectionChange 
 }: VehicleCardProps) {
+  const router = useRouter()
+  
   const formatDate = (date: Date) => {
     return new Date(date).toLocaleDateString('en-US', {
       year: 'numeric',
@@ -123,10 +126,7 @@ export default function VehicleCard({
         {/* Actions */}
         <div className="col-span-1">
           <button
-            onClick={() => {
-              // TODO: Navigate to vehicle detail page in future task
-              console.log('View vehicle:', vehicle.id)
-            }}
+            onClick={() => router.push(`/vehicles/${vehicle.id}`)}
             className="text-blue-600 hover:text-blue-900 transition-colors duration-150"
             title="View vehicle details"
           >
