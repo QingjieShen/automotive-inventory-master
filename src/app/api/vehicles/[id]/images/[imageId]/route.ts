@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
+import { deleteFromS3 } from '@/lib/s3'
 
 export async function DELETE(
   request: NextRequest,
@@ -34,19 +35,37 @@ export async function DELETE(
       )
     }
 
+    // Delete the image files from S3 storage
+    try {
+      // Extract S3 key from original URL
+      const originalUrl = new URL(image.originalUrl)
+      const originalKey = originalUrl.pathname.substring(1) // Remove leading slash
+      await deleteFromS3(originalKey)
+      
+      // Delete thumbnail if different from original
+      if (image.thumbnailUrl !== image.originalUrl) {
+        const thumbnailUrl = new URL(image.thumbnailUrl)
+        const thumbnailKey = thumbnailUrl.pathname.substring(1)
+        await deleteFromS3(thumbnailKey)
+      }
+      
+      // Delete processed image if exists
+      if (image.processedUrl) {
+        const processedUrl = new URL(image.processedUrl)
+        const processedKey = processedUrl.pathname.substring(1)
+        await deleteFromS3(processedKey)
+      }
+    } catch (s3Error) {
+      console.error('Failed to delete image from S3:', s3Error)
+      // Continue with database deletion even if S3 cleanup fails
+    }
+
     // Delete the image from the database
     await prisma.vehicleImage.delete({
       where: {
         id: imageId
       }
     })
-
-    // TODO: Delete the actual image files from S3 storage
-    // This would involve:
-    // 1. Delete original image from S3
-    // 2. Delete processed image from S3 (if exists)
-    // 3. Delete thumbnail from S3
-    // For now, we're just removing from database
 
     // If it's a gallery image, we should reorder the remaining gallery images
     if (image.imageType === 'GALLERY') {

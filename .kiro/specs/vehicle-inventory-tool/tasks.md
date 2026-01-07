@@ -127,20 +127,20 @@ This implementation plan converts the vehicle inventory tool design into discret
     - Handle photo removal from database and S3
     - _Requirements: 4.5, 4.6_
 
-- [ ] 8. File Upload System
-  - [ ] 8.1 Create drag-and-drop photo upload component
+- [x] 8. File Upload System
+  - [x] 8.1 Create drag-and-drop photo upload component
     - Build file upload interface with progress indicators
     - Implement file validation (format, size limits)
     - Generate thumbnails using Next.js Image optimization
     - _Requirements: 6.1, 6.3, 6.4_
 
-  - [ ] 8.2 Implement S3 integration for file storage
+  - [x] 8.2 Implement S3 integration for file storage
     - Set up AWS S3 client with proper folder structure
     - Handle file uploads with CloudFront CDN integration
     - Preserve original metadata and generate thumbnails
     - _Requirements: 6.6, 7.2_
 
-  - [ ] 8.3 Write property tests for photo upload and categorization
+  - [x] 8.3 Write property tests for photo upload and categorization
     - **Property 11: Photo Upload and Categorization**
     - **Validates: Requirements 6.1, 6.2, 6.3, 6.4, 6.5**
 

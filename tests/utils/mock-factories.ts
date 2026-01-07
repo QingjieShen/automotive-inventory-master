@@ -91,8 +91,8 @@ export const arbitraries = {
     stockNumber: fc.stringMatching(/^[A-Z0-9]{3,10}$/),
     storeId: fc.uuid(),
     processingStatus: fc.constantFrom('NOT_STARTED', 'IN_PROGRESS', 'COMPLETED', 'ERROR'),
-    createdAt: fc.date({ min: new Date('2020-01-01T00:00:00.000Z'), max: new Date('2025-12-31T23:59:59.999Z') }),
-    updatedAt: fc.date({ min: new Date('2020-01-01T00:00:00.000Z'), max: new Date('2025-12-31T23:59:59.999Z') }),
+    createdAt: fc.date({ min: new Date('2020-01-01T00:00:00.000Z'), max: new Date('2024-12-31T23:59:59.999Z') }),
+    updatedAt: fc.date({ min: new Date('2020-01-01T00:00:00.000Z'), max: new Date('2024-12-31T23:59:59.999Z') }),
   }),
 
   // User arbitrary
@@ -101,8 +101,8 @@ export const arbitraries = {
     email: fc.emailAddress(),
     name: fc.string({ minLength: 2, maxLength: 50 }),
     role: fc.constantFrom('PHOTOGRAPHER', 'ADMIN'),
-    createdAt: fc.date({ min: new Date('2020-01-01T00:00:00.000Z'), max: new Date('2025-12-31T23:59:59.999Z') }),
-    updatedAt: fc.date({ min: new Date('2020-01-01T00:00:00.000Z'), max: new Date('2025-12-31T23:59:59.999Z') }),
+    createdAt: fc.date({ min: new Date('2020-01-01T00:00:00.000Z'), max: new Date('2024-12-31T23:59:59.999Z') }),
+    updatedAt: fc.date({ min: new Date('2020-01-01T00:00:00.000Z'), max: new Date('2024-12-31T23:59:59.999Z') }),
   }),
 
   // Vehicle image arbitrary
@@ -123,8 +123,31 @@ export const arbitraries = {
     ),
     sortOrder: fc.integer({ min: 0, max: 100 }),
     isProcessed: fc.boolean(),
-    uploadedAt: fc.date({ min: new Date('2020-01-01T00:00:00.000Z'), max: new Date('2025-12-31T23:59:59.999Z') }),
+    uploadedAt: fc.date({ min: new Date('2020-01-01T00:00:00.000Z'), max: new Date('2024-12-31T23:59:59.999Z') }),
   }),
+
+  // File upload arbitraries
+  fileSize: fc.integer({ min: 1024, max: 10 * 1024 * 1024 }), // 1KB to 10MB
+  fileName: fc.string({ minLength: 5, maxLength: 50 }).map(name => `${name}.jpg`),
+  contentType: fc.constantFrom('image/jpeg', 'image/png', 'image/gif', 'image/webp'),
+  
+  // Upload file arbitrary (simulates File object properties)
+  uploadFile: fc.record({
+    name: fc.string({ minLength: 5, maxLength: 50 }).map(name => `${name}.jpg`),
+    size: fc.integer({ min: 1024, max: 10 * 1024 * 1024 }),
+    type: fc.constantFrom('image/jpeg', 'image/png', 'image/gif', 'image/webp'),
+    lastModified: fc.integer({ min: 1640995200000, max: Date.now() }), // 2022 onwards
+  }),
+
+  // S3 key arbitrary
+  s3Key: fc.record({
+    storeId: fc.uuid(),
+    vehicleId: fc.uuid(),
+    imageType: fc.constantFrom('original', 'processed', 'thumbnail'),
+    extension: fc.constantFrom('jpg', 'png', 'gif', 'webp'),
+  }).map(({ storeId, vehicleId, imageType, extension }) => 
+    `stores/${storeId}/vehicles/${vehicleId}/${imageType}/${fc.sample(fc.uuid(), 1)[0]}_${Date.now()}.${extension}`
+  ),
 }
 
 // Helper functions for creating test data
