@@ -1,0 +1,139 @@
+'use client'
+
+import { Vehicle } from '@/types'
+import { EyeIcon, PhotoIcon } from '@heroicons/react/24/outline'
+import Image from 'next/image'
+
+interface VehicleCardProps {
+  vehicle: Vehicle
+  showCheckbox?: boolean
+  isSelected?: boolean
+  onSelectionChange?: (checked: boolean) => void
+}
+
+export default function VehicleCard({ 
+  vehicle, 
+  showCheckbox = false, 
+  isSelected = false, 
+  onSelectionChange 
+}: VehicleCardProps) {
+  const formatDate = (date: Date) => {
+    return new Date(date).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    })
+  }
+
+  const getStatusBadge = (status: string) => {
+    const statusConfig = {
+      NOT_STARTED: { color: 'bg-gray-100 text-gray-800', text: 'Not Started' },
+      IN_PROGRESS: { color: 'bg-yellow-100 text-yellow-800', text: 'In Progress' },
+      COMPLETED: { color: 'bg-green-100 text-green-800', text: 'Completed' },
+      ERROR: { color: 'bg-red-100 text-red-800', text: 'Error' }
+    }
+
+    const config = statusConfig[status as keyof typeof statusConfig] || statusConfig.NOT_STARTED
+
+    return (
+      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${config.color}`}>
+        {config.text}
+      </span>
+    )
+  }
+
+  // Get the first image as thumbnail (preferably front or front quarter)
+  const getThumbnail = () => {
+    if (!vehicle.images || vehicle.images.length === 0) {
+      return null
+    }
+
+    // Try to find front or front quarter image first
+    const frontImage = vehicle.images.find(img => 
+      img.imageType === 'FRONT' || img.imageType === 'FRONT_QUARTER'
+    )
+
+    const thumbnailImage = frontImage || vehicle.images[0]
+    return thumbnailImage.thumbnailUrl || thumbnailImage.originalUrl
+  }
+
+  const thumbnailUrl = getThumbnail()
+
+  return (
+    <div className="px-6 py-4 hover:bg-gray-50 transition-colors duration-150">
+      <div className="grid grid-cols-12 gap-4 items-center">
+        {showCheckbox && (
+          <div className="col-span-1">
+            <input
+              type="checkbox"
+              checked={isSelected}
+              onChange={(e) => onSelectionChange?.(e.target.checked)}
+              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            />
+          </div>
+        )}
+        
+        {/* Stock Number */}
+        <div className={showCheckbox ? "col-span-2" : "col-span-3"}>
+          <div className="text-sm font-medium text-gray-900">
+            {vehicle.stockNumber}
+          </div>
+        </div>
+
+        {/* Thumbnail */}
+        <div className="col-span-2">
+          <div className="flex items-center">
+            {thumbnailUrl ? (
+              <div className="relative h-12 w-16 rounded-md overflow-hidden bg-gray-100">
+                <Image
+                  src={thumbnailUrl}
+                  alt={`Vehicle ${vehicle.stockNumber}`}
+                  fill
+                  className="object-cover"
+                  sizes="64px"
+                />
+              </div>
+            ) : (
+              <div className="h-12 w-16 rounded-md bg-gray-100 flex items-center justify-center">
+                <PhotoIcon className="h-6 w-6 text-gray-400" />
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Photo Count */}
+        <div className="col-span-2">
+          <div className="text-sm text-gray-900">
+            {vehicle.images?.length || 0} photos
+          </div>
+        </div>
+
+        {/* Created Date */}
+        <div className="col-span-2">
+          <div className="text-sm text-gray-500">
+            {formatDate(vehicle.createdAt)}
+          </div>
+        </div>
+
+        {/* Status */}
+        <div className="col-span-2">
+          {getStatusBadge(vehicle.processingStatus)}
+        </div>
+
+        {/* Actions */}
+        <div className="col-span-1">
+          <button
+            onClick={() => {
+              // TODO: Navigate to vehicle detail page in future task
+              console.log('View vehicle:', vehicle.id)
+            }}
+            className="text-blue-600 hover:text-blue-900 transition-colors duration-150"
+            title="View vehicle details"
+          >
+            <EyeIcon className="h-5 w-5" />
+          </button>
+        </div>
+      </div>
+    </div>
+  )
+}

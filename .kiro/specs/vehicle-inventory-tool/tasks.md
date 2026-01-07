@@ -72,31 +72,31 @@ This implementation plan converts the vehicle inventory tool design into discret
     - **Property 2: Store-Specific Data Loading**
     - **Validates: Requirements 2.2, 2.4**
 
-- [ ] 5. Vehicle Inventory Management
-  - [ ] 5.1 Create vehicle list page with sorting and filtering
+- [x] 5. Vehicle Inventory Management
+  - [x] 5.1 Create vehicle list page with sorting and filtering
     - Build responsive table/grid layout for vehicle records
     - Implement sorting by stock number and search functionality
     - Display vehicle metadata: stock number, thumbnail, photo count, dates, status
     - _Requirements: 3.1, 3.2, 3.6_
 
-  - [ ] 5.2 Add vehicle creation functionality
+  - [x] 5.2 Add vehicle creation functionality
     - Create AddVehicleModal with form validation
     - Implement vehicle creation API endpoint
     - Handle initial photo upload during vehicle creation
     - _Requirements: 3.3, 6.1_
 
-  - [ ] 5.3 Write property tests for vehicle display and search
+  - [x] 5.3 Write property tests for vehicle display and search
     - **Property 3: Vehicle List Sorting and Display**
     - **Property 5: Search and Filtering**
     - **Validates: Requirements 3.1, 3.2, 3.6**
 
-  - [ ] 5.4 Implement Admin bulk operations
+  - [x] 5.4 Implement Admin bulk operations
     - Add multi-select checkboxes for Admin users only
     - Create bulk delete functionality with confirmation
     - Implement role-based UI rendering
     - _Requirements: 3.4, 3.5_
 
-  - [ ] 5.5 Write property tests for role-based access control
+  - [x] 5.5 Write property tests for role-based access control
     - **Property 4: Role-Based Access Control**
     - **Validates: Requirements 3.4, 5.4**
 

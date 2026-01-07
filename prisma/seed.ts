@@ -56,13 +56,19 @@ async function main() {
   ]
 
   console.log('Creating stores...')
-  for (const store of stores) {
-    const createdStore = await prisma.store.upsert({
-      where: { name: store.name },
-      update: {},
-      create: store
-    })
-    console.log(`✅ Created store: ${createdStore.name}`)
+  
+  // First, check if stores already exist
+  const existingStores = await prisma.store.findMany()
+  
+  if (existingStores.length === 0) {
+    for (const store of stores) {
+      const createdStore = await prisma.store.create({
+        data: store
+      })
+      console.log(`✅ Created store: ${createdStore.name}`)
+    }
+  } else {
+    console.log('✅ Stores already exist, skipping creation')
   }
 
   // Create sample users

@@ -25,11 +25,7 @@ export default function Home() {
     }
 
     // If user is authenticated and has a store selected, go to vehicle inventory
-    // TODO: Uncomment when vehicle inventory page is implemented
-    // router.push('/vehicles')
-    
-    // For now, redirect to stores page
-    router.push('/stores')
+    router.push('/vehicles')
   }, [session, status, selectedStore, storeLoading, router])
 
   return (
