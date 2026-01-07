@@ -1,0 +1,126 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  PHOTOGRAPHER
+  ADMIN
+}
+
+enum ImageType {
+  FRONT_QUARTER
+  FRONT
+  BACK_QUARTER
+  BACK
+  DRIVER_SIDE
+  PASSENGER_SIDE
+  GALLERY
+}
+
+enum ProcessingStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+  ERROR
+}
+
+enum JobStatus {
+  QUEUED
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  role         UserRole
+  name         String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@map("users")
+}
+
+model Store {
+  id         String    @id @default(cuid())
+  name       String
+  address    String
+  brandLogos String[]
+  vehicles   Vehicle[]
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@map("stores")
+}
+
+model Vehicle {
+  id               String           @id @default(cuid())
+  stockNumber      String
+  storeId          String
+  processingStatus ProcessingStatus @default(NOT_STARTED)
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  // Relations
+  store          Store           @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  images         VehicleImage[]
+  processingJobs ProcessingJob[]
+
+  @@unique([stockNumber, storeId]) // Ensure stock numbers are unique per store
+  // Indexes for performance
+  @@index([stockNumber])
+  @@index([storeId])
+  @@map("vehicles")
+}
+
+model VehicleImage {
+  id           String    @id @default(cuid())
+  vehicleId    String
+  originalUrl  String
+  processedUrl String?
+  thumbnailUrl String
+  imageType    ImageType
+  sortOrder    Int       @default(0)
+  isProcessed  Boolean   @default(false)
+  uploadedAt   DateTime  @default(now())
+
+  // Relations
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+
+  // Indexes for performance
+  @@index([vehicleId])
+  @@index([imageType])
+  @@map("vehicle_images")
+}
+
+model ProcessingJob {
+  id           String    @id @default(cuid())
+  vehicleId    String
+  imageIds     String[]
+  status       JobStatus @default(QUEUED)
+  errorMessage String?
+  createdAt    DateTime  @default(now())
+  completedAt  DateTime?
+
+  // Relations
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+
+  // Indexes for performance
+  @@index([vehicleId])
+  @@index([status])
+  @@map("processing_jobs")
+}
