@@ -1,35 +1,53 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { useAuth } from '../../hooks/useAuth'
 import { ProtectedRoute } from '../../components/auth/ProtectedRoute'
-import { AdminOnly } from '../../components/auth/RoleGuard'
+import { StoreGrid } from '../../components/stores/StoreGrid'
+import { useStore } from '../../components/providers/StoreProvider'
+import { Store } from '../../types'
 
 function StoresPageContent() {
   const { user } = useAuth()
+  const { setSelectedStore } = useStore()
+  const router = useRouter()
+
+  const handleStoreSelect = (store: Store) => {
+    // Set the selected store in context
+    setSelectedStore(store)
+    
+    // Navigate to vehicle inventory page for selected store
+    // For now, we'll show an alert since vehicle page isn't implemented yet
+    alert(`Store selected: ${store.name}\n\nYou will now be redirected to the vehicle inventory page.`)
+    
+    // TODO: Uncomment when vehicle inventory page is implemented
+    // router.push(`/vehicles?storeId=${store.id}`)
+  }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-gray-900 mb-8">
-          Select Store Location
-        </h1>
-        <div className="bg-white rounded-lg shadow p-6">
-          <p className="text-gray-600">
-            Welcome, {user?.name}! ({user?.role})
-          </p>
-          <p className="mt-2 text-sm text-gray-500">
-            Store selection functionality will be implemented in a future task.
-          </p>
-          
-          <AdminOnly>
-            <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-md">
-              <p className="text-blue-700 font-medium">Admin Features Available</p>
-              <p className="text-blue-600 text-sm">
-                You have access to admin-only features like bulk operations and reprocessing.
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div className="flex justify-between items-center">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900">
+                Select Store Location
+              </h1>
+              <p className="mt-1 text-sm text-gray-600">
+                Welcome, {user?.name}! Choose a dealership to manage vehicle inventory.
               </p>
             </div>
-          </AdminOnly>
+            <div className="text-right">
+              <p className="text-sm text-gray-500">Role: {user?.role}</p>
+            </div>
+          </div>
         </div>
+      </div>
+
+      {/* Store Grid */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <StoreGrid onStoreSelect={handleStoreSelect} />
       </div>
     </div>
   )

@@ -69,6 +69,22 @@ export const arbitraries = {
   // Store name arbitrary
   storeName: fc.string({ minLength: 5, maxLength: 50 }),
 
+  // Store arbitrary
+  store: fc.record({
+    id: fc.uuid(),
+    name: fc.string({ minLength: 10, maxLength: 50 }).map(name => `Mark Motors ${name}`),
+    address: fc.record({
+      street: fc.string({ minLength: 5, maxLength: 30 }),
+      city: fc.string({ minLength: 3, maxLength: 20 }),
+      province: fc.constantFrom('ON', 'BC', 'AB', 'QC'),
+      postalCode: fc.stringMatching(/^[A-Z]\d[A-Z] \d[A-Z]\d$/)
+    }).map(addr => `${addr.street}, ${addr.city}, ${addr.province} ${addr.postalCode}`),
+    brandLogos: fc.array(
+      fc.constantFrom('toyota-logo.png', 'honda-logo.png', 'lexus-logo.png', 'acura-logo.png'),
+      { minLength: 1, maxLength: 4 }
+    ).map(logos => Array.from(new Set(logos))) // Remove duplicates
+  }),
+
   // Vehicle arbitrary
   vehicle: fc.record({
     id: fc.uuid(),
