@@ -91,8 +91,8 @@ export const arbitraries = {
     stockNumber: fc.stringMatching(/^[A-Z0-9]{3,10}$/),
     storeId: fc.uuid(),
     processingStatus: fc.constantFrom('NOT_STARTED', 'IN_PROGRESS', 'COMPLETED', 'ERROR'),
-    createdAt: fc.date({ min: new Date('2020-01-01'), max: new Date('2025-12-31') }),
-    updatedAt: fc.date({ min: new Date('2020-01-01'), max: new Date('2025-12-31') }),
+    createdAt: fc.date({ min: new Date('2020-01-01T00:00:00.000Z'), max: new Date('2025-12-31T23:59:59.999Z') }),
+    updatedAt: fc.date({ min: new Date('2020-01-01T00:00:00.000Z'), max: new Date('2025-12-31T23:59:59.999Z') }),
   }),
 
   // User arbitrary
@@ -101,8 +101,8 @@ export const arbitraries = {
     email: fc.emailAddress(),
     name: fc.string({ minLength: 2, maxLength: 50 }),
     role: fc.constantFrom('PHOTOGRAPHER', 'ADMIN'),
-    createdAt: fc.date(),
-    updatedAt: fc.date(),
+    createdAt: fc.date({ min: new Date('2020-01-01T00:00:00.000Z'), max: new Date('2025-12-31T23:59:59.999Z') }),
+    updatedAt: fc.date({ min: new Date('2020-01-01T00:00:00.000Z'), max: new Date('2025-12-31T23:59:59.999Z') }),
   }),
 }
 
