@@ -12,6 +12,7 @@ import {
 } from '@heroicons/react/24/outline'
 import VehicleCard from '@/components/vehicles/VehicleCard'
 import BulkDeleteModal from '@/components/vehicles/BulkDeleteModal'
+import { LoadingSpinner } from '@/components/common'
 
 interface VehicleListProps {
   vehicles: Vehicle[]
@@ -121,8 +122,7 @@ export default function VehicleList({
     return (
       <div className="bg-white shadow rounded-lg">
         <div className="p-8 text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-          <p className="mt-2 text-gray-500">Loading vehicles...</p>
+          <LoadingSpinner size="lg" text="Loading vehicles..." />
         </div>
       </div>
     )
@@ -143,24 +143,29 @@ export default function VehicleList({
       <div className="bg-white shadow rounded-lg overflow-hidden">
         {/* Bulk Actions Bar */}
         {isAdmin && selectedVehicles.size > 0 && (
-          <div className="bg-blue-50 border-b border-blue-200 px-6 py-3">
+          <div 
+            className="bg-blue-50 border-b border-blue-200 px-4 sm:px-6 py-3"
+            role="region"
+            aria-label="Bulk actions"
+          >
             <div className="flex items-center justify-between">
               <span className="text-sm text-blue-800">
                 {selectedVehicles.size} vehicle{selectedVehicles.size !== 1 ? 's' : ''} selected
               </span>
               <button
                 onClick={handleBulkDelete}
-                className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
+                aria-label={`Delete ${selectedVehicles.size} selected vehicles`}
               >
-                <TrashIcon className="h-4 w-4 mr-1" />
+                <TrashIcon className="h-4 w-4 mr-1" aria-hidden="true" />
                 Delete Selected
               </button>
             </div>
           </div>
         )}
 
-        {/* Table Header */}
-        <div className="bg-gray-50 px-6 py-3 border-b border-gray-200">
+        {/* Mobile-friendly table header - hidden on small screens */}
+        <div className="hidden sm:block bg-gray-50 px-4 sm:px-6 py-3 border-b border-gray-200">
           <div className="grid grid-cols-12 gap-4 items-center text-xs font-medium text-gray-500 uppercase tracking-wider">
             {isAdmin && (
               <div className="col-span-1">
@@ -172,6 +177,7 @@ export default function VehicleList({
                   }}
                   onChange={(e) => handleSelectAll(e.target.checked)}
                   className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  aria-label="Select all vehicles"
                 />
               </div>
             )}
@@ -197,7 +203,11 @@ export default function VehicleList({
         </div>
 
         {/* Vehicle List */}
-        <div className="divide-y divide-gray-200">
+        <div 
+          className="divide-y divide-gray-200"
+          role="table"
+          aria-label="Vehicle inventory"
+        >
           {vehicles.map((vehicle) => (
             <VehicleCard
               key={vehicle.id}
@@ -212,22 +222,30 @@ export default function VehicleList({
         {/* Pagination */}
         {pagination.totalPages > 1 && (
           <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+            {/* Mobile pagination */}
             <div className="flex-1 flex justify-between sm:hidden">
               <button
                 onClick={() => onPageChange(pagination.currentPage - 1)}
                 disabled={pagination.currentPage === 1}
-                className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
+                aria-label="Go to previous page"
               >
                 Previous
               </button>
+              <span className="text-sm text-gray-700 flex items-center">
+                Page {pagination.currentPage} of {pagination.totalPages}
+              </span>
               <button
                 onClick={() => onPageChange(pagination.currentPage + 1)}
                 disabled={pagination.currentPage === pagination.totalPages}
-                className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
+                aria-label="Go to next page"
               >
                 Next
               </button>
             </div>
+            
+            {/* Desktop pagination */}
             <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
               <div>
                 <p className="text-sm text-gray-700">
@@ -245,13 +263,18 @@ export default function VehicleList({
                 </p>
               </div>
               <div>
-                <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                <nav 
+                  className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" 
+                  aria-label="Pagination"
+                  role="navigation"
+                >
                   <button
                     onClick={() => onPageChange(pagination.currentPage - 1)}
                     disabled={pagination.currentPage === 1}
-                    className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
+                    aria-label="Go to previous page"
                   >
-                    <ChevronLeftIcon className="h-5 w-5" />
+                    <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
                   </button>
                   
                   {/* Page numbers */}
@@ -259,11 +282,13 @@ export default function VehicleList({
                     <button
                       key={page}
                       onClick={() => onPageChange(page)}
-                      className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
+                      className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200 ${
                         page === pagination.currentPage
                           ? 'z-10 bg-blue-50 border-blue-500 text-blue-600'
                           : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
                       }`}
+                      aria-label={`Go to page ${page}`}
+                      aria-current={page === pagination.currentPage ? 'page' : undefined}
                     >
                       {page}
                     </button>
@@ -272,9 +297,10 @@ export default function VehicleList({
                   <button
                     onClick={() => onPageChange(pagination.currentPage + 1)}
                     disabled={pagination.currentPage === pagination.totalPages}
-                    className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
+                    aria-label="Go to next page"
                   >
-                    <ChevronRightIcon className="h-5 w-5" />
+                    <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
                   </button>
                 </nav>
               </div>

@@ -7,6 +7,7 @@ import { useStore } from '@/components/providers/StoreProvider'
 import { Vehicle, PaginatedResponse } from '@/types'
 import VehicleList from '@/components/vehicles/VehicleList'
 import VehicleHeader from '@/components/vehicles/VehicleHeader'
+import { LoadingSpinner } from '@/components/common'
 
 export default function VehiclesPage() {
   const { data: session, status } = useSession()
@@ -105,7 +106,7 @@ export default function VehiclesPage() {
   if (status === 'loading' || !selectedStore) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-lg">Loading...</div>
+        <LoadingSpinner size="lg" text="Loading..." />
       </div>
     )
   }

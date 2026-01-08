@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Store } from '../../types'
 import { StoreCard } from './StoreCard'
+import { LoadingSpinner } from '../common'
 
 interface StoreGridProps {
   onStoreSelect: (store: Store) => void
@@ -37,16 +38,21 @@ export function StoreGrid({ onStoreSelect }: StoreGridProps) {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center py-12">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-        <span className="ml-2 text-gray-600">Loading stores...</span>
-      </div>
+      <LoadingSpinner 
+        size="lg" 
+        text="Loading stores..." 
+        className="py-12"
+      />
     )
   }
 
   if (error) {
     return (
-      <div className="bg-red-50 border border-red-200 rounded-md p-4">
+      <div 
+        className="bg-red-50 border border-red-200 rounded-md p-4"
+        role="alert"
+        aria-live="polite"
+      >
         <div className="flex">
           <div className="ml-3">
             <h3 className="text-sm font-medium text-red-800">
@@ -58,7 +64,7 @@ export function StoreGrid({ onStoreSelect }: StoreGridProps) {
             <div className="mt-4">
               <button
                 onClick={fetchStores}
-                className="bg-red-100 px-3 py-2 rounded-md text-sm font-medium text-red-800 hover:bg-red-200"
+                className="bg-red-100 px-3 py-2 rounded-md text-sm font-medium text-red-800 hover:bg-red-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200"
               >
                 Try again
               </button>
@@ -70,7 +76,11 @@ export function StoreGrid({ onStoreSelect }: StoreGridProps) {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div 
+      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
+      role="grid"
+      aria-label="Store selection grid"
+    >
       {stores.map((store) => (
         <StoreCard
           key={store.id}

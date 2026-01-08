@@ -210,16 +210,16 @@ export default function ImageGallery({ vehicle, onVehicleUpdate }: ImageGalleryP
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 sm:space-y-8">
       {/* Key Images Section */}
       <div>
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">Key Images</h2>
+        <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-4">Key Images</h2>
         
         {/* Front shot in individual row */}
         {frontImage && (
-          <div className="mb-6">
+          <div className="mb-4 sm:mb-6">
             <h3 className="text-sm font-medium text-gray-700 mb-2">Front Shot</h3>
-            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-3 sm:p-4">
               <ImageCard 
                 image={frontImage} 
                 isDraggable={false} 
@@ -233,13 +233,13 @@ export default function ImageGallery({ vehicle, onVehicleUpdate }: ImageGalleryP
           </div>
         )}
 
-        {/* Other 5 key shots in two rows */}
+        {/* Other 5 key shots in responsive grid */}
         {otherKeyImages.length > 0 && (
           <div>
             <h3 className="text-sm font-medium text-gray-700 mb-2">Other Key Shots</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
               {otherKeyImages.map((image) => (
-                <div key={image.id} className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+                <div key={image.id} className="bg-white rounded-lg shadow-sm border border-gray-200 p-3 sm:p-4">
                   <ImageCard 
                     image={image} 
                     isDraggable={false} 
@@ -257,8 +257,12 @@ export default function ImageGallery({ vehicle, onVehicleUpdate }: ImageGalleryP
 
         {/* Empty state for missing key images */}
         {sortedKeyImages.length === 0 && (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center">
-            <PhotoIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+          <div 
+            className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 sm:p-8 text-center"
+            role="region"
+            aria-label="No key images"
+          >
+            <PhotoIcon className="h-10 sm:h-12 w-10 sm:w-12 text-gray-400 mx-auto mb-4" aria-hidden="true" />
             <p className="text-gray-500">No key images uploaded yet</p>
           </div>
         )}
@@ -266,8 +270,8 @@ export default function ImageGallery({ vehicle, onVehicleUpdate }: ImageGalleryP
 
       {/* Gallery Images Section */}
       <div>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-gray-900">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 space-y-2 sm:space-y-0">
+          <h2 className="text-lg sm:text-xl font-semibold text-gray-900">
             Gallery Images ({sortedGalleryImages.length})
           </h2>
           {sortedGalleryImages.length > 1 && (
@@ -287,9 +291,13 @@ export default function ImageGallery({ vehicle, onVehicleUpdate }: ImageGalleryP
               items={sortedGalleryImages.map(img => img.id)}
               strategy={horizontalListSortingStrategy}
             >
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              <div 
+                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4"
+                role="grid"
+                aria-label="Gallery images"
+              >
                 {sortedGalleryImages.map((image) => (
-                  <div key={image.id} className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
+                  <div key={image.id} className="bg-white rounded-lg shadow-sm border border-gray-200 p-3 sm:p-4">
                     <SortableImageCard 
                       image={image} 
                       isDraggable={true}
@@ -306,8 +314,12 @@ export default function ImageGallery({ vehicle, onVehicleUpdate }: ImageGalleryP
             </SortableContext>
           </DndContext>
         ) : (
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8 text-center">
-            <PhotoIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
+          <div 
+            className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 sm:p-8 text-center"
+            role="region"
+            aria-label="No gallery images"
+          >
+            <PhotoIcon className="h-10 sm:h-12 w-10 sm:w-12 text-gray-400 mx-auto mb-4" aria-hidden="true" />
             <p className="text-gray-500">No gallery images uploaded yet</p>
           </div>
         )}
@@ -382,26 +394,27 @@ function ImageCard({
       {/* Delete button - shown on hover */}
       <button
         onClick={onDelete}
-        className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity bg-red-600 hover:bg-red-700 text-white p-1.5 rounded-full shadow-lg"
+        className="absolute top-1 sm:top-2 right-1 sm:right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity bg-red-600 hover:bg-red-700 text-white p-1 sm:p-1.5 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
         title="Delete image"
+        aria-label={`Delete ${getImageTypeLabel(image.imageType)} image`}
       >
-        <TrashIcon className="h-4 w-4" />
+        <TrashIcon className="h-3 w-3 sm:h-4 sm:w-4" />
       </button>
 
       {/* Image */}
-      <div className="relative aspect-[4/3] bg-gray-100 rounded-lg overflow-hidden mb-3">
+      <div className="relative aspect-[4/3] bg-gray-100 rounded-lg overflow-hidden mb-2 sm:mb-3">
         <Image
           src={image.processedUrl || image.originalUrl}
           alt={`${getImageTypeLabel(image.imageType)} view`}
           fill
           className="object-cover group-hover:scale-105 transition-transform duration-200"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
         />
         
         {/* Processing indicator */}
         {image.isProcessed && (
-          <div className="absolute top-2 left-2">
-            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+          <div className="absolute top-1 sm:top-2 left-1 sm:left-2">
+            <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
               Processed
             </span>
           </div>
@@ -492,23 +505,27 @@ function SortableImageCard({
           e.stopPropagation()
           onDelete()
         }}
-        className="absolute top-2 right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity bg-red-600 hover:bg-red-700 text-white p-1.5 rounded-full shadow-lg"
+        className="absolute top-1 sm:top-2 right-1 sm:right-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity bg-red-600 hover:bg-red-700 text-white p-1 sm:p-1.5 rounded-full shadow-lg focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
         title="Delete image"
+        aria-label={`Delete ${getImageTypeLabel(image.imageType)} image`}
       >
-        <TrashIcon className="h-4 w-4" />
+        <TrashIcon className="h-3 w-3 sm:h-4 sm:w-4" />
       </button>
 
       {/* Drag handle indicator */}
       {isDraggable && (
-        <div className="absolute top-2 left-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
-          <div className="bg-black bg-opacity-50 text-white p-1 rounded text-xs">
+        <div className="absolute top-1 sm:top-2 left-1 sm:left-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+          <div 
+            className="bg-black bg-opacity-50 text-white p-1 rounded text-xs cursor-grab active:cursor-grabbing"
+            aria-label="Drag to reorder"
+          >
             ⋮⋮
           </div>
         </div>
       )}
 
       {/* Image */}
-      <div className="relative aspect-[4/3] bg-gray-100 rounded-lg overflow-hidden mb-3">
+      <div className="relative aspect-[4/3] bg-gray-100 rounded-lg overflow-hidden mb-2 sm:mb-3">
         <Image
           src={image.processedUrl || image.originalUrl}
           alt={`${getImageTypeLabel(image.imageType)} view`}
@@ -516,13 +533,13 @@ function SortableImageCard({
           className={`object-cover transition-transform duration-200 ${
             isDragging ? '' : 'group-hover:scale-105'
           }`}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
         />
         
         {/* Processing indicator */}
         {image.isProcessed && (
-          <div className="absolute bottom-2 left-2">
-            <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+          <div className="absolute bottom-1 sm:bottom-2 left-1 sm:left-2">
+            <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
               Processed
             </span>
           </div>
