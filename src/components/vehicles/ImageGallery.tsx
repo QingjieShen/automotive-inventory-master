@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Vehicle, VehicleImage, ImageType } from '@/types'
+import { Vehicle, VehicleImage, ImageType, ProcessingStatus } from '@/types'
 import Image from 'next/image'
 import { PhotoIcon, TrashIcon } from '@heroicons/react/24/outline'
 import {
@@ -25,6 +25,7 @@ import {
 } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import DeleteImageModal from './DeleteImageModal'
+import ProcessingButton from './ProcessingButton'
 
 interface ImageGalleryProps {
   vehicle: Vehicle
@@ -35,6 +36,7 @@ export default function ImageGallery({ vehicle, onVehicleUpdate }: ImageGalleryP
   const [isReordering, setIsReordering] = useState(false)
   const [imageToDelete, setImageToDelete] = useState<VehicleImage | null>(null)
   const [isDeleting, setIsDeleting] = useState(false)
+  const [processingImages, setProcessingImages] = useState<Set<string>>(new Set())
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -179,6 +181,34 @@ export default function ImageGallery({ vehicle, onVehicleUpdate }: ImageGalleryP
     }
   }
 
+  const handleProcessingStart = () => {
+    // Update vehicle processing status optimistically
+    const updatedVehicle = {
+      ...vehicle,
+      processingStatus: 'IN_PROGRESS' as const
+    }
+    onVehicleUpdate(updatedVehicle)
+  }
+
+  const handleProcessingComplete = (updatedImage: VehicleImage) => {
+    // Update the specific image in the vehicle state
+    const updatedImages = vehicle.images.map(img => 
+      img.id === updatedImage.id ? updatedImage : img
+    )
+    
+    // Check if all key images are processed to update vehicle status
+    const keyImages = updatedImages.filter(img => img.imageType !== 'GALLERY')
+    const allKeyImagesProcessed = keyImages.length > 0 && keyImages.every(img => img.isProcessed)
+    
+    const updatedVehicle = {
+      ...vehicle,
+      images: updatedImages,
+      processingStatus: allKeyImagesProcessed ? 'COMPLETED' as const : vehicle.processingStatus
+    }
+    
+    onVehicleUpdate(updatedVehicle)
+  }
+
   return (
     <div className="space-y-8">
       {/* Key Images Section */}
@@ -194,6 +224,10 @@ export default function ImageGallery({ vehicle, onVehicleUpdate }: ImageGalleryP
                 image={frontImage} 
                 isDraggable={false} 
                 onDelete={() => setImageToDelete(frontImage)}
+                vehicleId={vehicle.id}
+                processingStatus={vehicle.processingStatus}
+                onProcessingStart={handleProcessingStart}
+                onProcessingComplete={handleProcessingComplete}
               />
             </div>
           </div>
@@ -210,6 +244,10 @@ export default function ImageGallery({ vehicle, onVehicleUpdate }: ImageGalleryP
                     image={image} 
                     isDraggable={false} 
                     onDelete={() => setImageToDelete(image)}
+                    vehicleId={vehicle.id}
+                    processingStatus={vehicle.processingStatus}
+                    onProcessingStart={handleProcessingStart}
+                    onProcessingComplete={handleProcessingComplete}
                   />
                 </div>
               ))}
@@ -257,6 +295,10 @@ export default function ImageGallery({ vehicle, onVehicleUpdate }: ImageGalleryP
                       isDraggable={true}
                       isReordering={isReordering}
                       onDelete={() => setImageToDelete(image)}
+                      vehicleId={vehicle.id}
+                      processingStatus={vehicle.processingStatus}
+                      onProcessingStart={handleProcessingStart}
+                      onProcessingComplete={handleProcessingComplete}
                     />
                   </div>
                 ))}
@@ -307,9 +349,21 @@ interface ImageCardProps {
   image: VehicleImage
   isDraggable: boolean
   onDelete: () => void
+  vehicleId: string
+  processingStatus: ProcessingStatus
+  onProcessingStart: () => void
+  onProcessingComplete: (updatedImage: VehicleImage) => void
 }
 
-function ImageCard({ image, isDraggable, onDelete }: ImageCardProps) {
+function ImageCard({ 
+  image, 
+  isDraggable, 
+  onDelete, 
+  vehicleId, 
+  processingStatus, 
+  onProcessingStart, 
+  onProcessingComplete 
+}: ImageCardProps) {
   const getImageTypeLabel = (type: ImageType): string => {
     const labels: Record<ImageType, string> = {
       'FRONT_QUARTER': 'Front Quarter',
@@ -363,6 +417,15 @@ function ImageCard({ image, isDraggable, onDelete }: ImageCardProps) {
           Uploaded {new Date(image.uploadedAt).toLocaleDateString()}
         </p>
       </div>
+
+      {/* Processing controls */}
+      <ProcessingButton
+        image={image}
+        vehicleId={vehicleId}
+        processingStatus={processingStatus}
+        onProcessingStart={onProcessingStart}
+        onProcessingComplete={onProcessingComplete}
+      />
     </div>
   )
 }
@@ -372,9 +435,22 @@ interface SortableImageCardProps {
   isDraggable: boolean
   isReordering: boolean
   onDelete: () => void
+  vehicleId: string
+  processingStatus: ProcessingStatus
+  onProcessingStart: () => void
+  onProcessingComplete: (updatedImage: VehicleImage) => void
 }
 
-function SortableImageCard({ image, isDraggable, isReordering, onDelete }: SortableImageCardProps) {
+function SortableImageCard({ 
+  image, 
+  isDraggable, 
+  isReordering, 
+  onDelete, 
+  vehicleId, 
+  processingStatus, 
+  onProcessingStart, 
+  onProcessingComplete 
+}: SortableImageCardProps) {
   const {
     attributes,
     listeners,
@@ -462,6 +538,15 @@ function SortableImageCard({ image, isDraggable, isReordering, onDelete }: Sorta
           Uploaded {new Date(image.uploadedAt).toLocaleDateString()}
         </p>
       </div>
+
+      {/* Processing controls */}
+      <ProcessingButton
+        image={image}
+        vehicleId={vehicleId}
+        processingStatus={processingStatus}
+        onProcessingStart={onProcessingStart}
+        onProcessingComplete={onProcessingComplete}
+      />
     </div>
   )
 }

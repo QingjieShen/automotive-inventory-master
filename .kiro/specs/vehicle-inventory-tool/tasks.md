@@ -144,31 +144,31 @@ This implementation plan converts the vehicle inventory tool design into discret
     - **Property 11: Photo Upload and Categorization**
     - **Validates: Requirements 6.1, 6.2, 6.3, 6.4, 6.5**
 
-- [ ] 9. Image Processing Integration
-  - [ ] 9.1 Implement Gemini Nano API integration
+- [x] 9. Image Processing Integration
+  - [x] 9.1 Implement Gemini Nano API integration
     - Create API client for background removal service
     - Set up processing job queue and status tracking
     - Handle API authentication and error responses
     - _Requirements: 5.1, 5.8_
 
-  - [ ] 9.2 Add processing buttons and status management
+  - [x] 9.2 Add processing buttons and status management
     - Display process buttons under key images when not processed
     - Implement processing status updates (In Progress, Finished, Error)
     - Show processed images when available
     - _Requirements: 4.7, 4.8, 5.2, 5.3_
 
-  - [ ] 9.3 Write property tests for processing workflow
+  - [x] 9.3 Write property tests for processing workflow
     - **Property 8: Processing Status Management**
     - **Property 9: Key Image Processing Scope**
     - **Validates: Requirements 4.7, 4.8, 5.1, 5.2, 5.3, 5.5, 5.8**
 
-  - [ ] 9.4 Implement Admin reprocessing and download functionality
+  - [x] 9.4 Implement Admin reprocessing and download functionality
     - Add reprocess buttons for Admin users on finished images
     - Create download functionality for processed images
     - Maintain both original and processed image versions
     - _Requirements: 5.4, 5.6, 5.7_
 
-  - [ ] 9.5 Write property tests for image preservation and download
+  - [x] 9.5 Write property tests for image preservation and download
     - **Property 10: Image Preservation and Download**
     - **Validates: Requirements 5.6, 5.7**
 
