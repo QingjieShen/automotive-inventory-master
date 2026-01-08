@@ -7,7 +7,7 @@ import { ImageType } from '@/types'
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -16,7 +16,7 @@ export async function POST(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const vehicleId = params.id
+    const { id: vehicleId } = await params
 
     // Verify vehicle exists and user has access
     const vehicle = await prisma.vehicle.findUnique({
@@ -151,7 +151,7 @@ export async function POST(
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -160,7 +160,7 @@ export async function GET(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const vehicleId = params.id
+    const { id: vehicleId } = await params
 
     // Get all images for the vehicle
     const images = await prisma.vehicleImage.findMany({

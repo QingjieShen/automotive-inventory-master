@@ -195,7 +195,7 @@ export default function ProcessingButton({
     }
 
     // If image is not processed and no processing in progress, show process button
-    if (!image.isProcessed && processingStatus !== 'IN_PROGRESS') {
+    if (!image.isProcessed && !['IN_PROGRESS'].includes(processingStatus)) {
       return (
         <button
           onClick={handleProcess}

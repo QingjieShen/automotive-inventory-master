@@ -6,7 +6,7 @@ import { deleteFromS3 } from '@/lib/s3'
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -15,7 +15,7 @@ export async function GET(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const vehicleId = params.id
+    const { id: vehicleId } = await params
 
     const vehicle = await prisma.vehicle.findUnique({
       where: { id: vehicleId },
@@ -47,7 +47,7 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -56,7 +56,7 @@ export async function PUT(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const vehicleId = params.id
+    const { id: vehicleId } = await params
     const body = await request.json()
     const { stockNumber, processingStatus } = body
 
@@ -118,7 +118,7 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -132,7 +132,7 @@ export async function DELETE(
       return NextResponse.json({ error: 'Insufficient permissions' }, { status: 403 })
     }
 
-    const vehicleId = params.id
+    const { id: vehicleId } = await params
 
     // Get vehicle with images to delete from S3
     const vehicle = await prisma.vehicle.findUnique({
