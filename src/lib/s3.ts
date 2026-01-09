@@ -1,11 +1,14 @@
-import AWS from 'aws-sdk'
+import { S3Client, PutObjectCommand, DeleteObjectCommand, PutObjectCommandInput, DeleteObjectCommandInput } from '@aws-sdk/client-s3'
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { v4 as uuidv4 } from 'uuid'
 
-// Configure AWS SDK
-const s3 = new AWS.S3({
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+// Configure AWS SDK v3
+const s3Client = new S3Client({
   region: process.env.AWS_REGION || 'us-east-1',
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID || '',
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || '',
+  },
 })
 
 const BUCKET_NAME = process.env.AWS_S3_BUCKET || 'mmg-vehicle-inventory'
@@ -79,7 +82,7 @@ export async function uploadToS3(options: S3UploadOptions): Promise<UploadResult
   const extension = getExtensionFromContentType(contentType)
   const key = generateS3Key(storeId, vehicleId, imageType, extension)
   
-  const uploadParams: AWS.S3.PutObjectRequest = {
+  const uploadParams: PutObjectCommandInput = {
     Bucket: BUCKET_NAME,
     Key: key,
     Body: buffer,
@@ -95,7 +98,8 @@ export async function uploadToS3(options: S3UploadOptions): Promise<UploadResult
   }
   
   try {
-    const result = await s3.upload(uploadParams).promise()
+    const command = new PutObjectCommand(uploadParams)
+    await s3Client.send(command)
     
     const originalUrl = getCloudFrontUrl(key)
     
@@ -116,13 +120,14 @@ export async function uploadToS3(options: S3UploadOptions): Promise<UploadResult
  * Delete file from S3
  */
 export async function deleteFromS3(key: string): Promise<void> {
-  const deleteParams: AWS.S3.DeleteObjectRequest = {
+  const deleteParams: DeleteObjectCommandInput = {
     Bucket: BUCKET_NAME,
     Key: key,
   }
   
   try {
-    await s3.deleteObject(deleteParams).promise()
+    const command = new DeleteObjectCommand(deleteParams)
+    await s3Client.send(command)
   } catch (error) {
     console.error('S3 delete error:', error)
     throw new Error(`Failed to delete file from S3: ${error instanceof Error ? error.message : 'Unknown error'}`)
@@ -142,12 +147,13 @@ export async function generatePresignedUrl(
   const key = generateS3Key(storeId, vehicleId, 'original', extension)
   
   try {
-    const url = s3.getSignedUrl('putObject', {
+    const command = new PutObjectCommand({
       Bucket: BUCKET_NAME,
       Key: key,
       ContentType: contentType,
-      Expires: expiresIn,
     })
+    
+    const url = await getSignedUrl(s3Client, command, { expiresIn })
     
     return { url, key }
   } catch (error) {

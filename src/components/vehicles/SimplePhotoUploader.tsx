@@ -77,6 +77,7 @@ export default function SimplePhotoUploader({
 
   // Process and add files
   const processFiles = useCallback(async (fileList: FileList | File[]) => {
+    console.log('Processing files:', fileList) // Debug log
     const newFiles: UploadFile[] = []
     const filesToProcess = Array.from(fileList)
 
@@ -88,6 +89,7 @@ export default function SimplePhotoUploader({
 
     for (const file of filesToProcess) {
       const validation = validateFile(file)
+      console.log('File validation:', file.name, validation) // Debug log
       
       if (!validation.valid) {
         alert(validation.error)
@@ -103,8 +105,9 @@ export default function SimplePhotoUploader({
 
       try {
         uploadFile.preview = await createFilePreview(file)
+        console.log('Preview created for:', file.name) // Debug log
       } catch (error) {
-        console.error('Failed to create preview for file:', file.name)
+        console.error('Failed to create preview for file:', file.name, error)
         continue
       }
 
@@ -112,6 +115,7 @@ export default function SimplePhotoUploader({
     }
 
     const updatedFiles = [...files, ...newFiles]
+    console.log('Updated files:', updatedFiles) // Debug log
     setFiles(updatedFiles)
     onFilesChange?.(updatedFiles)
   }, [files, maxFiles, maxFileSize, acceptedFormats, onFilesChange])
