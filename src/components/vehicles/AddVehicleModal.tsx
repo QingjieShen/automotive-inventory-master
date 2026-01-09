@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { useStore } from '@/components/providers/StoreProvider'
 import { XMarkIcon } from '@heroicons/react/24/outline'
-import PhotoUploader from './PhotoUploader'
+import SimplePhotoUploader from './SimplePhotoUploader'
 
 interface AddVehicleModalProps {
   onClose: () => void
@@ -55,10 +55,29 @@ export default function AddVehicleModal({ onClose, onVehicleAdded }: AddVehicleM
 
       // Handle uploaded images if any
       if (uploadedImages.length > 0) {
-        console.log(`${uploadedImages.length} images uploaded for vehicle ${vehicle.id}`)
+        try {
+          // Upload images to the newly created vehicle
+          const formData = new FormData()
+          uploadedImages.forEach((uploadFile, index) => {
+            formData.append(`file_${index}`, uploadFile)
+            formData.append(`imageType_${index}`, uploadFile.imageType || 'GALLERY')
+          })
+
+          const imageResponse = await fetch(`/api/vehicles/${vehicle.id}/images`, {
+            method: 'POST',
+            body: formData,
+          })
+
+          if (!imageResponse.ok) {
+            console.warn('Failed to upload some images, but vehicle was created successfully')
+          }
+        } catch (imageError) {
+          console.warn('Image upload failed, but vehicle was created successfully:', imageError)
+        }
       }
 
       onVehicleAdded()
+      onClose()
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred')
     } finally {
@@ -66,8 +85,8 @@ export default function AddVehicleModal({ onClose, onVehicleAdded }: AddVehicleM
     }
   }
 
-  const handleUploadComplete = (images: any[]) => {
-    setUploadedImages(images)
+  const handleFilesChange = (files: any[]) => {
+    setUploadedImages(files)
   }
 
   return (
@@ -139,8 +158,8 @@ export default function AddVehicleModal({ onClose, onVehicleAdded }: AddVehicleM
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Vehicle Photos (Optional)
                   </label>
-                  <PhotoUploader
-                    onUploadComplete={handleUploadComplete}
+                  <SimplePhotoUploader
+                    onFilesChange={handleFilesChange}
                     maxFiles={20}
                     className="w-full"
                   />

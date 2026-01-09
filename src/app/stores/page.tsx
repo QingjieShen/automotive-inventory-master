@@ -17,11 +17,7 @@ function StoresPageContent() {
     setSelectedStore(store)
     
     // Navigate to vehicle inventory page for selected store
-    // For now, we'll show an alert since vehicle page isn't implemented yet
-    alert(`Store selected: ${store.name}\n\nYou will now be redirected to the vehicle inventory page.`)
-    
-    // TODO: Uncomment when vehicle inventory page is implemented
-    // router.push(`/vehicles?storeId=${store.id}`)
+    router.push('/vehicles')
   }
 
   return (
