@@ -6,20 +6,20 @@ This implementation plan breaks down the app enhancements into discrete, increme
 
 ## Tasks
 
-- [ ] 1. Set up Google Cloud infrastructure and migrate storage
+- [x] 1. Set up Google Cloud infrastructure and migrate storage
   - Install @google-cloud/storage package
   - Create Google Cloud Storage service module (src/lib/gcs.ts)
   - Set up environment variables for GCS credentials and bucket name
   - Implement upload, delete, and URL generation methods
   - _Requirements: 1.1, 1.2, 1.3, 1.6_
 
-- [ ] 1.1 Write property test for GCS upload consistency
+- [x] 1.1 Write property test for GCS upload consistency
   - **Property 1: Google Cloud Storage Upload Consistency**
   - **Validates: Requirements 1.3, 1.6**
   - Generate random image buffers and upload parameters
   - Verify upload returns valid URL and file is accessible
 
-- [ ] 1.2 Write property test for path generation uniqueness
+- [x] 1.2 Write property test for path generation uniqueness
   - **Property 8: Image Path Generation Uniqueness**
   - **Validates: Requirements 1.6**
   - Generate multiple consecutive uploads
