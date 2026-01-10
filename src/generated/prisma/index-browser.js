@@ -136,6 +136,7 @@ exports.Prisma.StoreScalarFieldEnum = {
   name: 'name',
   address: 'address',
   brandLogos: 'brandLogos',
+  imageUrl: 'imageUrl',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -187,7 +188,8 @@ exports.Prisma.NullsOrder = {
 };
 exports.UserRole = exports.$Enums.UserRole = {
   PHOTOGRAPHER: 'PHOTOGRAPHER',
-  ADMIN: 'ADMIN'
+  ADMIN: 'ADMIN',
+  SUPER_ADMIN: 'SUPER_ADMIN'
 };
 
 exports.ProcessingStatus = exports.$Enums.ProcessingStatus = {

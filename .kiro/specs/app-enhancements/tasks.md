@@ -25,7 +25,7 @@ This implementation plan breaks down the app enhancements into discrete, increme
   - Generate multiple consecutive uploads
   - Verify all generated paths are unique
 
-- [ ] 2. Update database schema for new features
+- [x] 2. Update database schema for new features
   - Add SUPER_ADMIN to UserRole enum in Prisma schema
   - Add imageUrl field to Store model
   - Create and run Prisma migration

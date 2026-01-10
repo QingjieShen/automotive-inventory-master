@@ -17,6 +17,7 @@ datasource db {
 enum UserRole {
   PHOTOGRAPHER
   ADMIN
+  SUPER_ADMIN
 }
 
 enum ImageType {
@@ -60,6 +61,7 @@ model Store {
   name       String
   address    String
   brandLogos String[]
+  imageUrl   String?
   vehicles   Vehicle[]
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt

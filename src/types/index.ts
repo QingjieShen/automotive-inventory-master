@@ -4,7 +4,7 @@ export interface User {
   id: string
   email: string
   name: string
-  role: 'PHOTOGRAPHER' | 'ADMIN'
+  role: 'PHOTOGRAPHER' | 'ADMIN' | 'SUPER_ADMIN'
   createdAt: Date
   updatedAt: Date
 }
@@ -14,6 +14,7 @@ export interface Store {
   name: string
   address: string
   brandLogos: string[]
+  imageUrl?: string
 }
 
 export interface Vehicle {
@@ -63,7 +64,7 @@ export type ImageType =
   | 'PASSENGER_SIDE'
   | 'GALLERY'
 
-export type UserRole = 'PHOTOGRAPHER' | 'ADMIN'
+export type UserRole = 'PHOTOGRAPHER' | 'ADMIN' | 'SUPER_ADMIN'
 
 // API Response types
 export interface ApiResponse<T> {

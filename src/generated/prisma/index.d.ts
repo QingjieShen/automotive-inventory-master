@@ -45,7 +45,8 @@ export type ProcessingJob = $Result.DefaultSelection<Prisma.$ProcessingJobPayloa
 export namespace $Enums {
   export const UserRole: {
   PHOTOGRAPHER: 'PHOTOGRAPHER',
-  ADMIN: 'ADMIN'
+  ADMIN: 'ADMIN',
+  SUPER_ADMIN: 'SUPER_ADMIN'
 };
 
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]
@@ -2392,6 +2393,7 @@ export namespace Prisma {
     id: string | null
     name: string | null
     address: string | null
+    imageUrl: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2400,6 +2402,7 @@ export namespace Prisma {
     id: string | null
     name: string | null
     address: string | null
+    imageUrl: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2409,6 +2412,7 @@ export namespace Prisma {
     name: number
     address: number
     brandLogos: number
+    imageUrl: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -2419,6 +2423,7 @@ export namespace Prisma {
     id?: true
     name?: true
     address?: true
+    imageUrl?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2427,6 +2432,7 @@ export namespace Prisma {
     id?: true
     name?: true
     address?: true
+    imageUrl?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2436,6 +2442,7 @@ export namespace Prisma {
     name?: true
     address?: true
     brandLogos?: true
+    imageUrl?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -2518,6 +2525,7 @@ export namespace Prisma {
     name: string
     address: string
     brandLogos: string[]
+    imageUrl: string | null
     createdAt: Date
     updatedAt: Date
     _count: StoreCountAggregateOutputType | null
@@ -2544,6 +2552,7 @@ export namespace Prisma {
     name?: boolean
     address?: boolean
     brandLogos?: boolean
+    imageUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     vehicles?: boolean | Store$vehiclesArgs<ExtArgs>
@@ -2555,6 +2564,7 @@ export namespace Prisma {
     name?: boolean
     address?: boolean
     brandLogos?: boolean
+    imageUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["store"]>
@@ -2564,6 +2574,7 @@ export namespace Prisma {
     name?: boolean
     address?: boolean
     brandLogos?: boolean
+    imageUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["store"]>
@@ -2573,11 +2584,12 @@ export namespace Prisma {
     name?: boolean
     address?: boolean
     brandLogos?: boolean
+    imageUrl?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type StoreOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "address" | "brandLogos" | "createdAt" | "updatedAt", ExtArgs["result"]["store"]>
+  export type StoreOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "address" | "brandLogos" | "imageUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["store"]>
   export type StoreInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vehicles?: boolean | Store$vehiclesArgs<ExtArgs>
     _count?: boolean | StoreCountOutputTypeDefaultArgs<ExtArgs>
@@ -2595,6 +2607,7 @@ export namespace Prisma {
       name: string
       address: string
       brandLogos: string[]
+      imageUrl: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["store"]>
@@ -3025,6 +3038,7 @@ export namespace Prisma {
     readonly name: FieldRef<"Store", 'String'>
     readonly address: FieldRef<"Store", 'String'>
     readonly brandLogos: FieldRef<"Store", 'String[]'>
+    readonly imageUrl: FieldRef<"Store", 'String'>
     readonly createdAt: FieldRef<"Store", 'DateTime'>
     readonly updatedAt: FieldRef<"Store", 'DateTime'>
   }
@@ -6842,6 +6856,7 @@ export namespace Prisma {
     name: 'name',
     address: 'address',
     brandLogos: 'brandLogos',
+    imageUrl: 'imageUrl',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -7110,6 +7125,7 @@ export namespace Prisma {
     name?: StringFilter<"Store"> | string
     address?: StringFilter<"Store"> | string
     brandLogos?: StringNullableListFilter<"Store">
+    imageUrl?: StringNullableFilter<"Store"> | string | null
     createdAt?: DateTimeFilter<"Store"> | Date | string
     updatedAt?: DateTimeFilter<"Store"> | Date | string
     vehicles?: VehicleListRelationFilter
@@ -7120,6 +7136,7 @@ export namespace Prisma {
     name?: SortOrder
     address?: SortOrder
     brandLogos?: SortOrder
+    imageUrl?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     vehicles?: VehicleOrderByRelationAggregateInput
@@ -7133,6 +7150,7 @@ export namespace Prisma {
     name?: StringFilter<"Store"> | string
     address?: StringFilter<"Store"> | string
     brandLogos?: StringNullableListFilter<"Store">
+    imageUrl?: StringNullableFilter<"Store"> | string | null
     createdAt?: DateTimeFilter<"Store"> | Date | string
     updatedAt?: DateTimeFilter<"Store"> | Date | string
     vehicles?: VehicleListRelationFilter
@@ -7143,6 +7161,7 @@ export namespace Prisma {
     name?: SortOrder
     address?: SortOrder
     brandLogos?: SortOrder
+    imageUrl?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: StoreCountOrderByAggregateInput
@@ -7158,6 +7177,7 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Store"> | string
     address?: StringWithAggregatesFilter<"Store"> | string
     brandLogos?: StringNullableListFilter<"Store">
+    imageUrl?: StringNullableWithAggregatesFilter<"Store"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Store"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Store"> | Date | string
   }
@@ -7446,6 +7466,7 @@ export namespace Prisma {
     name: string
     address: string
     brandLogos?: StoreCreatebrandLogosInput | string[]
+    imageUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     vehicles?: VehicleCreateNestedManyWithoutStoreInput
@@ -7456,6 +7477,7 @@ export namespace Prisma {
     name: string
     address: string
     brandLogos?: StoreCreatebrandLogosInput | string[]
+    imageUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     vehicles?: VehicleUncheckedCreateNestedManyWithoutStoreInput
@@ -7466,6 +7488,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     brandLogos?: StoreUpdatebrandLogosInput | string[]
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     vehicles?: VehicleUpdateManyWithoutStoreNestedInput
@@ -7476,6 +7499,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     brandLogos?: StoreUpdatebrandLogosInput | string[]
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     vehicles?: VehicleUncheckedUpdateManyWithoutStoreNestedInput
@@ -7486,6 +7510,7 @@ export namespace Prisma {
     name: string
     address: string
     brandLogos?: StoreCreatebrandLogosInput | string[]
+    imageUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -7495,6 +7520,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     brandLogos?: StoreUpdatebrandLogosInput | string[]
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -7504,6 +7530,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     brandLogos?: StoreUpdatebrandLogosInput | string[]
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -7843,10 +7870,30 @@ export namespace Prisma {
     isEmpty?: boolean
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type VehicleListRelationFilter = {
     every?: VehicleWhereInput
     some?: VehicleWhereInput
     none?: VehicleWhereInput
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
   }
 
   export type VehicleOrderByRelationAggregateInput = {
@@ -7858,6 +7905,7 @@ export namespace Prisma {
     name?: SortOrder
     address?: SortOrder
     brandLogos?: SortOrder
+    imageUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -7866,6 +7914,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     address?: SortOrder
+    imageUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -7874,8 +7923,27 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     address?: SortOrder
+    imageUrl?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type EnumProcessingStatusFilter<$PrismaModel = never> = {
@@ -7952,21 +8020,6 @@ export namespace Prisma {
     _max?: NestedEnumProcessingStatusFilter<$PrismaModel>
   }
 
-  export type StringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
   export type EnumImageTypeFilter<$PrismaModel = never> = {
     equals?: $Enums.ImageType | EnumImageTypeFieldRefInput<$PrismaModel>
     in?: $Enums.ImageType[] | ListEnumImageTypeFieldRefInput<$PrismaModel>
@@ -7993,11 +8046,6 @@ export namespace Prisma {
   export type VehicleScalarRelationFilter = {
     is?: VehicleWhereInput
     isNot?: VehicleWhereInput
-  }
-
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
   }
 
   export type VehicleImageCountOrderByAggregateInput = {
@@ -8042,24 +8090,6 @@ export namespace Prisma {
 
   export type VehicleImageSumOrderByAggregateInput = {
     sortOrder?: SortOrder
-  }
-
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type EnumImageTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -8201,6 +8231,10 @@ export namespace Prisma {
     push?: string | string[]
   }
 
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
   export type VehicleUpdateManyWithoutStoreNestedInput = {
     create?: XOR<VehicleCreateWithoutStoreInput, VehicleUncheckedCreateWithoutStoreInput> | VehicleCreateWithoutStoreInput[] | VehicleUncheckedCreateWithoutStoreInput[]
     connectOrCreate?: VehicleCreateOrConnectWithoutStoreInput | VehicleCreateOrConnectWithoutStoreInput[]
@@ -8335,10 +8369,6 @@ export namespace Prisma {
     create?: XOR<VehicleCreateWithoutImagesInput, VehicleUncheckedCreateWithoutImagesInput>
     connectOrCreate?: VehicleCreateOrConnectWithoutImagesInput
     connect?: VehicleWhereUniqueInput
-  }
-
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
   }
 
   export type EnumImageTypeFieldUpdateOperationsInput = {
@@ -8480,23 +8510,6 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type NestedEnumProcessingStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.ProcessingStatus | EnumProcessingStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.ProcessingStatus[] | ListEnumProcessingStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.ProcessingStatus[] | ListEnumProcessingStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumProcessingStatusFilter<$PrismaModel> | $Enums.ProcessingStatus
-  }
-
-  export type NestedEnumProcessingStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.ProcessingStatus | EnumProcessingStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.ProcessingStatus[] | ListEnumProcessingStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.ProcessingStatus[] | ListEnumProcessingStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumProcessingStatusWithAggregatesFilter<$PrismaModel> | $Enums.ProcessingStatus
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumProcessingStatusFilter<$PrismaModel>
-    _max?: NestedEnumProcessingStatusFilter<$PrismaModel>
-  }
-
   export type NestedStringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -8509,18 +8522,6 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type NestedEnumImageTypeFilter<$PrismaModel = never> = {
-    equals?: $Enums.ImageType | EnumImageTypeFieldRefInput<$PrismaModel>
-    in?: $Enums.ImageType[] | ListEnumImageTypeFieldRefInput<$PrismaModel>
-    notIn?: $Enums.ImageType[] | ListEnumImageTypeFieldRefInput<$PrismaModel>
-    not?: NestedEnumImageTypeFilter<$PrismaModel> | $Enums.ImageType
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -8549,6 +8550,35 @@ export namespace Prisma {
     gt?: number | IntFieldRefInput<$PrismaModel>
     gte?: number | IntFieldRefInput<$PrismaModel>
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedEnumProcessingStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProcessingStatus | EnumProcessingStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ProcessingStatus[] | ListEnumProcessingStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProcessingStatus[] | ListEnumProcessingStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumProcessingStatusFilter<$PrismaModel> | $Enums.ProcessingStatus
+  }
+
+  export type NestedEnumProcessingStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProcessingStatus | EnumProcessingStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ProcessingStatus[] | ListEnumProcessingStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProcessingStatus[] | ListEnumProcessingStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumProcessingStatusWithAggregatesFilter<$PrismaModel> | $Enums.ProcessingStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumProcessingStatusFilter<$PrismaModel>
+    _max?: NestedEnumProcessingStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumImageTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.ImageType | EnumImageTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.ImageType[] | ListEnumImageTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ImageType[] | ListEnumImageTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumImageTypeFilter<$PrismaModel> | $Enums.ImageType
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedEnumImageTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -8701,6 +8731,7 @@ export namespace Prisma {
     name: string
     address: string
     brandLogos?: StoreCreatebrandLogosInput | string[]
+    imageUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -8710,6 +8741,7 @@ export namespace Prisma {
     name: string
     address: string
     brandLogos?: StoreCreatebrandLogosInput | string[]
+    imageUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -8795,6 +8827,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     brandLogos?: StoreUpdatebrandLogosInput | string[]
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8804,6 +8837,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     brandLogos?: StoreUpdatebrandLogosInput | string[]
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
