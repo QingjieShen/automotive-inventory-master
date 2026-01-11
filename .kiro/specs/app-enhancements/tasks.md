@@ -72,7 +72,7 @@ This implementation plan breaks down the app enhancements into discrete, increme
   - Generate stores with various background images
   - Verify text contrast ratio meets WCAG AA standards (4.5:1)
 
-- [ ] 6. Create Navigation Banner component
+- [x] 6. Create Navigation Banner component
   - Create src/components/common/NavigationBanner.tsx
   - Implement fixed header with MMG logo, store name, and back button
   - Add responsive design (collapse to hamburger on mobile)
@@ -80,7 +80,7 @@ This implementation plan breaks down the app enhancements into discrete, increme
   - Export from src/components/common/index.ts
   - _Requirements: 3.1, 3.4, 3.5, 3.6, 3.7_
 
-- [ ] 6.1 Write property test for navigation banner visibility
+- [x] 6.1 Write property test for navigation banner visibility
   - **Property 3: Navigation Banner Visibility**
   - **Validates: Requirements 3.1, 3.2**
   - Test banner rendering on various pages
