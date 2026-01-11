@@ -28,6 +28,8 @@ enum ImageType {
   DRIVER_SIDE
   PASSENGER_SIDE
   GALLERY
+  GALLERY_EXTERIOR
+  GALLERY_INTERIOR
 }
 
 enum ProcessingStatus {

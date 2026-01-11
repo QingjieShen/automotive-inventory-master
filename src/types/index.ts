@@ -62,7 +62,9 @@ export type ImageType =
   | 'BACK'
   | 'DRIVER_SIDE'
   | 'PASSENGER_SIDE'
-  | 'GALLERY'
+  | 'GALLERY_EXTERIOR'
+  | 'GALLERY_INTERIOR'
+  | 'GALLERY' // Legacy support
 
 export type UserRole = 'PHOTOGRAPHER' | 'ADMIN' | 'SUPER_ADMIN'
 
