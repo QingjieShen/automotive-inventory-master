@@ -99,10 +99,10 @@ This implementation plan breaks down the app enhancements into discrete, increme
   - Test navigation from various pages
   - Verify always navigates to store selection page
 
-- [ ] 8. Checkpoint - Ensure all tests pass
+- [x] 8. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 9. Create Add Vehicle page route
+- [x] 9. Create Add Vehicle page route
   - Create src/app/vehicles/new/page.tsx
   - Implement full-page layout with NavigationBanner
   - Create two-column layout (vehicle info left, photos right)
