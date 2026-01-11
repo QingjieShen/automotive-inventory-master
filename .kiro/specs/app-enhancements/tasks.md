@@ -205,7 +205,7 @@ This implementation plan breaks down the app enhancements into discrete, increme
   - Test delete confirmation dialog
   - _Requirements: 5.2, 5.10_
 
-- [ ] 17. Add navigation to Store Management for Super Admins
+- [x] 17. Add navigation to Store Management for Super Admins
   - Update NavigationBanner to show "Manage Stores" link for Super Admins
   - Add conditional rendering based on user role
   - Ensure link is hidden for Photographers and Admins

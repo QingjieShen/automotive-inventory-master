@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { Store } from '@/types'
 import { useState } from 'react'
+import { useAuth } from '@/hooks/useAuth'
 
 interface NavigationBannerProps {
   currentStore?: Store
@@ -16,6 +17,7 @@ export default function NavigationBanner({
   onBackToStores
 }: NavigationBannerProps) {
   const router = useRouter()
+  const { isSuperAdmin } = useAuth()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const handleBackToStores = () => {
@@ -24,6 +26,11 @@ export default function NavigationBanner({
     } else {
       router.push('/stores')
     }
+  }
+
+  const handleManageStores = () => {
+    router.push('/admin/stores')
+    setIsMobileMenuOpen(false)
   }
 
   return (
@@ -50,9 +57,21 @@ export default function NavigationBanner({
             </div>
           )}
 
-          {/* Back to Stores Button - Desktop */}
-          {showBackToStores && (
-            <div className="hidden md:block">
+          {/* Navigation Actions - Desktop */}
+          <div className="hidden md:flex items-center gap-3">
+            {/* Manage Stores Link - Super Admin Only */}
+            {isSuperAdmin && (
+              <button
+                onClick={handleManageStores}
+                className="px-4 py-2 text-sm font-medium text-blue-700 bg-blue-50 border border-blue-300 rounded-md hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+                aria-label="Manage stores"
+              >
+                Manage Stores
+              </button>
+            )}
+
+            {/* Back to Stores Button */}
+            {showBackToStores && (
               <button
                 onClick={handleBackToStores}
                 className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
@@ -60,8 +79,8 @@ export default function NavigationBanner({
               >
                 Back to Stores
               </button>
-            </div>
-          )}
+            )}
+          </div>
 
           {/* Mobile Menu Button */}
           <div className="md:hidden">
@@ -109,6 +128,16 @@ export default function NavigationBanner({
                   {currentStore.name}
                 </p>
               </div>
+            )}
+            {/* Manage Stores Link - Super Admin Only */}
+            {isSuperAdmin && (
+              <button
+                onClick={handleManageStores}
+                className="w-full px-4 py-2 text-sm font-medium text-blue-700 bg-blue-50 border border-blue-300 rounded-md hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+                aria-label="Manage stores"
+              >
+                Manage Stores
+              </button>
             )}
             {showBackToStores && (
               <button

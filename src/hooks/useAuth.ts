@@ -20,6 +20,7 @@ export function useAuth() {
 
   const isAdmin = hasRole('ADMIN')
   const isPhotographer = hasRole('PHOTOGRAPHER')
+  const isSuperAdmin = hasRole('SUPER_ADMIN')
 
   return {
     session,
@@ -28,6 +29,7 @@ export function useAuth() {
     isAuthenticated,
     isAdmin,
     isPhotographer,
+    isSuperAdmin,
     hasRole,
     hasAnyRole,
   }
