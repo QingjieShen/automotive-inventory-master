@@ -44,7 +44,7 @@ export const mockUser = {
 // Fast-check arbitraries for property-based testing
 export const arbitraries = {
   // User role arbitrary
-  userRole: fc.constantFrom('PHOTOGRAPHER', 'ADMIN'),
+  userRole: fc.constantFrom('PHOTOGRAPHER', 'ADMIN', 'SUPER_ADMIN'),
 
   // Stock number arbitrary (alphanumeric, 3-10 characters)
   stockNumber: fc.stringMatching(/^[A-Z0-9]{3,10}$/),
@@ -100,7 +100,7 @@ export const arbitraries = {
     id: fc.uuid(),
     email: fc.emailAddress(),
     name: fc.string({ minLength: 2, maxLength: 50 }),
-    role: fc.constantFrom('PHOTOGRAPHER', 'ADMIN'),
+    role: fc.constantFrom('PHOTOGRAPHER', 'ADMIN', 'SUPER_ADMIN'),
     createdAt: fc.date({ min: new Date('2020-01-01T00:00:00.000Z'), max: new Date('2024-12-31T23:59:59.999Z') }),
     updatedAt: fc.date({ min: new Date('2020-01-01T00:00:00.000Z'), max: new Date('2024-12-31T23:59:59.999Z') }),
   }),

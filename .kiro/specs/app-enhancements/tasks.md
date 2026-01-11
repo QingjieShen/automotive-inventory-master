@@ -145,23 +145,23 @@ This implementation plan breaks down the app enhancements into discrete, increme
   - Pass storeId as query parameter if needed
   - _Requirements: 4.1_
 
-- [ ] 13. Checkpoint - Ensure all tests pass
+- [x] 13. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 14. Create Super Admin authorization middleware
+- [x] 14. Create Super Admin authorization middleware
   - Create requireSuperAdmin function in src/lib/auth.ts
   - Check user session and role
   - Return 403 Forbidden if not Super Admin
   - Add logging for authorization failures
   - _Requirements: 5.1, 5.10_
 
-- [ ] 14.1 Write property test for Super Admin authorization
+- [x] 14.1 Write property test for Super Admin authorization
   - **Property 6: Super Admin Authorization**
   - **Validates: Requirements 5.10**
   - Generate requests with various user roles
   - Verify only Super Admin can access store management endpoints
 
-- [ ] 14.2 Write property test for role-based access
+- [x] 14.2 Write property test for role-based access
   - **Property 12: Role-Based Store Management Access**
   - **Validates: Requirements 5.2, 5.10**
   - Generate users with different roles

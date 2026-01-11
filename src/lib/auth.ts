@@ -3,6 +3,8 @@ import CredentialsProvider from 'next-auth/providers/credentials'
 import bcrypt from 'bcryptjs'
 import { prisma } from './prisma'
 import { UserRole } from '../generated/prisma'
+import { getServerSession } from 'next-auth'
+import { NextRequest, NextResponse } from 'next/server'
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -78,4 +80,77 @@ export const authOptions: NextAuthOptions = {
     error: '/login'
   },
   secret: process.env.NEXTAUTH_SECRET
+}
+
+
+/**
+ * Middleware to require Super Admin role for API routes
+ * Returns 403 Forbidden if user is not authenticated or not a Super Admin
+ * Logs authorization failures for audit purposes
+ */
+export async function requireSuperAdmin(
+  request: NextRequest,
+  handler: (request: NextRequest) => Promise<NextResponse>
+): Promise<NextResponse> {
+  try {
+    // Get the session from the request
+    const session = await getServerSession(authOptions)
+
+    // Check if user is authenticated
+    if (!session || !session.user) {
+      console.warn('[Auth] Unauthorized access attempt to Super Admin endpoint', {
+        timestamp: new Date().toISOString(),
+        path: request.nextUrl.pathname,
+        method: request.method,
+        reason: 'No session found'
+      })
+
+      return NextResponse.json(
+        { error: 'Unauthorized: Authentication required' },
+        { status: 401 }
+      )
+    }
+
+    // Check if user has Super Admin role
+    if (session.user.role !== 'SUPER_ADMIN') {
+      console.warn('[Auth] Forbidden access attempt to Super Admin endpoint', {
+        timestamp: new Date().toISOString(),
+        path: request.nextUrl.pathname,
+        method: request.method,
+        userId: session.user.id,
+        userEmail: session.user.email,
+        userRole: session.user.role,
+        reason: 'Insufficient permissions'
+      })
+
+      return NextResponse.json(
+        { error: 'Forbidden: Super Admin access required' },
+        { status: 403 }
+      )
+    }
+
+    // User is authenticated and has Super Admin role
+    console.info('[Auth] Super Admin access granted', {
+      timestamp: new Date().toISOString(),
+      path: request.nextUrl.pathname,
+      method: request.method,
+      userId: session.user.id,
+      userEmail: session.user.email
+    })
+
+    // Call the handler with the request
+    return await handler(request)
+  } catch (error) {
+    console.error('[Auth] Error in requireSuperAdmin middleware', {
+      timestamp: new Date().toISOString(),
+      path: request.nextUrl.pathname,
+      method: request.method,
+      error: error instanceof Error ? error.message : 'Unknown error'
+    })
+
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    )
+  }
 }
