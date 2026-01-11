@@ -3,11 +3,13 @@
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
+import { useStore } from '@/components/providers/StoreProvider'
 import { Vehicle } from '@/types'
 import { ArrowLeftIcon } from '@heroicons/react/24/outline'
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute'
 import ImageGallery from '@/components/vehicles/ImageGallery'
 import { LoadingSpinner } from '@/components/common'
+import NavigationBanner from '@/components/common/NavigationBanner'
 
 export default function VehicleDetailPage() {
   return (
@@ -21,6 +23,7 @@ function VehicleDetailContent() {
   const params = useParams()
   const router = useRouter()
   const { data: session } = useSession()
+  const { selectedStore } = useStore()
   const [vehicle, setVehicle] = useState<Vehicle | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -64,7 +67,11 @@ function VehicleDetailContent() {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <NavigationBanner 
+          currentStore={selectedStore || undefined}
+          showBackToStores={true}
+        />
+        <div className="pt-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex items-center justify-center h-64">
             <LoadingSpinner size="lg" text="Loading vehicle details..." />
           </div>
@@ -76,7 +83,11 @@ function VehicleDetailContent() {
   if (error || !vehicle) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <NavigationBanner 
+          currentStore={selectedStore || undefined}
+          showBackToStores={true}
+        />
+        <div className="pt-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">
               {error || 'Vehicle not found'}
@@ -96,7 +107,13 @@ function VehicleDetailContent() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <NavigationBanner 
+        currentStore={selectedStore || undefined}
+        showBackToStores={true}
+      />
+      
+      {/* Add padding-top to account for fixed navigation banner */}
+      <div className="pt-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between">

@@ -8,6 +8,7 @@ import { Vehicle, PaginatedResponse } from '@/types'
 import VehicleList from '@/components/vehicles/VehicleList'
 import VehicleHeader from '@/components/vehicles/VehicleHeader'
 import { LoadingSpinner } from '@/components/common'
+import NavigationBanner from '@/components/common/NavigationBanner'
 
 export default function VehiclesPage() {
   const { data: session, status } = useSession()
@@ -113,31 +114,39 @@ export default function VehiclesPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <VehicleHeader
-        storeName={selectedStore.name}
-        onSearch={handleSearch}
-        searchTerm={searchTerm}
-        onVehicleAdded={handleVehicleAdded}
+      <NavigationBanner 
+        currentStore={selectedStore || undefined}
+        showBackToStores={true}
       />
       
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {error && (
-          <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-md">
-            <p className="text-red-800">{error}</p>
-          </div>
-        )}
-
-        <VehicleList
-          vehicles={vehicles}
-          loading={loading}
-          pagination={pagination}
-          sortBy={sortBy}
-          sortOrder={sortOrder}
-          onSort={handleSort}
-          onPageChange={handlePageChange}
-          onVehiclesDeleted={() => fetchVehicles(pagination.currentPage, searchTerm, sortBy, sortOrder)}
+      {/* Add padding-top to account for fixed navigation banner */}
+      <div className="pt-16">
+        <VehicleHeader
+          storeName={selectedStore.name}
+          onSearch={handleSearch}
+          searchTerm={searchTerm}
+          onVehicleAdded={handleVehicleAdded}
         />
-      </main>
+        
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          {error && (
+            <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-md">
+              <p className="text-red-800">{error}</p>
+            </div>
+          )}
+
+          <VehicleList
+            vehicles={vehicles}
+            loading={loading}
+            pagination={pagination}
+            sortBy={sortBy}
+            sortOrder={sortOrder}
+            onSort={handleSort}
+            onPageChange={handlePageChange}
+            onVehiclesDeleted={() => fetchVehicles(pagination.currentPage, searchTerm, sortBy, sortOrder)}
+          />
+        </main>
+      </div>
     </div>
   )
 }
