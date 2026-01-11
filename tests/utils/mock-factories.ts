@@ -91,18 +91,18 @@ export const arbitraries = {
     stockNumber: fc.stringMatching(/^[A-Z0-9]{3,10}$/),
     storeId: fc.uuid(),
     processingStatus: fc.constantFrom('NOT_STARTED', 'IN_PROGRESS', 'COMPLETED', 'ERROR'),
-    createdAt: fc.date({ min: new Date('2020-01-01T00:00:00.000Z'), max: new Date('2024-12-31T23:59:59.999Z') }),
-    updatedAt: fc.date({ min: new Date('2020-01-01T00:00:00.000Z'), max: new Date('2024-12-31T23:59:59.999Z') }),
+    createdAt: fc.date({ min: new Date('2020-01-01T00:00:00.000Z'), max: new Date('2024-12-31T23:59:59.999Z') }).filter(d => !isNaN(d.getTime())),
+    updatedAt: fc.date({ min: new Date('2020-01-01T00:00:00.000Z'), max: new Date('2024-12-31T23:59:59.999Z') }).filter(d => !isNaN(d.getTime())),
   }),
 
   // User arbitrary
   user: fc.record({
     id: fc.uuid(),
     email: fc.emailAddress(),
-    name: fc.string({ minLength: 2, maxLength: 50 }),
+    name: fc.string({ minLength: 2, maxLength: 50 }).filter(s => s.trim().length > 0),
     role: fc.constantFrom('PHOTOGRAPHER', 'ADMIN', 'SUPER_ADMIN'),
-    createdAt: fc.date({ min: new Date('2020-01-01T00:00:00.000Z'), max: new Date('2024-12-31T23:59:59.999Z') }),
-    updatedAt: fc.date({ min: new Date('2020-01-01T00:00:00.000Z'), max: new Date('2024-12-31T23:59:59.999Z') }),
+    createdAt: fc.date({ min: new Date('2020-01-01T00:00:00.000Z'), max: new Date('2024-12-31T23:59:59.999Z') }).filter(d => !isNaN(d.getTime())),
+    updatedAt: fc.date({ min: new Date('2020-01-01T00:00:00.000Z'), max: new Date('2024-12-31T23:59:59.999Z') }).filter(d => !isNaN(d.getTime())),
   }),
 
   // Vehicle image arbitrary
@@ -123,7 +123,7 @@ export const arbitraries = {
     ),
     sortOrder: fc.integer({ min: 0, max: 100 }),
     isProcessed: fc.boolean(),
-    uploadedAt: fc.date({ min: new Date('2020-01-01T00:00:00.000Z'), max: new Date('2024-12-31T23:59:59.999Z') }),
+    uploadedAt: fc.date({ min: new Date('2020-01-01T00:00:00.000Z'), max: new Date('2024-12-31T23:59:59.999Z') }).filter(d => !isNaN(d.getTime())),
   }),
 
   // File upload arbitraries

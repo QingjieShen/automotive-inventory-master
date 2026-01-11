@@ -36,7 +36,7 @@ describe('Authentication Property Tests', () => {
             // User should have valid properties for authentication
             expect(userWithHashedPassword.email).toContain('@')
             expect(userWithHashedPassword.name.trim().length).toBeGreaterThan(0)
-            expect(['PHOTOGRAPHER', 'ADMIN']).toContain(userWithHashedPassword.role)
+            expect(['PHOTOGRAPHER', 'ADMIN', 'SUPER_ADMIN']).toContain(userWithHashedPassword.role)
             expect(userWithHashedPassword.id).toBeTruthy()
           }
         ),
@@ -97,7 +97,7 @@ describe('Authentication Property Tests', () => {
             expect(mockSession.user.role).toBe(user.role)
 
             // Role should be valid
-            expect(['PHOTOGRAPHER', 'ADMIN']).toContain(mockSession.user.role)
+            expect(['PHOTOGRAPHER', 'ADMIN', 'SUPER_ADMIN']).toContain(mockSession.user.role)
 
             // Email should be valid format
             expect(mockSession.user.email).toContain('@')
@@ -237,7 +237,7 @@ describe('Authentication Property Tests', () => {
             expect(mockJWTToken.exp).toBeGreaterThan(mockJWTToken.iat)
 
             // Role should be valid
-            expect(['PHOTOGRAPHER', 'ADMIN']).toContain(mockJWTToken.role)
+            expect(['PHOTOGRAPHER', 'ADMIN', 'SUPER_ADMIN']).toContain(mockJWTToken.role)
 
             // Token should not be expired (for this test)
             expect(mockJWTToken.exp).toBeGreaterThan(currentTime)

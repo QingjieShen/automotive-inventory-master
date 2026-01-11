@@ -88,7 +88,7 @@ describe('Vehicle Management Properties', () => {
           }
 
           // Property: Role should be one of the expected values
-          expect(['PHOTOGRAPHER', 'ADMIN']).toContain(userRole)
+          expect(['PHOTOGRAPHER', 'ADMIN', 'SUPER_ADMIN']).toContain(userRole)
         }
       ),
       { numRuns: 100 }
@@ -130,7 +130,7 @@ describe('Vehicle Management Properties', () => {
           }
 
           // Property: Invalid roles should be rejected
-          const validRoles = ['PHOTOGRAPHER', 'ADMIN']
+          const validRoles = ['PHOTOGRAPHER', 'ADMIN', 'SUPER_ADMIN']
           expect(validRoles).toContain(userRole)
         }
       ),

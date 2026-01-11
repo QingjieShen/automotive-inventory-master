@@ -23,7 +23,7 @@ describe('Property-Based Testing Setup', () => {
         arbitraries.email,
         (role, stockNumber, email) => {
           // Validate role is one of expected values
-          expect(['PHOTOGRAPHER', 'ADMIN']).toContain(role)
+          expect(['PHOTOGRAPHER', 'ADMIN', 'SUPER_ADMIN']).toContain(role)
 
           // Validate stock number format
           expect(stockNumber).toMatch(/^[A-Z0-9]{3,10}$/)

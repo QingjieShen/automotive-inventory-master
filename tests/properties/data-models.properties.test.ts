@@ -179,7 +179,7 @@ describe('Data Model Relationships Property Tests', () => {
             // For any user and set of vehicles, role-based access should be consistent
             
             // User should have valid role
-            expect(['PHOTOGRAPHER', 'ADMIN']).toContain(user.role)
+            expect(['PHOTOGRAPHER', 'ADMIN', 'SUPER_ADMIN']).toContain(user.role)
 
             // Email should be valid
             expect(user.email).toContain('@')

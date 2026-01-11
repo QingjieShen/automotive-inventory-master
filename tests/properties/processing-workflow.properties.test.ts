@@ -280,7 +280,7 @@ describe('Processing Workflow Properties', () => {
           }
 
           // Property: Role should be valid
-          expect(['PHOTOGRAPHER', 'ADMIN']).toContain(userRole)
+          expect(['PHOTOGRAPHER', 'ADMIN', 'SUPER_ADMIN']).toContain(userRole)
 
           return true
         }

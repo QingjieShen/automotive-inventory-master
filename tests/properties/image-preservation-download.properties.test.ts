@@ -250,7 +250,7 @@ describe('Image Preservation and Download Properties', () => {
           if (!image.isProcessed || !image.processedUrl) return true
 
           // Property: Download should be available to all authenticated users
-          const isAuthenticated = ['PHOTOGRAPHER', 'ADMIN'].includes(userRole)
+          const isAuthenticated = ['PHOTOGRAPHER', 'ADMIN', 'SUPER_ADMIN'].includes(userRole)
           expect(isAuthenticated).toBe(true)
 
           // Property: Download URL should not expose sensitive information

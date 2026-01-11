@@ -211,10 +211,10 @@ This implementation plan breaks down the app enhancements into discrete, increme
   - Ensure link is hidden for Photographers and Admins
   - _Requirements: 5.2, 5.10_
 
-- [ ] 18. Final checkpoint - Ensure all tests pass
+- [x] 18. Final checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 19. Update environment variables documentation
+- [-] 19. Update environment variables documentation
   - Document required Google Cloud environment variables
   - Document GOOGLE_CLOUD_STORAGE_BUCKET
   - Document GOOGLE_APPLICATION_CREDENTIALS or service account JSON

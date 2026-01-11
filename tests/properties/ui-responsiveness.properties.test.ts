@@ -98,7 +98,7 @@ describe('Property 13: User Interface Responsiveness', () => {
     fc.assert(
       fc.property(
         fc.boolean(), // loading state
-        fc.string({ minLength: 1, maxLength: 50 }), // loading text
+        fc.string({ minLength: 1, maxLength: 50 }).filter(s => s.trim().length > 0), // loading text
         (isLoading, loadingText) => {
           try {
             const TestComponent = () => {
@@ -132,7 +132,7 @@ describe('Property 13: User Interface Responsiveness', () => {
               // Should have loading spinner
               expect(container.querySelector('.animate-spin')).toBeInTheDocument()
               // Should have loading text
-              expect(screen.getByText(loadingText)).toBeInTheDocument()
+              expect(screen.getByText(loadingText.trim())).toBeInTheDocument()
               // Should have screen reader text
               expect(screen.getByText('Loading...')).toBeInTheDocument()
               // Should have proper ARIA attributes
@@ -156,7 +156,7 @@ describe('Property 13: User Interface Responsiveness', () => {
     fc.assert(
       fc.property(
         fc.boolean(), // has error
-        fc.string({ minLength: 1, maxLength: 100 }), // error message
+        fc.string({ minLength: 1, maxLength: 100 }).filter(s => s.trim().length > 0), // error message
         (hasError, errorMessage) => {
           try {
             const TestComponent = () => {
@@ -181,7 +181,7 @@ describe('Property 13: User Interface Responsiveness', () => {
             
             if (hasError) {
               // Should display error message
-              expect(screen.getByText(errorMessage)).toBeInTheDocument()
+              expect(screen.getByText(errorMessage.trim())).toBeInTheDocument()
               // Should have proper ARIA attributes for accessibility
               expect(container.querySelector('[role="alert"]')).toBeInTheDocument()
               expect(container.querySelector('[aria-live="polite"]')).toBeInTheDocument()
@@ -268,8 +268,8 @@ describe('Property 13: User Interface Responsiveness', () => {
   test('accessibility attributes are properly maintained', () => {
     fc.assert(
       fc.property(
-        fc.string({ minLength: 1, maxLength: 50 }), // aria-label
-        fc.string({ minLength: 1, maxLength: 100 }), // aria-describedby content
+        fc.string({ minLength: 1, maxLength: 50 }).filter(s => s.trim().length > 0), // aria-label
+        fc.string({ minLength: 1, maxLength: 100 }).filter(s => s.trim().length > 0), // aria-describedby content
         fc.boolean(), // has error state
         (ariaLabel, description, hasError) => {
           try {
@@ -304,7 +304,7 @@ describe('Property 13: User Interface Responsiveness', () => {
             render(React.createElement(TestComponent), { wrapper: TestWrapper })
             
             const input = screen.getByLabelText('Test Input')
-            const descriptionElement = screen.getByText(description)
+            const descriptionElement = screen.getByText(description.trim())
             
             // Verify accessibility attributes
             expect(input).toHaveAttribute('aria-label', ariaLabel)
