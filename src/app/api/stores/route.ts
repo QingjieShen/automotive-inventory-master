@@ -12,6 +12,15 @@ export async function GET() {
     }
 
     const stores = await prisma.store.findMany({
+      select: {
+        id: true,
+        name: true,
+        address: true,
+        brandLogos: true,
+        imageUrl: true,
+        createdAt: true,
+        updatedAt: true,
+      },
       orderBy: {
         name: 'asc'
       }

@@ -46,7 +46,7 @@ This implementation plan breaks down the app enhancements into discrete, increme
   - Test error handling for upload failures
   - _Requirements: 1.3, 1.6_
 
-- [ ] 4. Implement store image upload functionality
+- [x] 4. Implement store image upload functionality
   - Create API endpoint for uploading store images (POST /api/stores/[id]/image)
   - Add store image upload to GCS with path: stores/{storeId}/store-image.{ext}
   - Update Store model queries to include imageUrl
