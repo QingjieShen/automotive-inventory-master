@@ -139,7 +139,7 @@ This implementation plan breaks down the app enhancements into discrete, increme
   - Implement cancel button: navigate back to vehicle list
   - _Requirements: 4.4, 4.5_
 
-- [ ] 12. Update vehicle list page to use new Add Vehicle page
+- [x] 12. Update vehicle list page to use new Add Vehicle page
   - Change "Add Vehicle" button to navigate to /vehicles/new
   - Remove AddVehicleModal component usage
   - Pass storeId as query parameter if needed
