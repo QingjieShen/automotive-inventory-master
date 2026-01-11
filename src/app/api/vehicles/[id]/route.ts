@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
-import { deleteFromS3 } from '@/lib/s3'
+import { deleteFile } from '@/lib/gcs'
 
 export async function GET(
   request: NextRequest,
@@ -134,7 +134,7 @@ export async function DELETE(
 
     const { id: vehicleId } = await params
 
-    // Get vehicle with images to delete from S3
+    // Get vehicle with images to delete from GCS
     const vehicle = await prisma.vehicle.findUnique({
       where: { id: vehicleId },
       include: { images: true }
@@ -144,27 +144,27 @@ export async function DELETE(
       return NextResponse.json({ error: 'Vehicle not found' }, { status: 404 })
     }
 
-    // Delete images from S3
-    const s3DeletePromises = vehicle.images.map(async (image) => {
+    // Delete images from Google Cloud Storage
+    const gcsDeletePromises = vehicle.images.map(async (image) => {
       try {
-        // Extract S3 key from URL
+        // Extract GCS path from URL
         const url = new URL(image.originalUrl)
-        const key = url.pathname.substring(1) // Remove leading slash
-        await deleteFromS3(key)
+        const path = url.pathname.substring(1) // Remove leading slash
+        await deleteFile(path)
         
         // Also delete thumbnail if different
         if (image.thumbnailUrl !== image.originalUrl) {
           const thumbnailUrl = new URL(image.thumbnailUrl)
-          const thumbnailKey = thumbnailUrl.pathname.substring(1)
-          await deleteFromS3(thumbnailKey)
+          const thumbnailPath = thumbnailUrl.pathname.substring(1)
+          await deleteFile(thumbnailPath)
         }
       } catch (error) {
-        console.error(`Failed to delete image ${image.id} from S3:`, error)
-        // Continue with deletion even if S3 cleanup fails
+        console.error(`Failed to delete image ${image.id} from GCS:`, error)
+        // Continue with deletion even if GCS cleanup fails
       }
     })
 
-    await Promise.allSettled(s3DeletePromises)
+    await Promise.allSettled(gcsDeletePromises)
 
     // Delete vehicle (cascade will delete images from database)
     await prisma.vehicle.delete({

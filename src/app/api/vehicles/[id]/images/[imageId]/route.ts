@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
-import { deleteFromS3 } from '@/lib/s3'
+import { deleteFile } from '@/lib/gcs'
 
 export async function DELETE(
   request: NextRequest,
@@ -35,29 +35,29 @@ export async function DELETE(
       )
     }
 
-    // Delete the image files from S3 storage
+    // Delete the image files from Google Cloud Storage
     try {
-      // Extract S3 key from original URL
+      // Extract GCS path from original URL
       const originalUrl = new URL(image.originalUrl)
-      const originalKey = originalUrl.pathname.substring(1) // Remove leading slash
-      await deleteFromS3(originalKey)
+      const originalPath = originalUrl.pathname.substring(1) // Remove leading slash
+      await deleteFile(originalPath)
       
       // Delete thumbnail if different from original
       if (image.thumbnailUrl !== image.originalUrl) {
         const thumbnailUrl = new URL(image.thumbnailUrl)
-        const thumbnailKey = thumbnailUrl.pathname.substring(1)
-        await deleteFromS3(thumbnailKey)
+        const thumbnailPath = thumbnailUrl.pathname.substring(1)
+        await deleteFile(thumbnailPath)
       }
       
       // Delete processed image if exists
       if (image.processedUrl) {
         const processedUrl = new URL(image.processedUrl)
-        const processedKey = processedUrl.pathname.substring(1)
-        await deleteFromS3(processedKey)
+        const processedPath = processedUrl.pathname.substring(1)
+        await deleteFile(processedPath)
       }
-    } catch (s3Error) {
-      console.error('Failed to delete image from S3:', s3Error)
-      // Continue with database deletion even if S3 cleanup fails
+    } catch (gcsError) {
+      console.error('Failed to delete image from GCS:', gcsError)
+      // Continue with database deletion even if GCS cleanup fails
     }
 
     // Delete the image from the database

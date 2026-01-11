@@ -48,7 +48,7 @@ export async function GET(request: NextRequest) {
     }
 
     try {
-      // Fetch the processed image from S3/CDN
+      // Fetch the processed image from GCS/CDN
       const imageResponse = await fetch(image.processedUrl)
       
       if (!imageResponse.ok) {

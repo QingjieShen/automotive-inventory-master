@@ -32,7 +32,7 @@ This implementation plan breaks down the app enhancements into discrete, increme
   - Update TypeScript types to reflect schema changes
   - _Requirements: 2.3, 5.1_
 
-- [ ] 3. Replace AWS S3 calls with Google Cloud Storage
+- [x] 3. Replace AWS S3 calls with Google Cloud Storage
   - Update all API routes that use s3.ts to use gcs.ts instead
   - Update vehicle image upload endpoint (/api/vehicles/[id]/images)
   - Update vehicle image delete endpoint
@@ -40,7 +40,7 @@ This implementation plan breaks down the app enhancements into discrete, increme
   - Test existing vehicle photo upload/delete functionality
   - _Requirements: 1.2, 1.3, 1.5_
 
-- [ ] 3.1 Write unit tests for GCS service
+- [x] 3.1 Write unit tests for GCS service
   - Test path generation with various parameters
   - Test public URL generation with and without CDN
   - Test error handling for upload failures

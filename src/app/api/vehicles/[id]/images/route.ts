@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
-import { batchUploadToS3 } from '@/lib/s3'
+import { batchUpload } from '@/lib/gcs'
 import { ImageType } from '@/types'
 
 export async function POST(
@@ -69,7 +69,7 @@ export async function POST(
       }
     }
 
-    // Convert files to buffers for S3 upload
+    // Convert files to buffers for GCS upload
     const fileData = await Promise.all(
       files.map(async (file, index) => ({
         buffer: Buffer.from(await file.arrayBuffer()),
@@ -79,8 +79,8 @@ export async function POST(
       }))
     )
 
-    // Upload to S3
-    const uploadResults = await batchUploadToS3(
+    // Upload to Google Cloud Storage
+    const uploadResults = await batchUpload(
       fileData.map(f => ({
         buffer: f.buffer,
         contentType: f.contentType,
@@ -112,7 +112,7 @@ export async function POST(
         return prisma.vehicleImage.create({
           data: {
             vehicleId,
-            originalUrl: result.originalUrl,
+            originalUrl: result.publicUrl,
             thumbnailUrl: result.thumbnailUrl,
             imageType,
             sortOrder,
