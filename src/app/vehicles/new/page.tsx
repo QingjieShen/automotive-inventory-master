@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { useStore } from '@/components/providers/StoreProvider'
 import NavigationBanner from '@/components/common/NavigationBanner'
+import KeyImagesUploader from '@/components/vehicles/KeyImagesUploader'
 import SimplePhotoUploader from '@/components/vehicles/SimplePhotoUploader'
 import { LoadingSpinner } from '@/components/common'
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute'
@@ -316,18 +317,12 @@ function AddVehicleContent() {
                     Key Images
                   </h2>
                   <p className="text-sm text-gray-600 mb-4">
-                    Upload the 6 standard vehicle shots (front quarter, front, back quarter, back, driver side, passenger side)
+                    Upload the 6 standard vehicle shots. Each slot accepts one image.
                   </p>
-                  <SimplePhotoUploader
+                  <KeyImagesUploader
                     onFilesChange={handleKeyImagesChange}
-                    maxFiles={6}
                     className="w-full"
                   />
-                  {keyImages.length > 0 && (
-                    <p className="mt-3 text-sm text-blue-600 font-medium">
-                      {keyImages.length} key image{keyImages.length !== 1 ? 's' : ''} selected
-                    </p>
-                  )}
                 </div>
 
                 {/* Gallery Images Section */}
@@ -336,16 +331,16 @@ function AddVehicleContent() {
                     Gallery Images
                   </h2>
                   <p className="text-sm text-gray-600 mb-4">
-                    Upload additional photos (interior, details, etc.)
+                    Upload additional photos (interior, details, etc.) - up to 60 images
                   </p>
                   <SimplePhotoUploader
                     onFilesChange={handleGalleryImagesChange}
-                    maxFiles={20}
+                    maxFiles={60}
                     className="w-full"
                   />
                   {galleryImages.length > 0 && (
                     <p className="mt-3 text-sm text-blue-600 font-medium">
-                      {galleryImages.length} gallery image{galleryImages.length !== 1 ? 's' : ''} selected
+                      {galleryImages.length} of 60 gallery image{galleryImages.length !== 1 ? 's' : ''} selected
                     </p>
                   )}
                 </div>

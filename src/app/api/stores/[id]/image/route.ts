@@ -11,7 +11,7 @@ import { uploadFile, getExtensionFromContentType } from '../../../../../lib/gcs'
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions);
@@ -28,7 +28,7 @@ export async function POST(
       );
     }
 
-    const storeId = params.id;
+    const { id: storeId } = await params;
 
     // Verify store exists
     const store = await prisma.store.findUnique({
