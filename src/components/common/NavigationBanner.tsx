@@ -33,6 +33,11 @@ export default function NavigationBanner({
     setIsMobileMenuOpen(false)
   }
 
+  const handleAccount = () => {
+    router.push('/account')
+    setIsMobileMenuOpen(false)
+  }
+
   return (
     <nav 
       className="fixed top-0 left-0 right-0 z-50 h-16 bg-white border-b border-gray-200 shadow-sm"
@@ -59,6 +64,15 @@ export default function NavigationBanner({
 
           {/* Navigation Actions - Desktop */}
           <div className="hidden md:flex items-center gap-3">
+            {/* Account Link */}
+            <button
+              onClick={handleAccount}
+              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+              aria-label="Account settings"
+            >
+              Account
+            </button>
+
             {/* Manage Stores Link - Super Admin Only */}
             {isSuperAdmin && (
               <button
@@ -129,6 +143,14 @@ export default function NavigationBanner({
                 </p>
               </div>
             )}
+            {/* Account Link */}
+            <button
+              onClick={handleAccount}
+              className="w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+              aria-label="Account settings"
+            >
+              Account
+            </button>
             {/* Manage Stores Link - Super Admin Only */}
             {isSuperAdmin && (
               <button
