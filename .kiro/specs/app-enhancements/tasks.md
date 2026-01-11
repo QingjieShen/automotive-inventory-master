@@ -188,7 +188,7 @@ This implementation plan breaks down the app enhancements into discrete, increme
   - Generate stores with varying numbers of vehicles
   - Verify stores with vehicles cannot be deleted
 
-- [ ] 16. Create Store Management page
+- [x] 16. Create Store Management page
   - Create src/app/admin/stores/page.tsx
   - Add RoleGuard component to restrict access to Super Admin
   - Display table of all stores with edit/delete actions
@@ -198,7 +198,7 @@ This implementation plan breaks down the app enhancements into discrete, increme
   - Display error if trying to delete store with vehicles
   - _Requirements: 5.2, 5.3, 5.4, 5.5, 5.6, 5.7_
 
-- [ ] 16.1 Write unit tests for Store Management page
+- [x] 16.1 Write unit tests for Store Management page
   - Test Super Admin can access page
   - Test non-Super Admin cannot access page
   - Test store creation form validation
