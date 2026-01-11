@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 import { useStore } from '@/components/providers/StoreProvider'
 import NavigationBanner from '@/components/common/NavigationBanner'
@@ -26,7 +26,6 @@ export default function AddVehiclePage() {
 
 function AddVehicleContent() {
   const router = useRouter()
-  const searchParams = useSearchParams()
   const { data: session, status } = useSession()
   const { selectedStore } = useStore()
   
@@ -36,6 +35,7 @@ function AddVehicleContent() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [validationError, setValidationError] = useState<string | null>(null)
+  const [showRetry, setShowRetry] = useState(false)
 
   // Redirect if not authenticated or no store selected
   useEffect(() => {
@@ -77,26 +77,32 @@ function AddVehicleContent() {
     router.push('/vehicles')
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  const handleSubmit = async (e?: React.FormEvent) => {
+    if (e) {
+      e.preventDefault()
+    }
     
     if (!stockNumber.trim()) {
       setError('Stock number is required')
+      setShowRetry(false)
       return
     }
 
     if (validationError) {
       setError(validationError)
+      setShowRetry(false)
       return
     }
 
     if (!selectedStore) {
       setError('No store selected')
+      setShowRetry(false)
       return
     }
 
     setLoading(true)
     setError(null)
+    setShowRetry(false)
 
     try {
       // Create the vehicle first
@@ -145,8 +151,13 @@ function AddVehicleContent() {
       router.push(`/vehicles/${vehicle.id}`)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred')
+      setShowRetry(true)
       setLoading(false)
     }
+  }
+
+  const handleRetry = () => {
+    handleSubmit()
   }
 
   if (status === 'loading' || !selectedStore) {
@@ -183,7 +194,22 @@ function AddVehicleContent() {
             {/* Error Message */}
             {error && (
               <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-md">
-                <p className="text-red-800">{error}</p>
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <p className="text-red-800 font-medium">Error</p>
+                    <p className="text-red-700 mt-1">{error}</p>
+                  </div>
+                  {showRetry && (
+                    <button
+                      type="button"
+                      onClick={handleRetry}
+                      disabled={loading}
+                      className="ml-4 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                      Retry
+                    </button>
+                  )}
+                </div>
               </div>
             )}
 

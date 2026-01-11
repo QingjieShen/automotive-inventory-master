@@ -130,7 +130,7 @@ This implementation plan breaks down the app enhancements into discrete, increme
   - Generate random sets of photos
   - Verify all photos are associated with created vehicle
 
-- [ ] 11. Wire Add Vehicle page to API
+- [x] 11. Wire Add Vehicle page to API
   - Implement form submission handler
   - Call POST /api/vehicles to create vehicle
   - Upload photos to newly created vehicle
