@@ -167,7 +167,7 @@ This implementation plan breaks down the app enhancements into discrete, increme
   - Generate users with different roles
   - Verify only Super Admin can access store management
 
-- [ ] 15. Implement store management API endpoints
+- [x] 15. Implement store management API endpoints
   - Create POST /api/stores for creating stores (Super Admin only)
   - Create PUT /api/stores/[id] for updating stores (Super Admin only)
   - Create DELETE /api/stores/[id] for deleting stores (Super Admin only)
@@ -176,13 +176,13 @@ This implementation plan breaks down the app enhancements into discrete, increme
   - Add audit logging for all store operations
   - _Requirements: 5.4, 5.5, 5.6, 5.7, 5.8, 5.9_
 
-- [ ] 15.1 Write property test for store creation
+- [x] 15.1 Write property test for store creation
   - **Property 5: Super Admin Store Creation**
   - **Validates: Requirements 5.4, 5.8**
   - Generate random valid store data
   - Verify store is created and retrievable
 
-- [ ] 15.2 Write property test for store deletion protection
+- [x] 15.2 Write property test for store deletion protection
   - **Property 7: Store Deletion Protection**
   - **Validates: Requirements 5.7**
   - Generate stores with varying numbers of vehicles
