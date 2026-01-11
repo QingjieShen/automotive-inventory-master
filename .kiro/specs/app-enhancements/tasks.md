@@ -109,7 +109,7 @@ This implementation plan breaks down the app enhancements into discrete, increme
   - Add responsive design (single column on mobile)
   - _Requirements: 4.1, 4.2, 4.6_
 
-- [ ] 10. Implement Add Vehicle form
+- [x] 10. Implement Add Vehicle form
   - Add stock number input field with validation
   - Add store selection dropdown (or display current store)
   - Implement real-time validation feedback
@@ -118,13 +118,13 @@ This implementation plan breaks down the app enhancements into discrete, increme
   - Implement drag-and-drop photo upload with preview
   - _Requirements: 4.3, 4.7, 4.8_
 
-- [ ] 10.1 Write property test for form validation
+- [x] 10.1 Write property test for form validation
   - **Property 4: Add Vehicle Page Form Validation**
   - **Validates: Requirements 4.7**
   - Generate various invalid stock numbers (empty, whitespace, special chars)
   - Verify form validation prevents submission
 
-- [ ] 10.2 Write property test for photo upload association
+- [x] 10.2 Write property test for photo upload association
   - **Property 10: Add Vehicle Page Photo Upload**
   - **Validates: Requirements 4.3, 4.8**
   - Generate random sets of photos
