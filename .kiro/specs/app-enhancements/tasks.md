@@ -214,7 +214,7 @@ This implementation plan breaks down the app enhancements into discrete, increme
 - [x] 18. Final checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [-] 19. Update environment variables documentation
+- [x] 19. Update environment variables documentation
   - Document required Google Cloud environment variables
   - Document GOOGLE_CLOUD_STORAGE_BUCKET
   - Document GOOGLE_APPLICATION_CREDENTIALS or service account JSON
