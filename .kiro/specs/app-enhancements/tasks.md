@@ -52,7 +52,7 @@ This implementation plan breaks down the app enhancements into discrete, increme
   - Update Store model queries to include imageUrl
   - _Requirements: 2.1, 5.5_
 
-- [ ] 5. Update StoreCard component with background images
+- [x] 5. Update StoreCard component with background images
   - Modify StoreCard.tsx to use background-image CSS with store imageUrl
   - Add dark overlay (rgba(0, 0, 0, 0.4)) for text readability
   - Implement fallback gradient background when imageUrl is missing
@@ -60,13 +60,13 @@ This implementation plan breaks down the app enhancements into discrete, increme
   - Ensure responsive design and hover states work with backgrounds
   - _Requirements: 2.1, 2.2, 2.4, 2.5_
 
-- [ ] 5.1 Write property test for store image fallback
+- [x] 5.1 Write property test for store image fallback
   - **Property 2: Store Image Display Fallback**
   - **Validates: Requirements 2.3**
   - Generate stores with various imageUrl values (valid, invalid, null, undefined)
   - Verify component renders without errors
 
-- [ ] 5.2 Write property test for text readability
+- [x] 5.2 Write property test for text readability
   - **Property 11: Store Card Text Readability**
   - **Validates: Requirements 2.4**
   - Generate stores with various background images
