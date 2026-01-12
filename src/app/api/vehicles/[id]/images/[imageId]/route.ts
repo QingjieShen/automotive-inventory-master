@@ -4,6 +4,66 @@ import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { deleteFile } from '@/lib/gcs'
 
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string; imageId: string }> }
+) {
+  try {
+    const session = await getServerSession(authOptions)
+    
+    if (!session?.user) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      )
+    }
+
+    const { id: vehicleId, imageId } = await params
+    const body = await request.json()
+    const { imageType } = body
+
+    if (!imageType) {
+      return NextResponse.json(
+        { error: 'imageType is required' },
+        { status: 400 }
+      )
+    }
+
+    // Verify the vehicle exists and the image belongs to it
+    const image = await prisma.vehicleImage.findFirst({
+      where: {
+        id: imageId,
+        vehicleId: vehicleId
+      }
+    })
+
+    if (!image) {
+      return NextResponse.json(
+        { error: 'Image not found' },
+        { status: 404 }
+      )
+    }
+
+    // Update the image type
+    const updatedImage = await prisma.vehicleImage.update({
+      where: {
+        id: imageId
+      },
+      data: {
+        imageType: imageType
+      }
+    })
+
+    return NextResponse.json(updatedImage)
+  } catch (error) {
+    console.error('Error updating image:', error)
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    )
+  }
+}
+
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string; imageId: string }> }

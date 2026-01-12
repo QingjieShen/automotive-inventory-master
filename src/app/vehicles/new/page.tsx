@@ -6,7 +6,7 @@ import { useSession } from 'next-auth/react'
 import { useStore } from '@/components/providers/StoreProvider'
 import NavigationBanner from '@/components/common/NavigationBanner'
 import KeyImagesUploader from '@/components/vehicles/KeyImagesUploader'
-import SimplePhotoUploader from '@/components/vehicles/SimplePhotoUploader'
+import GalleryImagesUploader from '@/components/vehicles/GalleryImagesUploader'
 import { LoadingSpinner } from '@/components/common'
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute'
 import { ImageType } from '@/types'
@@ -331,18 +331,13 @@ function AddVehicleContent() {
                     Gallery Images
                   </h2>
                   <p className="text-sm text-gray-600 mb-4">
-                    Upload additional photos (interior, details, etc.) - up to 60 images
+                    Upload additional photos classified as Exterior or Interior - up to 60 images total
                   </p>
-                  <SimplePhotoUploader
+                  <GalleryImagesUploader
                     onFilesChange={handleGalleryImagesChange}
                     maxFiles={60}
                     className="w-full"
                   />
-                  {galleryImages.length > 0 && (
-                    <p className="mt-3 text-sm text-blue-600 font-medium">
-                      {galleryImages.length} of 60 gallery image{galleryImages.length !== 1 ? 's' : ''} selected
-                    </p>
-                  )}
                 </div>
               </div>
             </div>

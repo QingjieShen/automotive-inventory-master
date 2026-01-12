@@ -39,7 +39,11 @@ export default function ImageGallery({ vehicle, onVehicleUpdate }: ImageGalleryP
   const [processingImages, setProcessingImages] = useState<Set<string>>(new Set())
 
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8, // 8px movement required before drag starts
+      },
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     })
@@ -56,7 +60,9 @@ export default function ImageGallery({ vehicle, onVehicleUpdate }: ImageGalleryP
   ]
 
   const keyImages = vehicle.images.filter(img => keyImageTypes.includes(img.imageType))
-  const galleryImages = vehicle.images.filter(img => img.imageType === 'GALLERY')
+  const exteriorGalleryImages = vehicle.images.filter(img => img.imageType === 'GALLERY_EXTERIOR')
+  const interiorGalleryImages = vehicle.images.filter(img => img.imageType === 'GALLERY_INTERIOR')
+  const legacyGalleryImages = vehicle.images.filter(img => img.imageType === 'GALLERY')
 
   // Sort key images by type order (these don't get reordered, they have fixed positions)
   const sortedKeyImages = keyImageTypes.map(type => 
@@ -64,7 +70,9 @@ export default function ImageGallery({ vehicle, onVehicleUpdate }: ImageGalleryP
   ).filter(Boolean) as VehicleImage[]
 
   // Sort gallery images by sortOrder for drag-and-drop
-  const sortedGalleryImages = [...galleryImages].sort((a, b) => a.sortOrder - b.sortOrder)
+  const sortedExteriorGalleryImages = [...exteriorGalleryImages].sort((a, b) => a.sortOrder - b.sortOrder)
+  const sortedInteriorGalleryImages = [...interiorGalleryImages].sort((a, b) => a.sortOrder - b.sortOrder)
+  const sortedLegacyGalleryImages = [...legacyGalleryImages].sort((a, b) => a.sortOrder - b.sortOrder)
 
   // Get front image for the individual row
   const frontImage = sortedKeyImages.find(img => img.imageType === 'FRONT')
@@ -77,66 +85,131 @@ export default function ImageGallery({ vehicle, onVehicleUpdate }: ImageGalleryP
       return
     }
 
-    const oldIndex = sortedGalleryImages.findIndex(img => img.id === active.id)
-    const newIndex = sortedGalleryImages.findIndex(img => img.id === over.id)
+    const activeImageId = active.id as string
+    const overImageId = over.id as string
 
-    if (oldIndex === -1 || newIndex === -1) {
-      return
-    }
+    // Find the active image
+    const activeImage = vehicle.images.find(img => img.id === activeImageId)
+    if (!activeImage) return
 
-    // Reorder the gallery images array
-    const reorderedImages = arrayMove(sortedGalleryImages, oldIndex, newIndex)
-    
-    // Update sort orders
-    const updatedImages = reorderedImages.map((img, index) => ({
-      ...img,
-      sortOrder: index
-    }))
+    // Find the over image (if it's an image, not a container)
+    const overImage = vehicle.images.find(img => img.id === overImageId)
 
-    // Update the vehicle with new image order
-    const updatedVehicle = {
-      ...vehicle,
-      images: [
-        ...sortedKeyImages, // Key images maintain their positions
-        ...updatedImages    // Gallery images with new order
-      ]
-    }
+    // If we're dragging over another image, check if they're in the same category
+    if (overImage) {
+      // Same category - reorder within category
+      if (activeImage.imageType === overImage.imageType) {
+        let imagesToReorder: VehicleImage[] = []
+        
+        if (activeImage.imageType === 'GALLERY_EXTERIOR') {
+          imagesToReorder = sortedExteriorGalleryImages
+        } else if (activeImage.imageType === 'GALLERY_INTERIOR') {
+          imagesToReorder = sortedInteriorGalleryImages
+        } else if (activeImage.imageType === 'GALLERY') {
+          imagesToReorder = sortedLegacyGalleryImages
+        } else {
+          return // Not a gallery image
+        }
 
-    // Optimistically update the UI
-    onVehicleUpdate(updatedVehicle)
+        const oldIndex = imagesToReorder.findIndex(img => img.id === activeImageId)
+        const newIndex = imagesToReorder.findIndex(img => img.id === overImageId)
 
-    // Persist the changes to the server
-    try {
-      setIsReordering(true)
-      const response = await fetch(`/api/vehicles/${vehicle.id}/images/reorder`, {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          imageUpdates: updatedImages.map(img => ({
-            id: img.id,
-            sortOrder: img.sortOrder
-          }))
-        }),
-      })
+        if (oldIndex === -1 || newIndex === -1) {
+          return
+        }
 
-      if (!response.ok) {
-        throw new Error('Failed to update image order')
+        // Reorder the images array
+        const reorderedImages = arrayMove(imagesToReorder, oldIndex, newIndex)
+        
+        // Update sort orders
+        const updatedImages = reorderedImages.map((img, index) => ({
+          ...img,
+          sortOrder: index
+        }))
+
+        // Update the vehicle with new image order
+        const otherImages = vehicle.images.filter(img => 
+          img.imageType !== activeImage.imageType || !imagesToReorder.find(i => i.id === img.id)
+        )
+        
+        const updatedVehicle = {
+          ...vehicle,
+          images: [
+            ...otherImages,
+            ...updatedImages
+          ]
+        }
+
+        // Optimistically update the UI
+        onVehicleUpdate(updatedVehicle)
+
+        // Persist the changes to the server
+        try {
+          setIsReordering(true)
+          const response = await fetch(`/api/vehicles/${vehicle.id}/images/reorder`, {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              imageUpdates: updatedImages.map(img => ({
+                id: img.id,
+                sortOrder: img.sortOrder
+              }))
+            }),
+          })
+
+          if (!response.ok) {
+            throw new Error('Failed to update image order')
+          }
+
+          // Refresh vehicle data to ensure consistency
+          const vehicleResponse = await fetch(`/api/vehicles/${vehicle.id}`)
+          if (vehicleResponse.ok) {
+            const refreshedVehicle = await vehicleResponse.json()
+            onVehicleUpdate(refreshedVehicle)
+          }
+        } catch (error) {
+          console.error('Error updating image order:', error)
+          // Revert the optimistic update on error
+          onVehicleUpdate(vehicle)
+        } finally {
+          setIsReordering(false)
+        }
+      } else {
+        // Different category - move to the other category
+        const targetCategory = overImage.imageType
+
+        try {
+          setIsReordering(true)
+          
+          // Update image type on server
+          const response = await fetch(`/api/vehicles/${vehicle.id}/images/${activeImage.id}`, {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              imageType: targetCategory
+            }),
+          })
+
+          if (!response.ok) {
+            throw new Error('Failed to update image category')
+          }
+
+          // Refresh vehicle data
+          const vehicleResponse = await fetch(`/api/vehicles/${vehicle.id}`)
+          if (vehicleResponse.ok) {
+            const refreshedVehicle = await vehicleResponse.json()
+            onVehicleUpdate(refreshedVehicle)
+          }
+        } catch (error) {
+          console.error('Error updating image category:', error)
+        } finally {
+          setIsReordering(false)
+        }
       }
-
-      // Refresh vehicle data to ensure consistency
-      const vehicleResponse = await fetch(`/api/vehicles/${vehicle.id}`)
-      if (vehicleResponse.ok) {
-        const refreshedVehicle = await vehicleResponse.json()
-        onVehicleUpdate(refreshedVehicle)
-      }
-    } catch (error) {
-      console.error('Error updating image order:', error)
-      // Revert the optimistic update on error
-      onVehicleUpdate(vehicle)
-    } finally {
-      setIsReordering(false)
     }
   }
 
@@ -270,59 +343,61 @@ export default function ImageGallery({ vehicle, onVehicleUpdate }: ImageGalleryP
 
       {/* Gallery Images Section */}
       <div>
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 space-y-2 sm:space-y-0">
-          <h2 className="text-lg sm:text-xl font-semibold text-gray-900">
-            Gallery Images ({sortedGalleryImages.length})
-          </h2>
-          {sortedGalleryImages.length > 1 && (
-            <p className="text-sm text-gray-500">
-              Drag and drop to reorder gallery images
-            </p>
-          )}
-        </div>
+        <h2 className="text-lg sm:text-xl font-semibold text-gray-900 mb-4">
+          Gallery Images ({sortedExteriorGalleryImages.length + sortedInteriorGalleryImages.length + sortedLegacyGalleryImages.length})
+        </h2>
+        <p className="text-sm text-gray-500 mb-4">
+          Drag images between categories to reclassify, or within a category to reorder
+        </p>
         
-        {sortedGalleryImages.length > 0 ? (
-          <DndContext
-            sensors={sensors}
-            collisionDetection={closestCenter}
-            onDragEnd={handleDragEnd}
-          >
-            <SortableContext 
-              items={sortedGalleryImages.map(img => img.id)}
-              strategy={horizontalListSortingStrategy}
-            >
-              <div 
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4"
-                role="grid"
-                aria-label="Gallery images"
-              >
-                {sortedGalleryImages.map((image) => (
-                  <div key={image.id} className="bg-white rounded-lg shadow-sm border border-gray-200 p-3 sm:p-4">
-                    <SortableImageCard 
-                      image={image} 
-                      isDraggable={true}
-                      isReordering={isReordering}
-                      onDelete={() => setImageToDelete(image)}
-                      vehicleId={vehicle.id}
-                      processingStatus={vehicle.processingStatus}
-                      onProcessingStart={handleProcessingStart}
-                      onProcessingComplete={handleProcessingComplete}
-                    />
-                  </div>
-                ))}
-              </div>
-            </SortableContext>
-          </DndContext>
-        ) : (
-          <div 
-            className="bg-white rounded-lg shadow-sm border border-gray-200 p-6 sm:p-8 text-center"
-            role="region"
-            aria-label="No gallery images"
-          >
-            <PhotoIcon className="h-10 sm:h-12 w-10 sm:w-12 text-gray-400 mx-auto mb-4" aria-hidden="true" />
-            <p className="text-gray-500">No gallery images uploaded yet</p>
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <div className="space-y-6">
+            {/* Exterior Gallery Images */}
+            <GalleryCategory
+              title="Exterior Images"
+              images={sortedExteriorGalleryImages}
+              containerId="exterior-gallery-container"
+              vehicle={vehicle}
+              isReordering={isReordering}
+              onDelete={setImageToDelete}
+              processingStatus={vehicle.processingStatus}
+              onProcessingStart={handleProcessingStart}
+              onProcessingComplete={handleProcessingComplete}
+            />
+
+            {/* Interior Gallery Images */}
+            <GalleryCategory
+              title="Interior Images"
+              images={sortedInteriorGalleryImages}
+              containerId="interior-gallery-container"
+              vehicle={vehicle}
+              isReordering={isReordering}
+              onDelete={setImageToDelete}
+              processingStatus={vehicle.processingStatus}
+              onProcessingStart={handleProcessingStart}
+              onProcessingComplete={handleProcessingComplete}
+            />
+
+            {/* Legacy Gallery Images (for backward compatibility) */}
+            {sortedLegacyGalleryImages.length > 0 && (
+              <GalleryCategory
+                title="Gallery Images (Uncategorized)"
+                images={sortedLegacyGalleryImages}
+                containerId="legacy-gallery-container"
+                vehicle={vehicle}
+                isReordering={isReordering}
+                onDelete={setImageToDelete}
+                processingStatus={vehicle.processingStatus}
+                onProcessingStart={handleProcessingStart}
+                onProcessingComplete={handleProcessingComplete}
+              />
+            )}
           </div>
-        )}
+        </DndContext>
       </div>
 
       {/* Reordering indicator */}
@@ -357,6 +432,81 @@ export default function ImageGallery({ vehicle, onVehicleUpdate }: ImageGalleryP
   )
 }
 
+interface GalleryCategoryProps {
+  title: string
+  images: VehicleImage[]
+  containerId: string
+  vehicle: Vehicle
+  isReordering: boolean
+  onDelete: (image: VehicleImage) => void
+  processingStatus: ProcessingStatus
+  onProcessingStart: () => void
+  onProcessingComplete: (updatedImage: VehicleImage) => void
+}
+
+function GalleryCategory({
+  title,
+  images,
+  containerId,
+  vehicle,
+  isReordering,
+  onDelete,
+  processingStatus,
+  onProcessingStart,
+  onProcessingComplete,
+}: GalleryCategoryProps) {
+  return (
+    <div
+      id={containerId}
+      className="bg-white border-2 rounded-lg p-4 transition-colors border-gray-200"
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
+        <span className="text-sm text-gray-600">{images.length} images</span>
+      </div>
+
+      {/* Images Grid */}
+      {images.length > 0 ? (
+        <SortableContext 
+          items={images.map(img => img.id)}
+          strategy={horizontalListSortingStrategy}
+        >
+          <div 
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4"
+            role="grid"
+            aria-label={title}
+          >
+            {images.map((image) => (
+              <div key={image.id} className="bg-white rounded-lg shadow-sm border border-gray-200 p-3 sm:p-4">
+                <SortableImageCard 
+                  image={image} 
+                  isDraggable={true}
+                  isReordering={isReordering}
+                  onDelete={() => onDelete(image)}
+                  vehicleId={vehicle.id}
+                  processingStatus={processingStatus}
+                  onProcessingStart={onProcessingStart}
+                  onProcessingComplete={onProcessingComplete}
+                />
+              </div>
+            ))}
+          </div>
+        </SortableContext>
+      ) : (
+        <div 
+          className="text-center py-8 text-gray-500 text-sm"
+          role="region"
+          aria-label={`No ${title.toLowerCase()}`}
+        >
+          <PhotoIcon className="h-10 w-10 text-gray-400 mx-auto mb-2" aria-hidden="true" />
+          <p>No {title.toLowerCase()} yet</p>
+        </div>
+      )}
+    </div>
+  )
+}
+
 interface ImageCardProps {
   image: VehicleImage
   isDraggable: boolean
@@ -384,7 +534,9 @@ function ImageCard({
       'BACK': 'Back',
       'DRIVER_SIDE': 'Driver Side',
       'PASSENGER_SIDE': 'Passenger Side',
-      'GALLERY': 'Gallery'
+      'GALLERY': 'Gallery',
+      'GALLERY_EXTERIOR': 'Exterior',
+      'GALLERY_INTERIOR': 'Interior'
     }
     return labels[type]
   }
@@ -486,7 +638,9 @@ function SortableImageCard({
       'BACK': 'Back',
       'DRIVER_SIDE': 'Driver Side',
       'PASSENGER_SIDE': 'Passenger Side',
-      'GALLERY': 'Gallery'
+      'GALLERY': 'Gallery',
+      'GALLERY_EXTERIOR': 'Exterior',
+      'GALLERY_INTERIOR': 'Interior'
     }
     return labels[type]
   }
