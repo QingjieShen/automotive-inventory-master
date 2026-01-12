@@ -74,8 +74,21 @@ async function main() {
   // Create sample users
   console.log('Creating sample users...')
   
+  const superAdminPassword = await hash('superadmin123', 12)
   const adminPassword = await hash('admin123', 12)
   const photographerPassword = await hash('photo123', 12)
+
+  const superAdmin = await prisma.user.upsert({
+    where: { email: 'superadmin@markmotors.com' },
+    update: {},
+    create: {
+      email: 'superadmin@markmotors.com',
+      passwordHash: superAdminPassword,
+      role: 'SUPER_ADMIN',
+      name: 'Super Admin'
+    }
+  })
+  console.log(`✅ Created super admin user: ${superAdmin.email}`)
 
   const admin = await prisma.user.upsert({
     where: { email: 'admin@markmotors.com' },

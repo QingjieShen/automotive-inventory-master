@@ -206,7 +206,9 @@ exports.ImageType = exports.$Enums.ImageType = {
   BACK: 'BACK',
   DRIVER_SIDE: 'DRIVER_SIDE',
   PASSENGER_SIDE: 'PASSENGER_SIDE',
-  GALLERY: 'GALLERY'
+  GALLERY: 'GALLERY',
+  GALLERY_EXTERIOR: 'GALLERY_EXTERIOR',
+  GALLERY_INTERIOR: 'GALLERY_INTERIOR'
 };
 
 exports.JobStatus = exports.$Enums.JobStatus = {

@@ -26,7 +26,7 @@ interface VehicleListProps {
   sortOrder: 'asc' | 'desc'
   onSort: (field: string) => void
   onPageChange: (page: number) => void
-  onVehiclesDeleted?: () => void
+  onVehiclesDeleted?: () => void | Promise<void>
 }
 
 export default function VehicleList({
@@ -102,15 +102,19 @@ export default function VehicleList({
         throw new Error('Failed to delete vehicles')
       }
 
-      // Clear selection and refresh the list
-      setSelectedVehicles(new Set())
+      // Close modal first
       setShowBulkDeleteModal(false)
       
+      // Refresh the list from the server
       if (onVehiclesDeleted) {
-        onVehiclesDeleted()
+        await onVehiclesDeleted()
       }
+      
+      // Clear selection after the list has been refreshed
+      setSelectedVehicles(new Set())
     } catch (error) {
       console.error('Error deleting vehicles:', error)
+      setShowBulkDeleteModal(false)
       // TODO: Show error toast/notification
     }
   }

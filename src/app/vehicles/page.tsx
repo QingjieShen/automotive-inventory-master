@@ -104,6 +104,11 @@ export default function VehiclesPage() {
     fetchVehicles(pagination.currentPage, searchTerm, sortBy, sortOrder)
   }
 
+  const handleVehiclesDeleted = async () => {
+    // Refresh the vehicle list after vehicles are deleted
+    await fetchVehicles(pagination.currentPage, searchTerm, sortBy, sortOrder)
+  }
+
   if (status === 'loading' || !selectedStore) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -143,7 +148,7 @@ export default function VehiclesPage() {
             sortOrder={sortOrder}
             onSort={handleSort}
             onPageChange={handlePageChange}
-            onVehiclesDeleted={() => fetchVehicles(pagination.currentPage, searchTerm, sortBy, sortOrder)}
+            onVehiclesDeleted={handleVehiclesDeleted}
           />
         </main>
       </div>
