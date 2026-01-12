@@ -183,7 +183,7 @@ export default function GalleryImagesUploader({
     setOverId(over?.id as string | null)
   }
 
-  // Handle drag end - move images between containers
+  // Handle drag end - move images between containers OR reorder within container
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event
     setActiveId(null)
@@ -201,17 +201,71 @@ export default function GalleryImagesUploader({
     
     if (!activeFile) return
 
-    // Determine target container
+    // Find the over file (if it's a file, not a container)
+    const overFileInExterior = exteriorFiles.find(f => f.id === overId)
+    const overFileInInterior = interiorFiles.find(f => f.id === overId)
+    const overFile = overFileInExterior || overFileInInterior
+
+    // If dragging over another file in the same container, reorder
+    if (overFile) {
+      if (activeInExterior && overFileInExterior) {
+        // Reorder within exterior
+        const oldIndex = exteriorFiles.findIndex(f => f.id === activeId)
+        const newIndex = exteriorFiles.findIndex(f => f.id === overId)
+        
+        if (oldIndex !== -1 && newIndex !== -1 && oldIndex !== newIndex) {
+          const reordered = [...exteriorFiles]
+          const [removed] = reordered.splice(oldIndex, 1)
+          reordered.splice(newIndex, 0, removed)
+          setExteriorFiles(reordered)
+          notifyChange(reordered, interiorFiles)
+        }
+        return
+      } else if (activeInInterior && overFileInInterior) {
+        // Reorder within interior
+        const oldIndex = interiorFiles.findIndex(f => f.id === activeId)
+        const newIndex = interiorFiles.findIndex(f => f.id === overId)
+        
+        if (oldIndex !== -1 && newIndex !== -1 && oldIndex !== newIndex) {
+          const reordered = [...interiorFiles]
+          const [removed] = reordered.splice(oldIndex, 1)
+          reordered.splice(newIndex, 0, removed)
+          setInteriorFiles(reordered)
+          notifyChange(exteriorFiles, reordered)
+        }
+        return
+      } else {
+        // Different containers - move between them
+        if (activeInExterior && overFileInInterior) {
+          // Move from exterior to interior
+          const newExterior = exteriorFiles.filter(f => f.id !== activeId)
+          const movedFile = { ...activeFile, imageType: 'GALLERY_INTERIOR' as ImageType }
+          const newInterior = [...interiorFiles, movedFile]
+          setExteriorFiles(newExterior)
+          setInteriorFiles(newInterior)
+          notifyChange(newExterior, newInterior)
+        } else if (activeInInterior && overFileInExterior) {
+          // Move from interior to exterior
+          const newInterior = interiorFiles.filter(f => f.id !== activeId)
+          const movedFile = { ...activeFile, imageType: 'GALLERY_EXTERIOR' as ImageType }
+          const newExterior = [...exteriorFiles, movedFile]
+          setInteriorFiles(newInterior)
+          setExteriorFiles(newExterior)
+          notifyChange(newExterior, newInterior)
+        }
+        return
+      }
+    }
+
+    // Determine target container (for dropping on empty container)
     const isOverExteriorContainer = overId === 'exterior-container'
     const isOverInteriorContainer = overId === 'interior-container'
-    const targetFileInExterior = exteriorFiles.find(f => f.id === overId)
-    const targetFileInInterior = interiorFiles.find(f => f.id === overId)
 
     let targetContainer: 'exterior' | 'interior' | null = null
 
-    if (isOverExteriorContainer || targetFileInExterior) {
+    if (isOverExteriorContainer) {
       targetContainer = 'exterior'
-    } else if (isOverInteriorContainer || targetFileInInterior) {
+    } else if (isOverInteriorContainer) {
       targetContainer = 'interior'
     }
 
@@ -246,7 +300,7 @@ export default function GalleryImagesUploader({
     <div className={`space-y-6 ${className}`}>
       {/* Info */}
       <div className="text-sm text-gray-600">
-        {totalFiles} of {maxFiles} images • Drag images between categories to reclassify
+        {totalFiles} of {maxFiles} images • Drag to reorder within category or move between categories
       </div>
 
       <DndContext

@@ -12,6 +12,8 @@ import {
   useSensor,
   useSensors,
   DragEndEvent,
+  DragStartEvent,
+  DragOverlay,
 } from '@dnd-kit/core'
 import {
   arrayMove,
@@ -37,6 +39,7 @@ export default function ImageGallery({ vehicle, onVehicleUpdate }: ImageGalleryP
   const [imageToDelete, setImageToDelete] = useState<VehicleImage | null>(null)
   const [isDeleting, setIsDeleting] = useState(false)
   const [processingImages, setProcessingImages] = useState<Set<string>>(new Set())
+  const [activeImageId, setActiveImageId] = useState<string | null>(null)
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -78,10 +81,18 @@ export default function ImageGallery({ vehicle, onVehicleUpdate }: ImageGalleryP
   const frontImage = sortedKeyImages.find(img => img.imageType === 'FRONT')
   const otherKeyImages = sortedKeyImages.filter(img => img.imageType !== 'FRONT')
 
+  const handleDragStart = (event: DragStartEvent) => {
+    console.log('🎯 Drag started:', event.active.id)
+    setActiveImageId(event.active.id as string)
+  }
+
   const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event
+    console.log('🎯 Drag ended:', { active: active.id, over: over?.id })
+    setActiveImageId(null)
 
     if (!over || active.id === over.id) {
+      console.log('🎯 No valid drop target or same position')
       return
     }
 
@@ -90,15 +101,23 @@ export default function ImageGallery({ vehicle, onVehicleUpdate }: ImageGalleryP
 
     // Find the active image
     const activeImage = vehicle.images.find(img => img.id === activeImageId)
-    if (!activeImage) return
+    console.log('🎯 Active image:', activeImage?.imageType)
+
+    if (!activeImage) {
+      console.log('🎯 Active image not found')
+      return
+    }
 
     // Find the over image (if it's an image, not a container)
     const overImage = vehicle.images.find(img => img.id === overImageId)
+    console.log('🎯 Over image:', overImage?.imageType)
 
     // If we're dragging over another image, check if they're in the same category
     if (overImage) {
+      console.log('🎯 Comparing categories:', activeImage.imageType, 'vs', overImage.imageType)
       // Same category - reorder within category
       if (activeImage.imageType === overImage.imageType) {
+        console.log('🎯 Same category - reordering')
         let imagesToReorder: VehicleImage[] = []
         
         if (activeImage.imageType === 'GALLERY_EXTERIOR') {
@@ -113,13 +132,16 @@ export default function ImageGallery({ vehicle, onVehicleUpdate }: ImageGalleryP
 
         const oldIndex = imagesToReorder.findIndex(img => img.id === activeImageId)
         const newIndex = imagesToReorder.findIndex(img => img.id === overImageId)
+        console.log('🎯 Indices:', { oldIndex, newIndex, totalImages: imagesToReorder.length })
 
         if (oldIndex === -1 || newIndex === -1) {
+          console.log('🎯 Invalid indices, aborting')
           return
         }
 
         // Reorder the images array
         const reorderedImages = arrayMove(imagesToReorder, oldIndex, newIndex)
+        console.log('🎯 Reordered images:', reorderedImages.map(img => img.id))
         
         // Update sort orders
         const updatedImages = reorderedImages.map((img, index) => ({
@@ -353,6 +375,7 @@ export default function ImageGallery({ vehicle, onVehicleUpdate }: ImageGalleryP
         <DndContext
           sensors={sensors}
           collisionDetection={closestCenter}
+          onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
         >
           <div className="space-y-6">
@@ -397,6 +420,17 @@ export default function ImageGallery({ vehicle, onVehicleUpdate }: ImageGalleryP
               />
             )}
           </div>
+
+          {/* Drag Overlay */}
+          <DragOverlay>
+            {activeImageId ? (
+              <div className="bg-white border-2 border-blue-400 rounded-lg shadow-lg p-3 opacity-90">
+                <div className="text-sm font-medium text-gray-900">
+                  Dragging image...
+                </div>
+              </div>
+            ) : null}
+          </DragOverlay>
         </DndContext>
       </div>
 
@@ -478,18 +512,17 @@ function GalleryCategory({
             aria-label={title}
           >
             {images.map((image) => (
-              <div key={image.id} className="bg-white rounded-lg shadow-sm border border-gray-200 p-3 sm:p-4">
-                <SortableImageCard 
-                  image={image} 
-                  isDraggable={true}
-                  isReordering={isReordering}
-                  onDelete={() => onDelete(image)}
-                  vehicleId={vehicle.id}
-                  processingStatus={processingStatus}
-                  onProcessingStart={onProcessingStart}
-                  onProcessingComplete={onProcessingComplete}
-                />
-              </div>
+              <SortableImageCard 
+                key={image.id}
+                image={image} 
+                isDraggable={true}
+                isReordering={isReordering}
+                onDelete={() => onDelete(image)}
+                vehicleId={vehicle.id}
+                processingStatus={processingStatus}
+                onProcessingStart={onProcessingStart}
+                onProcessingComplete={onProcessingComplete}
+              />
             ))}
           </div>
         </SortableContext>
@@ -649,9 +682,7 @@ function SortableImageCard({
     <div
       ref={setNodeRef}
       style={style}
-      className={`group relative ${isDragging ? 'opacity-50' : ''} ${isReordering ? 'pointer-events-none' : ''}`}
-      {...attributes}
-      {...listeners}
+      className={`bg-white rounded-lg shadow-sm border border-gray-200 p-3 sm:p-4 group relative ${isDragging ? 'opacity-50' : ''} ${isReordering ? 'pointer-events-none' : ''}`}
     >
       {/* Delete button - shown on hover */}
       <button
@@ -668,9 +699,13 @@ function SortableImageCard({
 
       {/* Drag handle indicator */}
       {isDraggable && (
-        <div className="absolute top-1 sm:top-2 left-1 sm:left-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div 
+          {...attributes}
+          {...listeners}
+          className="absolute top-1 sm:top-2 left-1 sm:left-2 z-10 opacity-0 group-hover:opacity-100 transition-opacity cursor-grab active:cursor-grabbing"
+        >
           <div 
-            className="bg-black bg-opacity-50 text-white p-1 rounded text-xs cursor-grab active:cursor-grabbing"
+            className="bg-black bg-opacity-50 text-white p-1 rounded text-xs"
             aria-label="Drag to reorder"
           >
             ⋮⋮

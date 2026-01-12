@@ -63,7 +63,14 @@ The `handleDragEnd` function now properly distinguishes between two scenarios:
 - Simplified container to regular div with ID
 - Changed collision detection back to `closestCenter`
 - Added activation constraint (8px movement) to prevent accidental drags
+- **Applied drag handlers only to drag handle icon** (not entire card)
 - Logic now checks if `over` is an image and compares categories
+
+#### Drag Handle Implementation
+- Drag handlers (`{...attributes}` and `{...listeners}`) are applied only to the drag handle div
+- Drag handle (⋮⋮) appears on hover in top-left corner of each image
+- This prevents conflicts with delete button and other interactive elements
+- Users must explicitly grab the drag handle to reorder/reclassify images
 
 #### Component Structure
 ```
@@ -85,20 +92,24 @@ ImageGallery
 ### User Experience
 
 #### Reordering Images (FIXED)
-1. User drags an image within a category
-2. Hovers over another image in the same category
-3. Drops the image
-4. Images reorder visually
-5. Server updates sort orders
-6. UI refreshes to confirm changes
+1. User **hovers over an image** to reveal the drag handle (⋮⋮) in the top-left corner
+2. User **grabs the drag handle** (not the entire image)
+3. Drags to another image in the same category
+4. Drops the image
+5. Images reorder visually
+6. Server updates sort orders
+7. UI refreshes to confirm changes
+
+**Important**: Users must grab the drag handle (⋮⋮) icon, not the image itself, to reorder images.
 
 #### Reclassifying Images
-1. User drags an image from one category
-2. Hovers over an image in another category
-3. Drops the image
-4. Image moves to new category
-5. Server updates the image type
-6. UI refreshes to show updated data
+1. User **hovers over an image** to reveal the drag handle (⋮⋮)
+2. User **grabs the drag handle**
+3. Drags to an image in another category
+4. Drops the image
+5. Image moves to new category
+6. Server updates the image type
+7. UI refreshes to show updated data
 
 ### Testing
 
