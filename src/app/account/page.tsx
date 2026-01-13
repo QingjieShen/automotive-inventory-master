@@ -88,7 +88,7 @@ function AccountContent() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <NavigationBanner showBackToStores={false} />
+      <NavigationBanner />
       
       {/* Add padding-top to account for fixed navigation banner */}
       <div className="pt-16">

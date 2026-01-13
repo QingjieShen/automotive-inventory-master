@@ -173,10 +173,7 @@ function AddVehicleContent() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <NavigationBanner 
-        currentStore={selectedStore}
-        showBackToStores={true}
-      />
+      <NavigationBanner />
       
       {/* Add padding-top to account for fixed navigation banner */}
       <div className="pt-16">

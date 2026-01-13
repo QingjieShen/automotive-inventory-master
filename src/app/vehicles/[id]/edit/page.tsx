@@ -243,10 +243,7 @@ function EditVehicleContent() {
   if (error && !vehicle) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <NavigationBanner 
-          currentStore={selectedStore || undefined}
-          showBackToStores={true}
-        />
+        <NavigationBanner />
         <div className="pt-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">
@@ -273,10 +270,7 @@ function EditVehicleContent() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <NavigationBanner 
-        currentStore={selectedStore || undefined}
-        showBackToStores={true}
-      />
+      <NavigationBanner />
       
       {/* Add padding-top to account for fixed navigation banner */}
       <div className="pt-16">

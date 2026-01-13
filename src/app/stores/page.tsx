@@ -9,7 +9,7 @@ import NavigationBanner from '../../components/common/NavigationBanner'
 import { Store } from '../../types'
 
 function StoresPageContent() {
-  const { user } = useAuth()
+  const { user, isSuperAdmin } = useAuth()
   const { setSelectedStore } = useStore()
   const router = useRouter()
 
@@ -21,10 +21,14 @@ function StoresPageContent() {
     router.push('/vehicles')
   }
 
+  const handleManageStores = () => {
+    router.push('/admin/stores')
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Navigation Banner */}
-      <NavigationBanner showBackToStores={false} />
+      <NavigationBanner />
 
       {/* Header */}
       <div className="bg-white shadow-sm border-b mt-16">
@@ -38,8 +42,18 @@ function StoresPageContent() {
                 Welcome, {user?.name}! Choose a dealership to manage vehicle inventory.
               </p>
             </div>
-            <div className="text-right">
-              <p className="text-sm text-gray-500">Role: {user?.role}</p>
+            <div className="flex items-center gap-4">
+              {isSuperAdmin && (
+                <button
+                  onClick={handleManageStores}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+                >
+                  Manage Stores
+                </button>
+              )}
+              <div className="text-right">
+                <p className="text-sm text-gray-500">Role: {user?.role}</p>
+              </div>
             </div>
           </div>
         </div>
