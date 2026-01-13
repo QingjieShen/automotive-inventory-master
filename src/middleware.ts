@@ -16,11 +16,11 @@ export default withAuth(
       return NextResponse.redirect(new URL('/login', req.url))
     }
 
-    // Admin-only routes
+    // Admin-only routes (allow both ADMIN and SUPER_ADMIN)
     const adminRoutes = ['/admin']
     const isAdminRoute = adminRoutes.some(route => pathname.startsWith(route))
     
-    if (isAdminRoute && token.role !== 'ADMIN') {
+    if (isAdminRoute && token.role !== 'ADMIN' && token.role !== 'SUPER_ADMIN') {
       return NextResponse.redirect(new URL('/stores', req.url))
     }
 

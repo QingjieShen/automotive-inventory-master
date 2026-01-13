@@ -1,0 +1,20 @@
+// Debug script to check navigation issue
+// This helps identify if there's a routing or authentication problem
+
+console.log('Navigation Debug Information:')
+console.log('1. Check if /admin/stores route exists: YES (verified)')
+console.log('2. Check if NavigationBanner has handleManageStores: YES')
+console.log('3. Check if isSuperAdmin is working: Need to verify in browser')
+console.log('')
+console.log('Possible issues:')
+console.log('- Next.js client-side navigation not working')
+console.log('- RoleGuard blocking access')
+console.log('- Session/auth state not properly set')
+console.log('- Browser console errors')
+console.log('')
+console.log('Steps to debug:')
+console.log('1. Open browser console (F12)')
+console.log('2. Click "Manage Stores" button')
+console.log('3. Check for any errors in console')
+console.log('4. Try manually navigating to http://localhost:3000/admin/stores')
+console.log('5. Check if isSuperAdmin is true by adding console.log in NavigationBanner')

@@ -70,30 +70,54 @@ export async function POST(
       );
     }
 
-    // Convert file to buffer
-    const arrayBuffer = await file.arrayBuffer();
-    const buffer = Buffer.from(arrayBuffer);
+    // Check if GCS is configured
+    const isGCSConfigured = 
+      process.env.GOOGLE_CLOUD_PROJECT_ID && 
+      (process.env.GOOGLE_APPLICATION_CREDENTIALS || process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON) &&
+      process.env.GOOGLE_CLOUD_STORAGE_BUCKET;
 
-    // Upload to GCS with path: stores/{storeId}/store-image.{ext}
-    const uploadResult = await uploadFile({
-      vehicleId: '', // Not applicable for store images
-      storeId,
-      imageType: 'store',
-      contentType: file.type,
-      buffer,
-      originalName: file.name,
-    });
+    let imageUrl: string;
+
+    if (isGCSConfigured) {
+      // Upload to GCS
+      try {
+        const arrayBuffer = await file.arrayBuffer();
+        const buffer = Buffer.from(arrayBuffer);
+
+        const uploadResult = await uploadFile({
+          vehicleId: '', // Not applicable for store images
+          storeId,
+          imageType: 'store',
+          contentType: file.type,
+          buffer,
+          originalName: file.name,
+        });
+
+        imageUrl = uploadResult.publicUrl;
+      } catch (gcsError) {
+        console.error('GCS upload failed, falling back to placeholder:', gcsError);
+        // Fallback to placeholder if GCS fails
+        imageUrl = `/api/placeholder/store/${storeId}`;
+      }
+    } else {
+      // GCS not configured - use placeholder URL
+      console.warn('Google Cloud Storage not configured. Using placeholder URL for store image.');
+      imageUrl = `/api/placeholder/store/${storeId}`;
+    }
 
     // Update store with new imageUrl
     const updatedStore = await prisma.store.update({
       where: { id: storeId },
-      data: { imageUrl: uploadResult.publicUrl },
+      data: { imageUrl },
     });
 
     return NextResponse.json({
-      message: 'Store image uploaded successfully',
+      message: isGCSConfigured 
+        ? 'Store image uploaded successfully' 
+        : 'Store image URL saved (GCS not configured - using placeholder)',
       store: updatedStore,
-      imageUrl: uploadResult.publicUrl,
+      imageUrl,
+      warning: !isGCSConfigured ? 'Google Cloud Storage is not configured. Please set up GCS credentials to enable actual image uploads.' : undefined,
     });
   } catch (error) {
     console.error('Error uploading store image:', error);

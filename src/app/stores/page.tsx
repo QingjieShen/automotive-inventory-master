@@ -5,6 +5,7 @@ import { useAuth } from '../../hooks/useAuth'
 import { ProtectedRoute } from '../../components/auth/ProtectedRoute'
 import { StoreGrid } from '../../components/stores/StoreGrid'
 import { useStore } from '../../components/providers/StoreProvider'
+import NavigationBanner from '../../components/common/NavigationBanner'
 import { Store } from '../../types'
 
 function StoresPageContent() {
@@ -22,8 +23,11 @@ function StoresPageContent() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Navigation Banner */}
+      <NavigationBanner showBackToStores={false} />
+
       {/* Header */}
-      <div className="bg-white shadow-sm border-b">
+      <div className="bg-white shadow-sm border-b mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex justify-between items-center">
             <div>
