@@ -5,7 +5,7 @@ import { prisma } from '../../../../lib/prisma'
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -14,8 +14,10 @@ export async function GET(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
+    const { id } = await params
+
     const store = await prisma.store.findUnique({
-      where: { id: params.id },
+      where: { id },
       select: {
         id: true,
         name: true,
@@ -46,7 +48,7 @@ export async function GET(
 
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -57,16 +59,18 @@ export async function PUT(
 
     // Check if user is Super Admin
     if (session.user.role !== 'SUPER_ADMIN') {
-      console.warn(`Forbidden: User ${session.user.email} (${session.user.role}) attempted to update store ${params.id}`)
+      console.warn(`Forbidden: User ${session.user.email} (${session.user.role}) attempted to update store`)
       return NextResponse.json(
         { error: 'Forbidden: Super Admin access required' },
         { status: 403 }
       )
     }
 
+    const { id } = await params
+
     // Check if store exists
     const existingStore = await prisma.store.findUnique({
-      where: { id: params.id }
+      where: { id }
     })
 
     if (!existingStore) {
@@ -99,7 +103,7 @@ export async function PUT(
       const duplicateStore = await prisma.store.findFirst({
         where: {
           name: name.trim(),
-          id: { not: params.id }
+          id: { not: id }
         }
       })
 
@@ -119,7 +123,7 @@ export async function PUT(
     if (imageUrl !== undefined) updateData.imageUrl = imageUrl || null
 
     const store = await prisma.store.update({
-      where: { id: params.id },
+      where: { id },
       data: updateData
     })
 
@@ -138,7 +142,7 @@ export async function PUT(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const session = await getServerSession(authOptions)
@@ -149,16 +153,18 @@ export async function DELETE(
 
     // Check if user is Super Admin
     if (session.user.role !== 'SUPER_ADMIN') {
-      console.warn(`Forbidden: User ${session.user.email} (${session.user.role}) attempted to delete store ${params.id}`)
+      console.warn(`Forbidden: User ${session.user.email} (${session.user.role}) attempted to delete store`)
       return NextResponse.json(
         { error: 'Forbidden: Super Admin access required' },
         { status: 403 }
       )
     }
 
+    const { id } = await params
+
     // Check if store exists
     const store = await prisma.store.findUnique({
-      where: { id: params.id },
+      where: { id },
       include: {
         _count: {
           select: { vehicles: true }
@@ -183,11 +189,11 @@ export async function DELETE(
 
     // Delete the store
     await prisma.store.delete({
-      where: { id: params.id }
+      where: { id }
     })
 
     // Audit logging
-    console.log(`Store deleted: ${params.id} (${store.name}) by ${session.user.email}`)
+    console.log(`Store deleted: ${id} (${store.name}) by ${session.user.email}`)
 
     return NextResponse.json({ success: true, message: 'Store deleted successfully' })
   } catch (error) {
