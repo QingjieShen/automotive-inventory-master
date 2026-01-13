@@ -323,76 +323,81 @@ function StoreManagementContent() {
           </button>
         </div>
 
-        {/* Stores Table */}
-        <div className="bg-white shadow-sm rounded-lg overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Name
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Address
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Brand Logos
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Image
-                </th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider w-32">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {stores.length === 0 ? (
-                <tr>
-                  <td colSpan={5} className="px-6 py-4 text-center text-gray-500">
-                    No stores found
-                  </td>
-                </tr>
-              ) : (
-                stores.map(store => (
-                  <tr key={store.id}>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+        {/* Stores Grid */}
+        {stores.length === 0 ? (
+          <div className="bg-white shadow-sm rounded-lg p-12 text-center">
+            <p className="text-gray-500">No stores found</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {stores.map(store => {
+              // Determine background style based on imageUrl availability
+              const backgroundStyle = store.imageUrl
+                ? {
+                    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)), url(${store.imageUrl})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                  }
+                : {
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                  }
+
+              return (
+                <div
+                  key={store.id}
+                  className="rounded-lg shadow-md hover:shadow-lg transition-all duration-200 border border-gray-200 p-6 min-h-[280px]"
+                  style={backgroundStyle}
+                >
+                  <div className="flex flex-col h-full">
+                    {/* Store Name */}
+                    <h3 className="text-lg font-semibold text-white mb-2" style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 0.8)' }}>
                       {store.name}
-                    </td>
-                    <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">
+                    </h3>
+                    
+                    {/* Address */}
+                    <p className="text-sm text-white mb-4 flex-grow" style={{ textShadow: '1px 1px 3px rgba(0, 0, 0, 0.8)' }}>
                       {store.address}
-                    </td>
-                    <td className="px-6 py-4 text-sm text-gray-500 max-w-xs truncate">
-                      {store.brandLogos.join(', ') || 'None'}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      {store.imageUrl ? (
-                        <span className="text-green-600">✓ Yes</span>
+                    </p>
+                    
+                    {/* Brand Logos */}
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {store.brandLogos.length > 0 ? (
+                        store.brandLogos.map((logo, index) => (
+                          <div
+                            key={index}
+                            className="px-2 py-1 bg-white/90 rounded text-xs text-gray-800 font-medium"
+                          >
+                            {logo.toUpperCase()}
+                          </div>
+                        ))
                       ) : (
-                        <span className="text-gray-400">No</span>
+                        <div className="px-2 py-1 bg-white/70 rounded text-xs text-gray-600 italic">
+                          No brands
+                        </div>
                       )}
-                    </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <div className="flex justify-end gap-3">
-                        <button
-                          onClick={() => handleEditStore(store)}
-                          className="text-blue-600 hover:text-blue-900 font-medium"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          onClick={() => handleDeleteStore(store)}
-                          className="text-red-600 hover:text-red-900 font-medium"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
-              )}
-            </tbody>
-          </table>
-        </div>
+                    </div>
+                    
+                    {/* Action Buttons */}
+                    <div className="mt-auto pt-4 border-t border-white/30 flex gap-3">
+                      <button
+                        onClick={() => handleEditStore(store)}
+                        className="flex-1 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200 font-medium"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDeleteStore(store)}
+                        className="flex-1 bg-red-600 text-white py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-200 font-medium"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        )}
       </div>
 
       {/* Add Store Modal */}
