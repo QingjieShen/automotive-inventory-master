@@ -144,6 +144,7 @@ exports.Prisma.StoreScalarFieldEnum = {
 exports.Prisma.VehicleScalarFieldEnum = {
   id: 'id',
   stockNumber: 'stockNumber',
+  vin: 'vin',
   storeId: 'storeId',
   processingStatus: 'processingStatus',
   createdAt: 'createdAt',
@@ -155,11 +156,15 @@ exports.Prisma.VehicleImageScalarFieldEnum = {
   vehicleId: 'vehicleId',
   originalUrl: 'originalUrl',
   processedUrl: 'processedUrl',
+  optimizedUrl: 'optimizedUrl',
   thumbnailUrl: 'thumbnailUrl',
   imageType: 'imageType',
   sortOrder: 'sortOrder',
   isProcessed: 'isProcessed',
-  uploadedAt: 'uploadedAt'
+  isOptimized: 'isOptimized',
+  processedAt: 'processedAt',
+  uploadedAt: 'uploadedAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.ProcessingJobScalarFieldEnum = {

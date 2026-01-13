@@ -3486,6 +3486,7 @@ export namespace Prisma {
   export type VehicleMinAggregateOutputType = {
     id: string | null
     stockNumber: string | null
+    vin: string | null
     storeId: string | null
     processingStatus: $Enums.ProcessingStatus | null
     createdAt: Date | null
@@ -3495,6 +3496,7 @@ export namespace Prisma {
   export type VehicleMaxAggregateOutputType = {
     id: string | null
     stockNumber: string | null
+    vin: string | null
     storeId: string | null
     processingStatus: $Enums.ProcessingStatus | null
     createdAt: Date | null
@@ -3504,6 +3506,7 @@ export namespace Prisma {
   export type VehicleCountAggregateOutputType = {
     id: number
     stockNumber: number
+    vin: number
     storeId: number
     processingStatus: number
     createdAt: number
@@ -3515,6 +3518,7 @@ export namespace Prisma {
   export type VehicleMinAggregateInputType = {
     id?: true
     stockNumber?: true
+    vin?: true
     storeId?: true
     processingStatus?: true
     createdAt?: true
@@ -3524,6 +3528,7 @@ export namespace Prisma {
   export type VehicleMaxAggregateInputType = {
     id?: true
     stockNumber?: true
+    vin?: true
     storeId?: true
     processingStatus?: true
     createdAt?: true
@@ -3533,6 +3538,7 @@ export namespace Prisma {
   export type VehicleCountAggregateInputType = {
     id?: true
     stockNumber?: true
+    vin?: true
     storeId?: true
     processingStatus?: true
     createdAt?: true
@@ -3615,6 +3621,7 @@ export namespace Prisma {
   export type VehicleGroupByOutputType = {
     id: string
     stockNumber: string
+    vin: string
     storeId: string
     processingStatus: $Enums.ProcessingStatus
     createdAt: Date
@@ -3641,6 +3648,7 @@ export namespace Prisma {
   export type VehicleSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     stockNumber?: boolean
+    vin?: boolean
     storeId?: boolean
     processingStatus?: boolean
     createdAt?: boolean
@@ -3654,6 +3662,7 @@ export namespace Prisma {
   export type VehicleSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     stockNumber?: boolean
+    vin?: boolean
     storeId?: boolean
     processingStatus?: boolean
     createdAt?: boolean
@@ -3664,6 +3673,7 @@ export namespace Prisma {
   export type VehicleSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     stockNumber?: boolean
+    vin?: boolean
     storeId?: boolean
     processingStatus?: boolean
     createdAt?: boolean
@@ -3674,13 +3684,14 @@ export namespace Prisma {
   export type VehicleSelectScalar = {
     id?: boolean
     stockNumber?: boolean
+    vin?: boolean
     storeId?: boolean
     processingStatus?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type VehicleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "stockNumber" | "storeId" | "processingStatus" | "createdAt" | "updatedAt", ExtArgs["result"]["vehicle"]>
+  export type VehicleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "stockNumber" | "vin" | "storeId" | "processingStatus" | "createdAt" | "updatedAt", ExtArgs["result"]["vehicle"]>
   export type VehicleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     store?: boolean | StoreDefaultArgs<ExtArgs>
     images?: boolean | Vehicle$imagesArgs<ExtArgs>
@@ -3704,6 +3715,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       stockNumber: string
+      vin: string
       storeId: string
       processingStatus: $Enums.ProcessingStatus
       createdAt: Date
@@ -4136,6 +4148,7 @@ export namespace Prisma {
   interface VehicleFieldRefs {
     readonly id: FieldRef<"Vehicle", 'String'>
     readonly stockNumber: FieldRef<"Vehicle", 'String'>
+    readonly vin: FieldRef<"Vehicle", 'String'>
     readonly storeId: FieldRef<"Vehicle", 'String'>
     readonly processingStatus: FieldRef<"Vehicle", 'ProcessingStatus'>
     readonly createdAt: FieldRef<"Vehicle", 'DateTime'>
@@ -4627,11 +4640,15 @@ export namespace Prisma {
     vehicleId: string | null
     originalUrl: string | null
     processedUrl: string | null
+    optimizedUrl: string | null
     thumbnailUrl: string | null
     imageType: $Enums.ImageType | null
     sortOrder: number | null
     isProcessed: boolean | null
+    isOptimized: boolean | null
+    processedAt: Date | null
     uploadedAt: Date | null
+    updatedAt: Date | null
   }
 
   export type VehicleImageMaxAggregateOutputType = {
@@ -4639,11 +4656,15 @@ export namespace Prisma {
     vehicleId: string | null
     originalUrl: string | null
     processedUrl: string | null
+    optimizedUrl: string | null
     thumbnailUrl: string | null
     imageType: $Enums.ImageType | null
     sortOrder: number | null
     isProcessed: boolean | null
+    isOptimized: boolean | null
+    processedAt: Date | null
     uploadedAt: Date | null
+    updatedAt: Date | null
   }
 
   export type VehicleImageCountAggregateOutputType = {
@@ -4651,11 +4672,15 @@ export namespace Prisma {
     vehicleId: number
     originalUrl: number
     processedUrl: number
+    optimizedUrl: number
     thumbnailUrl: number
     imageType: number
     sortOrder: number
     isProcessed: number
+    isOptimized: number
+    processedAt: number
     uploadedAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -4673,11 +4698,15 @@ export namespace Prisma {
     vehicleId?: true
     originalUrl?: true
     processedUrl?: true
+    optimizedUrl?: true
     thumbnailUrl?: true
     imageType?: true
     sortOrder?: true
     isProcessed?: true
+    isOptimized?: true
+    processedAt?: true
     uploadedAt?: true
+    updatedAt?: true
   }
 
   export type VehicleImageMaxAggregateInputType = {
@@ -4685,11 +4714,15 @@ export namespace Prisma {
     vehicleId?: true
     originalUrl?: true
     processedUrl?: true
+    optimizedUrl?: true
     thumbnailUrl?: true
     imageType?: true
     sortOrder?: true
     isProcessed?: true
+    isOptimized?: true
+    processedAt?: true
     uploadedAt?: true
+    updatedAt?: true
   }
 
   export type VehicleImageCountAggregateInputType = {
@@ -4697,11 +4730,15 @@ export namespace Prisma {
     vehicleId?: true
     originalUrl?: true
     processedUrl?: true
+    optimizedUrl?: true
     thumbnailUrl?: true
     imageType?: true
     sortOrder?: true
     isProcessed?: true
+    isOptimized?: true
+    processedAt?: true
     uploadedAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -4796,11 +4833,15 @@ export namespace Prisma {
     vehicleId: string
     originalUrl: string
     processedUrl: string | null
+    optimizedUrl: string | null
     thumbnailUrl: string
     imageType: $Enums.ImageType
     sortOrder: number
     isProcessed: boolean
+    isOptimized: boolean
+    processedAt: Date | null
     uploadedAt: Date
+    updatedAt: Date
     _count: VehicleImageCountAggregateOutputType | null
     _avg: VehicleImageAvgAggregateOutputType | null
     _sum: VehicleImageSumAggregateOutputType | null
@@ -4827,11 +4868,15 @@ export namespace Prisma {
     vehicleId?: boolean
     originalUrl?: boolean
     processedUrl?: boolean
+    optimizedUrl?: boolean
     thumbnailUrl?: boolean
     imageType?: boolean
     sortOrder?: boolean
     isProcessed?: boolean
+    isOptimized?: boolean
+    processedAt?: boolean
     uploadedAt?: boolean
+    updatedAt?: boolean
     vehicle?: boolean | VehicleDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["vehicleImage"]>
 
@@ -4840,11 +4885,15 @@ export namespace Prisma {
     vehicleId?: boolean
     originalUrl?: boolean
     processedUrl?: boolean
+    optimizedUrl?: boolean
     thumbnailUrl?: boolean
     imageType?: boolean
     sortOrder?: boolean
     isProcessed?: boolean
+    isOptimized?: boolean
+    processedAt?: boolean
     uploadedAt?: boolean
+    updatedAt?: boolean
     vehicle?: boolean | VehicleDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["vehicleImage"]>
 
@@ -4853,11 +4902,15 @@ export namespace Prisma {
     vehicleId?: boolean
     originalUrl?: boolean
     processedUrl?: boolean
+    optimizedUrl?: boolean
     thumbnailUrl?: boolean
     imageType?: boolean
     sortOrder?: boolean
     isProcessed?: boolean
+    isOptimized?: boolean
+    processedAt?: boolean
     uploadedAt?: boolean
+    updatedAt?: boolean
     vehicle?: boolean | VehicleDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["vehicleImage"]>
 
@@ -4866,14 +4919,18 @@ export namespace Prisma {
     vehicleId?: boolean
     originalUrl?: boolean
     processedUrl?: boolean
+    optimizedUrl?: boolean
     thumbnailUrl?: boolean
     imageType?: boolean
     sortOrder?: boolean
     isProcessed?: boolean
+    isOptimized?: boolean
+    processedAt?: boolean
     uploadedAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type VehicleImageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "vehicleId" | "originalUrl" | "processedUrl" | "thumbnailUrl" | "imageType" | "sortOrder" | "isProcessed" | "uploadedAt", ExtArgs["result"]["vehicleImage"]>
+  export type VehicleImageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "vehicleId" | "originalUrl" | "processedUrl" | "optimizedUrl" | "thumbnailUrl" | "imageType" | "sortOrder" | "isProcessed" | "isOptimized" | "processedAt" | "uploadedAt" | "updatedAt", ExtArgs["result"]["vehicleImage"]>
   export type VehicleImageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     vehicle?: boolean | VehicleDefaultArgs<ExtArgs>
   }
@@ -4894,11 +4951,15 @@ export namespace Prisma {
       vehicleId: string
       originalUrl: string
       processedUrl: string | null
+      optimizedUrl: string | null
       thumbnailUrl: string
       imageType: $Enums.ImageType
       sortOrder: number
       isProcessed: boolean
+      isOptimized: boolean
+      processedAt: Date | null
       uploadedAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["vehicleImage"]>
     composites: {}
   }
@@ -5327,11 +5388,15 @@ export namespace Prisma {
     readonly vehicleId: FieldRef<"VehicleImage", 'String'>
     readonly originalUrl: FieldRef<"VehicleImage", 'String'>
     readonly processedUrl: FieldRef<"VehicleImage", 'String'>
+    readonly optimizedUrl: FieldRef<"VehicleImage", 'String'>
     readonly thumbnailUrl: FieldRef<"VehicleImage", 'String'>
     readonly imageType: FieldRef<"VehicleImage", 'ImageType'>
     readonly sortOrder: FieldRef<"VehicleImage", 'Int'>
     readonly isProcessed: FieldRef<"VehicleImage", 'Boolean'>
+    readonly isOptimized: FieldRef<"VehicleImage", 'Boolean'>
+    readonly processedAt: FieldRef<"VehicleImage", 'DateTime'>
     readonly uploadedAt: FieldRef<"VehicleImage", 'DateTime'>
+    readonly updatedAt: FieldRef<"VehicleImage", 'DateTime'>
   }
     
 
@@ -6869,6 +6934,7 @@ export namespace Prisma {
   export const VehicleScalarFieldEnum: {
     id: 'id',
     stockNumber: 'stockNumber',
+    vin: 'vin',
     storeId: 'storeId',
     processingStatus: 'processingStatus',
     createdAt: 'createdAt',
@@ -6883,11 +6949,15 @@ export namespace Prisma {
     vehicleId: 'vehicleId',
     originalUrl: 'originalUrl',
     processedUrl: 'processedUrl',
+    optimizedUrl: 'optimizedUrl',
     thumbnailUrl: 'thumbnailUrl',
     imageType: 'imageType',
     sortOrder: 'sortOrder',
     isProcessed: 'isProcessed',
-    uploadedAt: 'uploadedAt'
+    isOptimized: 'isOptimized',
+    processedAt: 'processedAt',
+    uploadedAt: 'uploadedAt',
+    updatedAt: 'updatedAt'
   };
 
   export type VehicleImageScalarFieldEnum = (typeof VehicleImageScalarFieldEnum)[keyof typeof VehicleImageScalarFieldEnum]
@@ -7190,6 +7260,7 @@ export namespace Prisma {
     NOT?: VehicleWhereInput | VehicleWhereInput[]
     id?: StringFilter<"Vehicle"> | string
     stockNumber?: StringFilter<"Vehicle"> | string
+    vin?: StringFilter<"Vehicle"> | string
     storeId?: StringFilter<"Vehicle"> | string
     processingStatus?: EnumProcessingStatusFilter<"Vehicle"> | $Enums.ProcessingStatus
     createdAt?: DateTimeFilter<"Vehicle"> | Date | string
@@ -7202,6 +7273,7 @@ export namespace Prisma {
   export type VehicleOrderByWithRelationInput = {
     id?: SortOrder
     stockNumber?: SortOrder
+    vin?: SortOrder
     storeId?: SortOrder
     processingStatus?: SortOrder
     createdAt?: SortOrder
@@ -7218,6 +7290,7 @@ export namespace Prisma {
     OR?: VehicleWhereInput[]
     NOT?: VehicleWhereInput | VehicleWhereInput[]
     stockNumber?: StringFilter<"Vehicle"> | string
+    vin?: StringFilter<"Vehicle"> | string
     storeId?: StringFilter<"Vehicle"> | string
     processingStatus?: EnumProcessingStatusFilter<"Vehicle"> | $Enums.ProcessingStatus
     createdAt?: DateTimeFilter<"Vehicle"> | Date | string
@@ -7230,6 +7303,7 @@ export namespace Prisma {
   export type VehicleOrderByWithAggregationInput = {
     id?: SortOrder
     stockNumber?: SortOrder
+    vin?: SortOrder
     storeId?: SortOrder
     processingStatus?: SortOrder
     createdAt?: SortOrder
@@ -7245,6 +7319,7 @@ export namespace Prisma {
     NOT?: VehicleScalarWhereWithAggregatesInput | VehicleScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Vehicle"> | string
     stockNumber?: StringWithAggregatesFilter<"Vehicle"> | string
+    vin?: StringWithAggregatesFilter<"Vehicle"> | string
     storeId?: StringWithAggregatesFilter<"Vehicle"> | string
     processingStatus?: EnumProcessingStatusWithAggregatesFilter<"Vehicle"> | $Enums.ProcessingStatus
     createdAt?: DateTimeWithAggregatesFilter<"Vehicle"> | Date | string
@@ -7259,11 +7334,15 @@ export namespace Prisma {
     vehicleId?: StringFilter<"VehicleImage"> | string
     originalUrl?: StringFilter<"VehicleImage"> | string
     processedUrl?: StringNullableFilter<"VehicleImage"> | string | null
+    optimizedUrl?: StringNullableFilter<"VehicleImage"> | string | null
     thumbnailUrl?: StringFilter<"VehicleImage"> | string
     imageType?: EnumImageTypeFilter<"VehicleImage"> | $Enums.ImageType
     sortOrder?: IntFilter<"VehicleImage"> | number
     isProcessed?: BoolFilter<"VehicleImage"> | boolean
+    isOptimized?: BoolFilter<"VehicleImage"> | boolean
+    processedAt?: DateTimeNullableFilter<"VehicleImage"> | Date | string | null
     uploadedAt?: DateTimeFilter<"VehicleImage"> | Date | string
+    updatedAt?: DateTimeFilter<"VehicleImage"> | Date | string
     vehicle?: XOR<VehicleScalarRelationFilter, VehicleWhereInput>
   }
 
@@ -7272,11 +7351,15 @@ export namespace Prisma {
     vehicleId?: SortOrder
     originalUrl?: SortOrder
     processedUrl?: SortOrderInput | SortOrder
+    optimizedUrl?: SortOrderInput | SortOrder
     thumbnailUrl?: SortOrder
     imageType?: SortOrder
     sortOrder?: SortOrder
     isProcessed?: SortOrder
+    isOptimized?: SortOrder
+    processedAt?: SortOrderInput | SortOrder
     uploadedAt?: SortOrder
+    updatedAt?: SortOrder
     vehicle?: VehicleOrderByWithRelationInput
   }
 
@@ -7288,11 +7371,15 @@ export namespace Prisma {
     vehicleId?: StringFilter<"VehicleImage"> | string
     originalUrl?: StringFilter<"VehicleImage"> | string
     processedUrl?: StringNullableFilter<"VehicleImage"> | string | null
+    optimizedUrl?: StringNullableFilter<"VehicleImage"> | string | null
     thumbnailUrl?: StringFilter<"VehicleImage"> | string
     imageType?: EnumImageTypeFilter<"VehicleImage"> | $Enums.ImageType
     sortOrder?: IntFilter<"VehicleImage"> | number
     isProcessed?: BoolFilter<"VehicleImage"> | boolean
+    isOptimized?: BoolFilter<"VehicleImage"> | boolean
+    processedAt?: DateTimeNullableFilter<"VehicleImage"> | Date | string | null
     uploadedAt?: DateTimeFilter<"VehicleImage"> | Date | string
+    updatedAt?: DateTimeFilter<"VehicleImage"> | Date | string
     vehicle?: XOR<VehicleScalarRelationFilter, VehicleWhereInput>
   }, "id">
 
@@ -7301,11 +7388,15 @@ export namespace Prisma {
     vehicleId?: SortOrder
     originalUrl?: SortOrder
     processedUrl?: SortOrderInput | SortOrder
+    optimizedUrl?: SortOrderInput | SortOrder
     thumbnailUrl?: SortOrder
     imageType?: SortOrder
     sortOrder?: SortOrder
     isProcessed?: SortOrder
+    isOptimized?: SortOrder
+    processedAt?: SortOrderInput | SortOrder
     uploadedAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: VehicleImageCountOrderByAggregateInput
     _avg?: VehicleImageAvgOrderByAggregateInput
     _max?: VehicleImageMaxOrderByAggregateInput
@@ -7321,11 +7412,15 @@ export namespace Prisma {
     vehicleId?: StringWithAggregatesFilter<"VehicleImage"> | string
     originalUrl?: StringWithAggregatesFilter<"VehicleImage"> | string
     processedUrl?: StringNullableWithAggregatesFilter<"VehicleImage"> | string | null
+    optimizedUrl?: StringNullableWithAggregatesFilter<"VehicleImage"> | string | null
     thumbnailUrl?: StringWithAggregatesFilter<"VehicleImage"> | string
     imageType?: EnumImageTypeWithAggregatesFilter<"VehicleImage"> | $Enums.ImageType
     sortOrder?: IntWithAggregatesFilter<"VehicleImage"> | number
     isProcessed?: BoolWithAggregatesFilter<"VehicleImage"> | boolean
+    isOptimized?: BoolWithAggregatesFilter<"VehicleImage"> | boolean
+    processedAt?: DateTimeNullableWithAggregatesFilter<"VehicleImage"> | Date | string | null
     uploadedAt?: DateTimeWithAggregatesFilter<"VehicleImage"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"VehicleImage"> | Date | string
   }
 
   export type ProcessingJobWhereInput = {
@@ -7540,6 +7635,7 @@ export namespace Prisma {
   export type VehicleCreateInput = {
     id?: string
     stockNumber: string
+    vin: string
     processingStatus?: $Enums.ProcessingStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -7551,6 +7647,7 @@ export namespace Prisma {
   export type VehicleUncheckedCreateInput = {
     id?: string
     stockNumber: string
+    vin: string
     storeId: string
     processingStatus?: $Enums.ProcessingStatus
     createdAt?: Date | string
@@ -7562,6 +7659,7 @@ export namespace Prisma {
   export type VehicleUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     stockNumber?: StringFieldUpdateOperationsInput | string
+    vin?: StringFieldUpdateOperationsInput | string
     processingStatus?: EnumProcessingStatusFieldUpdateOperationsInput | $Enums.ProcessingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7573,6 +7671,7 @@ export namespace Prisma {
   export type VehicleUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     stockNumber?: StringFieldUpdateOperationsInput | string
+    vin?: StringFieldUpdateOperationsInput | string
     storeId?: StringFieldUpdateOperationsInput | string
     processingStatus?: EnumProcessingStatusFieldUpdateOperationsInput | $Enums.ProcessingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7584,6 +7683,7 @@ export namespace Prisma {
   export type VehicleCreateManyInput = {
     id?: string
     stockNumber: string
+    vin: string
     storeId: string
     processingStatus?: $Enums.ProcessingStatus
     createdAt?: Date | string
@@ -7593,6 +7693,7 @@ export namespace Prisma {
   export type VehicleUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     stockNumber?: StringFieldUpdateOperationsInput | string
+    vin?: StringFieldUpdateOperationsInput | string
     processingStatus?: EnumProcessingStatusFieldUpdateOperationsInput | $Enums.ProcessingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7601,6 +7702,7 @@ export namespace Prisma {
   export type VehicleUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     stockNumber?: StringFieldUpdateOperationsInput | string
+    vin?: StringFieldUpdateOperationsInput | string
     storeId?: StringFieldUpdateOperationsInput | string
     processingStatus?: EnumProcessingStatusFieldUpdateOperationsInput | $Enums.ProcessingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7611,11 +7713,15 @@ export namespace Prisma {
     id?: string
     originalUrl: string
     processedUrl?: string | null
+    optimizedUrl?: string | null
     thumbnailUrl: string
     imageType: $Enums.ImageType
     sortOrder?: number
     isProcessed?: boolean
+    isOptimized?: boolean
+    processedAt?: Date | string | null
     uploadedAt?: Date | string
+    updatedAt?: Date | string
     vehicle: VehicleCreateNestedOneWithoutImagesInput
   }
 
@@ -7624,22 +7730,30 @@ export namespace Prisma {
     vehicleId: string
     originalUrl: string
     processedUrl?: string | null
+    optimizedUrl?: string | null
     thumbnailUrl: string
     imageType: $Enums.ImageType
     sortOrder?: number
     isProcessed?: boolean
+    isOptimized?: boolean
+    processedAt?: Date | string | null
     uploadedAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type VehicleImageUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     originalUrl?: StringFieldUpdateOperationsInput | string
     processedUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    optimizedUrl?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnailUrl?: StringFieldUpdateOperationsInput | string
     imageType?: EnumImageTypeFieldUpdateOperationsInput | $Enums.ImageType
     sortOrder?: IntFieldUpdateOperationsInput | number
     isProcessed?: BoolFieldUpdateOperationsInput | boolean
+    isOptimized?: BoolFieldUpdateOperationsInput | boolean
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     vehicle?: VehicleUpdateOneRequiredWithoutImagesNestedInput
   }
 
@@ -7648,11 +7762,15 @@ export namespace Prisma {
     vehicleId?: StringFieldUpdateOperationsInput | string
     originalUrl?: StringFieldUpdateOperationsInput | string
     processedUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    optimizedUrl?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnailUrl?: StringFieldUpdateOperationsInput | string
     imageType?: EnumImageTypeFieldUpdateOperationsInput | $Enums.ImageType
     sortOrder?: IntFieldUpdateOperationsInput | number
     isProcessed?: BoolFieldUpdateOperationsInput | boolean
+    isOptimized?: BoolFieldUpdateOperationsInput | boolean
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type VehicleImageCreateManyInput = {
@@ -7660,22 +7778,30 @@ export namespace Prisma {
     vehicleId: string
     originalUrl: string
     processedUrl?: string | null
+    optimizedUrl?: string | null
     thumbnailUrl: string
     imageType: $Enums.ImageType
     sortOrder?: number
     isProcessed?: boolean
+    isOptimized?: boolean
+    processedAt?: Date | string | null
     uploadedAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type VehicleImageUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     originalUrl?: StringFieldUpdateOperationsInput | string
     processedUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    optimizedUrl?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnailUrl?: StringFieldUpdateOperationsInput | string
     imageType?: EnumImageTypeFieldUpdateOperationsInput | $Enums.ImageType
     sortOrder?: IntFieldUpdateOperationsInput | number
     isProcessed?: BoolFieldUpdateOperationsInput | boolean
+    isOptimized?: BoolFieldUpdateOperationsInput | boolean
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type VehicleImageUncheckedUpdateManyInput = {
@@ -7683,11 +7809,15 @@ export namespace Prisma {
     vehicleId?: StringFieldUpdateOperationsInput | string
     originalUrl?: StringFieldUpdateOperationsInput | string
     processedUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    optimizedUrl?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnailUrl?: StringFieldUpdateOperationsInput | string
     imageType?: EnumImageTypeFieldUpdateOperationsInput | $Enums.ImageType
     sortOrder?: IntFieldUpdateOperationsInput | number
     isProcessed?: BoolFieldUpdateOperationsInput | boolean
+    isOptimized?: BoolFieldUpdateOperationsInput | boolean
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ProcessingJobCreateInput = {
@@ -7988,6 +8118,7 @@ export namespace Prisma {
   export type VehicleCountOrderByAggregateInput = {
     id?: SortOrder
     stockNumber?: SortOrder
+    vin?: SortOrder
     storeId?: SortOrder
     processingStatus?: SortOrder
     createdAt?: SortOrder
@@ -7997,6 +8128,7 @@ export namespace Prisma {
   export type VehicleMaxOrderByAggregateInput = {
     id?: SortOrder
     stockNumber?: SortOrder
+    vin?: SortOrder
     storeId?: SortOrder
     processingStatus?: SortOrder
     createdAt?: SortOrder
@@ -8006,6 +8138,7 @@ export namespace Prisma {
   export type VehicleMinOrderByAggregateInput = {
     id?: SortOrder
     stockNumber?: SortOrder
+    vin?: SortOrder
     storeId?: SortOrder
     processingStatus?: SortOrder
     createdAt?: SortOrder
@@ -8045,6 +8178,17 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type VehicleScalarRelationFilter = {
     is?: VehicleWhereInput
     isNot?: VehicleWhereInput
@@ -8055,11 +8199,15 @@ export namespace Prisma {
     vehicleId?: SortOrder
     originalUrl?: SortOrder
     processedUrl?: SortOrder
+    optimizedUrl?: SortOrder
     thumbnailUrl?: SortOrder
     imageType?: SortOrder
     sortOrder?: SortOrder
     isProcessed?: SortOrder
+    isOptimized?: SortOrder
+    processedAt?: SortOrder
     uploadedAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type VehicleImageAvgOrderByAggregateInput = {
@@ -8071,11 +8219,15 @@ export namespace Prisma {
     vehicleId?: SortOrder
     originalUrl?: SortOrder
     processedUrl?: SortOrder
+    optimizedUrl?: SortOrder
     thumbnailUrl?: SortOrder
     imageType?: SortOrder
     sortOrder?: SortOrder
     isProcessed?: SortOrder
+    isOptimized?: SortOrder
+    processedAt?: SortOrder
     uploadedAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type VehicleImageMinOrderByAggregateInput = {
@@ -8083,11 +8235,15 @@ export namespace Prisma {
     vehicleId?: SortOrder
     originalUrl?: SortOrder
     processedUrl?: SortOrder
+    optimizedUrl?: SortOrder
     thumbnailUrl?: SortOrder
     imageType?: SortOrder
     sortOrder?: SortOrder
     isProcessed?: SortOrder
+    isOptimized?: SortOrder
+    processedAt?: SortOrder
     uploadedAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type VehicleImageSumOrderByAggregateInput = {
@@ -8128,14 +8284,7 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
-  export type EnumJobStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.JobStatus | EnumJobStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumJobStatusFilter<$PrismaModel> | $Enums.JobStatus
-  }
-
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
     notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -8143,7 +8292,17 @@ export namespace Prisma {
     lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type EnumJobStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.JobStatus | EnumJobStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumJobStatusFilter<$PrismaModel> | $Enums.JobStatus
   }
 
   export type ProcessingJobCountOrderByAggregateInput = {
@@ -8182,20 +8341,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumJobStatusFilter<$PrismaModel>
     _max?: NestedEnumJobStatusFilter<$PrismaModel>
-  }
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -8389,6 +8534,10 @@ export namespace Prisma {
     set?: boolean
   }
 
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
   export type VehicleUpdateOneRequiredWithoutImagesNestedInput = {
     create?: XOR<VehicleCreateWithoutImagesInput, VehicleUncheckedCreateWithoutImagesInput>
     connectOrCreate?: VehicleCreateOrConnectWithoutImagesInput
@@ -8414,10 +8563,6 @@ export namespace Prisma {
 
   export type EnumJobStatusFieldUpdateOperationsInput = {
     set?: $Enums.JobStatus
-  }
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
   }
 
   export type VehicleUpdateOneRequiredWithoutProcessingJobsNestedInput = {
@@ -8583,6 +8728,17 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type NestedEnumImageTypeWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.ImageType | EnumImageTypeFieldRefInput<$PrismaModel>
     in?: $Enums.ImageType[] | ListEnumImageTypeFieldRefInput<$PrismaModel>
@@ -8628,34 +8784,6 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
-  export type NestedEnumJobStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.JobStatus | EnumJobStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumJobStatusFilter<$PrismaModel> | $Enums.JobStatus
-  }
-
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
-  export type NestedEnumJobStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.JobStatus | EnumJobStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumJobStatusWithAggregatesFilter<$PrismaModel> | $Enums.JobStatus
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumJobStatusFilter<$PrismaModel>
-    _max?: NestedEnumJobStatusFilter<$PrismaModel>
-  }
-
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -8670,9 +8798,27 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type NestedEnumJobStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.JobStatus | EnumJobStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumJobStatusFilter<$PrismaModel> | $Enums.JobStatus
+  }
+
+  export type NestedEnumJobStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.JobStatus | EnumJobStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumJobStatusWithAggregatesFilter<$PrismaModel> | $Enums.JobStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumJobStatusFilter<$PrismaModel>
+    _max?: NestedEnumJobStatusFilter<$PrismaModel>
+  }
+
   export type VehicleCreateWithoutStoreInput = {
     id?: string
     stockNumber: string
+    vin: string
     processingStatus?: $Enums.ProcessingStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -8683,6 +8829,7 @@ export namespace Prisma {
   export type VehicleUncheckedCreateWithoutStoreInput = {
     id?: string
     stockNumber: string
+    vin: string
     processingStatus?: $Enums.ProcessingStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -8722,6 +8869,7 @@ export namespace Prisma {
     NOT?: VehicleScalarWhereInput | VehicleScalarWhereInput[]
     id?: StringFilter<"Vehicle"> | string
     stockNumber?: StringFilter<"Vehicle"> | string
+    vin?: StringFilter<"Vehicle"> | string
     storeId?: StringFilter<"Vehicle"> | string
     processingStatus?: EnumProcessingStatusFilter<"Vehicle"> | $Enums.ProcessingStatus
     createdAt?: DateTimeFilter<"Vehicle"> | Date | string
@@ -8757,22 +8905,30 @@ export namespace Prisma {
     id?: string
     originalUrl: string
     processedUrl?: string | null
+    optimizedUrl?: string | null
     thumbnailUrl: string
     imageType: $Enums.ImageType
     sortOrder?: number
     isProcessed?: boolean
+    isOptimized?: boolean
+    processedAt?: Date | string | null
     uploadedAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type VehicleImageUncheckedCreateWithoutVehicleInput = {
     id?: string
     originalUrl: string
     processedUrl?: string | null
+    optimizedUrl?: string | null
     thumbnailUrl: string
     imageType: $Enums.ImageType
     sortOrder?: number
     isProcessed?: boolean
+    isOptimized?: boolean
+    processedAt?: Date | string | null
     uploadedAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type VehicleImageCreateOrConnectWithoutVehicleInput = {
@@ -8868,11 +9024,15 @@ export namespace Prisma {
     vehicleId?: StringFilter<"VehicleImage"> | string
     originalUrl?: StringFilter<"VehicleImage"> | string
     processedUrl?: StringNullableFilter<"VehicleImage"> | string | null
+    optimizedUrl?: StringNullableFilter<"VehicleImage"> | string | null
     thumbnailUrl?: StringFilter<"VehicleImage"> | string
     imageType?: EnumImageTypeFilter<"VehicleImage"> | $Enums.ImageType
     sortOrder?: IntFilter<"VehicleImage"> | number
     isProcessed?: BoolFilter<"VehicleImage"> | boolean
+    isOptimized?: BoolFilter<"VehicleImage"> | boolean
+    processedAt?: DateTimeNullableFilter<"VehicleImage"> | Date | string | null
     uploadedAt?: DateTimeFilter<"VehicleImage"> | Date | string
+    updatedAt?: DateTimeFilter<"VehicleImage"> | Date | string
   }
 
   export type ProcessingJobUpsertWithWhereUniqueWithoutVehicleInput = {
@@ -8907,6 +9067,7 @@ export namespace Prisma {
   export type VehicleCreateWithoutImagesInput = {
     id?: string
     stockNumber: string
+    vin: string
     processingStatus?: $Enums.ProcessingStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -8917,6 +9078,7 @@ export namespace Prisma {
   export type VehicleUncheckedCreateWithoutImagesInput = {
     id?: string
     stockNumber: string
+    vin: string
     storeId: string
     processingStatus?: $Enums.ProcessingStatus
     createdAt?: Date | string
@@ -8943,6 +9105,7 @@ export namespace Prisma {
   export type VehicleUpdateWithoutImagesInput = {
     id?: StringFieldUpdateOperationsInput | string
     stockNumber?: StringFieldUpdateOperationsInput | string
+    vin?: StringFieldUpdateOperationsInput | string
     processingStatus?: EnumProcessingStatusFieldUpdateOperationsInput | $Enums.ProcessingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8953,6 +9116,7 @@ export namespace Prisma {
   export type VehicleUncheckedUpdateWithoutImagesInput = {
     id?: StringFieldUpdateOperationsInput | string
     stockNumber?: StringFieldUpdateOperationsInput | string
+    vin?: StringFieldUpdateOperationsInput | string
     storeId?: StringFieldUpdateOperationsInput | string
     processingStatus?: EnumProcessingStatusFieldUpdateOperationsInput | $Enums.ProcessingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8963,6 +9127,7 @@ export namespace Prisma {
   export type VehicleCreateWithoutProcessingJobsInput = {
     id?: string
     stockNumber: string
+    vin: string
     processingStatus?: $Enums.ProcessingStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -8973,6 +9138,7 @@ export namespace Prisma {
   export type VehicleUncheckedCreateWithoutProcessingJobsInput = {
     id?: string
     stockNumber: string
+    vin: string
     storeId: string
     processingStatus?: $Enums.ProcessingStatus
     createdAt?: Date | string
@@ -8999,6 +9165,7 @@ export namespace Prisma {
   export type VehicleUpdateWithoutProcessingJobsInput = {
     id?: StringFieldUpdateOperationsInput | string
     stockNumber?: StringFieldUpdateOperationsInput | string
+    vin?: StringFieldUpdateOperationsInput | string
     processingStatus?: EnumProcessingStatusFieldUpdateOperationsInput | $Enums.ProcessingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9009,6 +9176,7 @@ export namespace Prisma {
   export type VehicleUncheckedUpdateWithoutProcessingJobsInput = {
     id?: StringFieldUpdateOperationsInput | string
     stockNumber?: StringFieldUpdateOperationsInput | string
+    vin?: StringFieldUpdateOperationsInput | string
     storeId?: StringFieldUpdateOperationsInput | string
     processingStatus?: EnumProcessingStatusFieldUpdateOperationsInput | $Enums.ProcessingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9019,6 +9187,7 @@ export namespace Prisma {
   export type VehicleCreateManyStoreInput = {
     id?: string
     stockNumber: string
+    vin: string
     processingStatus?: $Enums.ProcessingStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -9027,6 +9196,7 @@ export namespace Prisma {
   export type VehicleUpdateWithoutStoreInput = {
     id?: StringFieldUpdateOperationsInput | string
     stockNumber?: StringFieldUpdateOperationsInput | string
+    vin?: StringFieldUpdateOperationsInput | string
     processingStatus?: EnumProcessingStatusFieldUpdateOperationsInput | $Enums.ProcessingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9037,6 +9207,7 @@ export namespace Prisma {
   export type VehicleUncheckedUpdateWithoutStoreInput = {
     id?: StringFieldUpdateOperationsInput | string
     stockNumber?: StringFieldUpdateOperationsInput | string
+    vin?: StringFieldUpdateOperationsInput | string
     processingStatus?: EnumProcessingStatusFieldUpdateOperationsInput | $Enums.ProcessingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9047,6 +9218,7 @@ export namespace Prisma {
   export type VehicleUncheckedUpdateManyWithoutStoreInput = {
     id?: StringFieldUpdateOperationsInput | string
     stockNumber?: StringFieldUpdateOperationsInput | string
+    vin?: StringFieldUpdateOperationsInput | string
     processingStatus?: EnumProcessingStatusFieldUpdateOperationsInput | $Enums.ProcessingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9056,11 +9228,15 @@ export namespace Prisma {
     id?: string
     originalUrl: string
     processedUrl?: string | null
+    optimizedUrl?: string | null
     thumbnailUrl: string
     imageType: $Enums.ImageType
     sortOrder?: number
     isProcessed?: boolean
+    isOptimized?: boolean
+    processedAt?: Date | string | null
     uploadedAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ProcessingJobCreateManyVehicleInput = {
@@ -9076,33 +9252,45 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     originalUrl?: StringFieldUpdateOperationsInput | string
     processedUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    optimizedUrl?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnailUrl?: StringFieldUpdateOperationsInput | string
     imageType?: EnumImageTypeFieldUpdateOperationsInput | $Enums.ImageType
     sortOrder?: IntFieldUpdateOperationsInput | number
     isProcessed?: BoolFieldUpdateOperationsInput | boolean
+    isOptimized?: BoolFieldUpdateOperationsInput | boolean
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type VehicleImageUncheckedUpdateWithoutVehicleInput = {
     id?: StringFieldUpdateOperationsInput | string
     originalUrl?: StringFieldUpdateOperationsInput | string
     processedUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    optimizedUrl?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnailUrl?: StringFieldUpdateOperationsInput | string
     imageType?: EnumImageTypeFieldUpdateOperationsInput | $Enums.ImageType
     sortOrder?: IntFieldUpdateOperationsInput | number
     isProcessed?: BoolFieldUpdateOperationsInput | boolean
+    isOptimized?: BoolFieldUpdateOperationsInput | boolean
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type VehicleImageUncheckedUpdateManyWithoutVehicleInput = {
     id?: StringFieldUpdateOperationsInput | string
     originalUrl?: StringFieldUpdateOperationsInput | string
     processedUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    optimizedUrl?: NullableStringFieldUpdateOperationsInput | string | null
     thumbnailUrl?: StringFieldUpdateOperationsInput | string
     imageType?: EnumImageTypeFieldUpdateOperationsInput | $Enums.ImageType
     sortOrder?: IntFieldUpdateOperationsInput | number
     isProcessed?: BoolFieldUpdateOperationsInput | boolean
+    isOptimized?: BoolFieldUpdateOperationsInput | boolean
+    processedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     uploadedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ProcessingJobUpdateWithoutVehicleInput = {

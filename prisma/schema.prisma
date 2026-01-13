@@ -74,6 +74,7 @@ model Store {
 model Vehicle {
   id               String           @id @default(cuid())
   stockNumber      String
+  vin              String           // NEW: Required VIN field (17 characters)
   storeId          String
   processingStatus ProcessingStatus @default(NOT_STARTED)
   createdAt        DateTime         @default(now())
@@ -87,6 +88,7 @@ model Vehicle {
   // Indexes for performance
   @@index([stockNumber])
   @@index([storeId])
+  @@index([vin])                   // NEW: Index for CSV queries
   @@unique([stockNumber, storeId]) // Ensure stock numbers are unique per store
   @@map("vehicles")
 }
@@ -96,11 +98,15 @@ model VehicleImage {
   vehicleId    String
   originalUrl  String
   processedUrl String?
+  optimizedUrl String?   // NEW: Final optimized image URL from AI processing
   thumbnailUrl String
   imageType    ImageType
   sortOrder    Int       @default(0)
   isProcessed  Boolean   @default(false)
+  isOptimized  Boolean   @default(false)  // NEW: Tracks AI processing completion
+  processedAt  DateTime?                  // NEW: When AI processing completed
   uploadedAt   DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt       // NEW: For cache busting
 
   // Relations
   vehicle Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
@@ -108,6 +114,7 @@ model VehicleImage {
   // Indexes for performance
   @@index([vehicleId])
   @@index([imageType])
+  @@index([isOptimized])                   // NEW: For CSV feed queries
   @@map("vehicle_images")
 }
 
