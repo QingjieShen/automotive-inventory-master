@@ -9,15 +9,29 @@
 
 **Solution:** Updated `src/middleware.ts` to allow both `ADMIN` and `SUPER_ADMIN` roles
 
-### Issue 2: Image Upload 500 Error
+### Issue 2: Store Image Upload 500 Error
 **Problem:** POST to `/api/stores/[id]/image` returned 500 error
 
 **Root Cause:** Google Cloud Storage not configured, causing upload to fail
 
 **Solution:** Added fallback to placeholder URLs when GCS is not configured
 
-### Issue 3: Placeholder Image 404 Error
+### Issue 3: Store Placeholder Image 404 Error
 **Problem:** GET to `/api/placeholder/store/[id]` returned 404 error
+
+**Root Cause:** Placeholder API endpoint didn't exist
+
+**Solution:** Created placeholder endpoint that returns SVG images
+
+### Issue 4: Vehicle Image Upload 500 Error
+**Problem:** POST to `/api/vehicles/[id]/images` returned 500 error
+
+**Root Cause:** Google Cloud Storage not configured, causing upload to fail
+
+**Solution:** Added fallback to placeholder URLs when GCS is not configured
+
+### Issue 5: Vehicle Placeholder Image 404 Error
+**Problem:** GET to `/api/placeholder/vehicle/[vehicleId]/[imageIndex]` returned 404 error
 
 **Root Cause:** Placeholder API endpoint didn't exist
 
@@ -41,6 +55,16 @@
    - Shows "Configure Google Cloud Storage" message
    - Displays store ID for debugging
 
+5. **src/app/api/vehicles/[id]/images/route.ts**
+   - Added GCS configuration check
+   - Falls back to placeholder URLs if GCS not configured
+   - Returns warning message when using placeholders
+
+6. **src/app/api/placeholder/vehicle/[vehicleId]/[imageIndex]/route.ts** (NEW)
+   - Returns SVG placeholder image for vehicles
+   - Shows "Configure Google Cloud Storage" message
+   - Displays vehicle ID and image index for debugging
+
 ## Current Behavior
 
 ### Without GCS Configured (Current State)
@@ -48,12 +72,14 @@
 2. Can add, edit, and delete stores
 3. Can "upload" store images (saves placeholder URL)
 4. Store cards show blue gradient placeholder with message
-5. Warning message indicates GCS needs configuration
+5. Can create vehicles with images (saves placeholder URLs)
+6. Vehicle images show indigo gradient placeholder with message
+7. Warning messages indicate GCS needs configuration
 
 ### With GCS Configured (Future)
 1. All above functionality works
 2. Actual images are uploaded to Google Cloud Storage
-3. Store cards show real uploaded images
+3. Store cards and vehicle images show real uploaded images
 4. No warning messages
 
 ## Testing
@@ -70,10 +96,18 @@
    - Should succeed with warning about GCS
    - Store should show placeholder image
 
-3. **View Store Card:**
-   - Navigate back to `/stores`
-   - Store card should show blue placeholder image
-   - Image should say "Configure Google Cloud Storage"
+3. **Create Vehicle with Images:**
+   - Navigate to "New Vehicle" page
+   - Fill in vehicle details
+   - Upload key images and gallery images
+   - Click "Create Vehicle"
+   - Should succeed with warning about GCS
+   - Vehicle should show placeholder images
+
+4. **View Images:**
+   - Store cards show blue placeholder images
+   - Vehicle images show indigo placeholder images
+   - All placeholders display "Configure Google Cloud Storage" message
 
 ## Google Cloud Storage Setup (Optional)
 

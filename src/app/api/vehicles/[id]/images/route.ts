@@ -79,16 +79,51 @@ export async function POST(
       }))
     )
 
-    // Upload to Google Cloud Storage
-    const uploadResults = await batchUpload(
-      fileData.map(f => ({
-        buffer: f.buffer,
-        contentType: f.contentType,
-        originalName: f.originalName
-      })),
-      vehicleId,
-      vehicle.storeId
-    )
+    // Check if GCS is configured
+    const isGCSConfigured = 
+      process.env.GOOGLE_CLOUD_PROJECT_ID && 
+      (process.env.GOOGLE_APPLICATION_CREDENTIALS || process.env.GOOGLE_APPLICATION_CREDENTIALS_JSON) &&
+      process.env.GOOGLE_CLOUD_STORAGE_BUCKET;
+
+    let uploadResults;
+    let gcsWarning: string | undefined;
+
+    if (isGCSConfigured) {
+      try {
+        // Upload to Google Cloud Storage
+        uploadResults = await batchUpload(
+          fileData.map(f => ({
+            buffer: f.buffer,
+            contentType: f.contentType,
+            originalName: f.originalName
+          })),
+          vehicleId,
+          vehicle.storeId
+        )
+      } catch (gcsError) {
+        console.error('GCS upload failed, using placeholders:', gcsError);
+        // Fallback to placeholders if GCS fails
+        uploadResults = fileData.map((f, index) => ({
+          publicUrl: `/api/placeholder/vehicle/${vehicleId}/${index}`,
+          thumbnailUrl: `/api/placeholder/vehicle/${vehicleId}/${index}`,
+          path: `placeholder/${vehicleId}/${index}`,
+          size: f.buffer.length,
+          contentType: f.contentType
+        }));
+        gcsWarning = 'GCS upload failed. Using placeholder images.';
+      }
+    } else {
+      // GCS not configured - use placeholder URLs
+      console.warn('Google Cloud Storage not configured. Using placeholder URLs for vehicle images.');
+      uploadResults = fileData.map((f, index) => ({
+        publicUrl: `/api/placeholder/vehicle/${vehicleId}/${index}`,
+        thumbnailUrl: `/api/placeholder/vehicle/${vehicleId}/${index}`,
+        path: `placeholder/${vehicleId}/${index}`,
+        size: f.buffer.length,
+        contentType: f.contentType
+      }));
+      gcsWarning = 'Google Cloud Storage is not configured. Please set up GCS credentials to enable actual image uploads.';
+    }
 
     // Get the current highest sort order for gallery images
     const maxSortOrder = await prisma.vehicleImage.aggregate({
@@ -135,9 +170,12 @@ export async function POST(
     }
 
     return NextResponse.json({
-      message: 'Images uploaded successfully',
+      message: isGCSConfigured 
+        ? 'Images uploaded successfully' 
+        : 'Images saved with placeholder URLs (GCS not configured)',
       images: imageRecords,
-      uploadCount: imageRecords.length
+      uploadCount: imageRecords.length,
+      warning: gcsWarning
     }, { status: 201 })
 
   } catch (error) {
