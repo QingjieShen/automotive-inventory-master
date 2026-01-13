@@ -88,10 +88,7 @@ function AccountContent() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <NavigationBanner 
-        currentStore={selectedStore}
-        showBackToStores={!!selectedStore}
-      />
+      <NavigationBanner showBackToStores={false} />
       
       {/* Add padding-top to account for fixed navigation banner */}
       <div className="pt-16">
@@ -154,18 +151,6 @@ function AccountContent() {
                 </div>
               </div>
 
-              {/* Current Store */}
-              {selectedStore && (
-                <div className="flex items-start">
-                  <BuildingStorefrontIcon className="h-6 w-6 text-gray-400 mt-0.5" />
-                  <div className="ml-4 flex-1">
-                    <p className="text-sm font-medium text-gray-700">Current Store</p>
-                    <p className="text-base text-gray-900 mt-1">{selectedStore.name}</p>
-                    <p className="text-sm text-gray-500 mt-1">{selectedStore.address}</p>
-                  </div>
-                </div>
-              )}
-
               {/* User ID (for debugging/support) */}
               <div className="flex items-start pt-4 border-t border-gray-200">
                 <div className="ml-4 flex-1">
@@ -201,34 +186,17 @@ function AccountContent() {
               </button>
 
               {/* Back to Stores */}
-              {!selectedStore && (
-                <button
-                  onClick={() => router.push('/stores')}
-                  className="w-full flex items-center justify-between px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 transition-colors group"
-                >
-                  <div className="flex items-center">
-                    <BuildingStorefrontIcon className="h-5 w-5 text-gray-600 group-hover:text-gray-700" />
-                    <span className="ml-3 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-                      Select a Store
-                    </span>
-                  </div>
-                </button>
-              )}
-
-              {/* Back to Vehicles */}
-              {selectedStore && (
-                <button
-                  onClick={() => router.push('/vehicles')}
-                  className="w-full flex items-center justify-between px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 transition-colors group"
-                >
-                  <div className="flex items-center">
-                    <BuildingStorefrontIcon className="h-5 w-5 text-gray-600 group-hover:text-gray-700" />
-                    <span className="ml-3 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-                      Back to Vehicles
-                    </span>
-                  </div>
-                </button>
-              )}
+              <button
+                onClick={() => router.push('/stores')}
+                className="w-full flex items-center justify-between px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 transition-colors group"
+              >
+                <div className="flex items-center">
+                  <BuildingStorefrontIcon className="h-5 w-5 text-gray-600 group-hover:text-gray-700" />
+                  <span className="ml-3 text-sm font-medium text-gray-700 group-hover:text-gray-800">
+                    Back to Stores
+                  </span>
+                </div>
+              </button>
             </div>
           </div>
 
