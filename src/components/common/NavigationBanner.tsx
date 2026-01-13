@@ -1,35 +1,14 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { Store } from '@/types'
 import { useState } from 'react'
-import { useAuth } from '@/hooks/useAuth'
 
-interface NavigationBannerProps {
-  currentStore?: Store
-  showBackToStores?: boolean
-  onBackToStores?: () => void
-}
-
-export default function NavigationBanner({
-  currentStore,
-  showBackToStores = true,
-  onBackToStores
-}: NavigationBannerProps) {
+export default function NavigationBanner() {
   const router = useRouter()
-  const { isSuperAdmin } = useAuth()
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
-  const handleBackToStores = () => {
-    if (onBackToStores) {
-      onBackToStores()
-    } else {
-      router.push('/stores')
-    }
-  }
-
-  const handleManageStores = () => {
-    router.push('/admin/stores')
+  const handleStores = () => {
+    router.push('/stores')
     setIsMobileMenuOpen(false)
   }
 
@@ -53,47 +32,22 @@ export default function NavigationBanner({
             </div>
           </div>
 
-          {/* Store Name - Desktop */}
-          {currentStore && (
-            <div className="hidden md:block flex-1 text-center">
-              <h1 className="text-lg font-semibold text-gray-900">
-                {currentStore.name}
-              </h1>
-            </div>
-          )}
-
-          {/* Navigation Actions - Desktop */}
-          <div className="hidden md:flex items-center gap-3">
-            {/* Account Link */}
+          {/* Navigation Links - Desktop */}
+          <div className="hidden md:flex items-center gap-4">
+            <button
+              onClick={handleStores}
+              className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors"
+              aria-label="Stores"
+            >
+              Stores
+            </button>
             <button
               onClick={handleAccount}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
-              aria-label="Account settings"
+              className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors"
+              aria-label="Account"
             >
               Account
             </button>
-
-            {/* Manage Stores Link - Super Admin Only */}
-            {isSuperAdmin && (
-              <button
-                onClick={handleManageStores}
-                className="px-4 py-2 text-sm font-medium text-blue-700 bg-blue-50 border border-blue-300 rounded-md hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
-                aria-label="Manage stores"
-              >
-                Manage Stores
-              </button>
-            )}
-
-            {/* Back to Stores Button */}
-            {showBackToStores && (
-              <button
-                onClick={handleBackToStores}
-                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
-                aria-label="Back to store selection"
-              >
-                Back to Stores
-              </button>
-            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -136,43 +90,20 @@ export default function NavigationBanner({
       {isMobileMenuOpen && (
         <div className="md:hidden border-t border-gray-200 bg-white">
           <div className="px-4 py-3 space-y-3">
-            {currentStore && (
-              <div className="text-center py-2">
-                <p className="text-sm font-semibold text-gray-900">
-                  {currentStore.name}
-                </p>
-              </div>
-            )}
-            {/* Account Link */}
+            <button
+              onClick={handleStores}
+              className="w-full px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors text-left"
+              aria-label="Stores"
+            >
+              Stores
+            </button>
             <button
               onClick={handleAccount}
-              className="w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
-              aria-label="Account settings"
+              className="w-full px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors text-left"
+              aria-label="Account"
             >
               Account
             </button>
-            {/* Manage Stores Link - Super Admin Only */}
-            {isSuperAdmin && (
-              <button
-                onClick={handleManageStores}
-                className="w-full px-4 py-2 text-sm font-medium text-blue-700 bg-blue-50 border border-blue-300 rounded-md hover:bg-blue-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
-                aria-label="Manage stores"
-              >
-                Manage Stores
-              </button>
-            )}
-            {showBackToStores && (
-              <button
-                onClick={() => {
-                  handleBackToStores()
-                  setIsMobileMenuOpen(false)
-                }}
-                className="w-full px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
-                aria-label="Back to store selection"
-              >
-                Back to Stores
-              </button>
-            )}
           </div>
         </div>
       )}
