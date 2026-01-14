@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { deleteFile } from '@/lib/gcs'
+import { validateVIN } from '@/lib/validators/vin-validator'
 
 export async function GET(
   request: NextRequest,
@@ -58,7 +59,7 @@ export async function PUT(
 
     const { id: vehicleId } = await params
     const body = await request.json()
-    const { stockNumber, processingStatus } = body
+    const { stockNumber, vin, processingStatus } = body
 
     // Verify vehicle exists
     const existingVehicle = await prisma.vehicle.findUnique({
@@ -67,6 +68,17 @@ export async function PUT(
 
     if (!existingVehicle) {
       return NextResponse.json({ error: 'Vehicle not found' }, { status: 404 })
+    }
+
+    // Validate VIN if provided
+    if (vin) {
+      const vinValidation = validateVIN(vin)
+      if (!vinValidation.valid) {
+        return NextResponse.json(
+          { error: vinValidation.error || 'Invalid VIN format' },
+          { status: 400 }
+        )
+      }
     }
 
     // Check if stock number is being changed and if it conflicts
@@ -92,6 +104,7 @@ export async function PUT(
       where: { id: vehicleId },
       data: {
         ...(stockNumber && { stockNumber }),
+        ...(vin && { vin }),
         ...(processingStatus && { processingStatus }),
       },
       include: {

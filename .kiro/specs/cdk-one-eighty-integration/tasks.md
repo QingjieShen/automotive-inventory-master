@@ -216,20 +216,20 @@ This implementation plan breaks down the CDK One-Eighty integration into discret
   - **Property 21: Error Responses Hide Sensitive Data**
   - **Validates: Requirements 11.1, 11.2, 11.3, 11.5, 11.6, 11.7**
 
-- [-] 15. Update vehicle creation forms to include VIN
-  - [ ] 15.1 Update AddVehicleModal component
+- [x] 15. Update vehicle creation forms to include VIN
+  - [x] 15.1 Update AddVehicleModal component
     - Add VIN input field to form
     - Add VIN validation on client side using validateVIN utility
     - Display validation errors
     - _Requirements: 1.2, 1.3, 1.4_
 
-  - [ ] 15.2 Update vehicle creation API
+  - [x] 15.2 Update vehicle creation API
     - Update POST /api/vehicles endpoint to require VIN
     - Validate VIN using VIN validator
     - Return validation errors
     - _Requirements: 1.2, 1.3, 1.4_
 
-  - [ ] 15.3 Update vehicle edit forms
+  - [x] 15.3 Update vehicle edit forms
     - Add VIN field to edit page (src/app/vehicles/[id]/edit/page.tsx)
     - Add VIN field to new vehicle page (src/app/vehicles/new/page.tsx)
     - Allow VIN updates with validation

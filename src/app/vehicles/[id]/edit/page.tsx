@@ -13,6 +13,7 @@ import { LoadingSpinner } from '@/components/common'
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute'
 import { Vehicle, ImageType } from '@/types'
 import { ArrowLeftIcon, TrashIcon } from '@heroicons/react/24/outline'
+import { validateVIN } from '@/lib/validators/vin-validator'
 
 interface UploadFile extends File {
   id: string
@@ -38,6 +39,8 @@ function EditVehicleContent() {
   
   const [vehicle, setVehicle] = useState<Vehicle | null>(null)
   const [stockNumber, setStockNumber] = useState('')
+  const [vin, setVin] = useState('')
+  const [vinError, setVinError] = useState<string | null>(null)
   const [newKeyImages, setNewKeyImages] = useState<UploadFile[]>([])
   const [newGalleryImages, setNewGalleryImages] = useState<UploadFile[]>([])
   const [loading, setLoading] = useState(true)
@@ -78,6 +81,16 @@ function EditVehicleContent() {
     }
   }, [stockNumber])
 
+  // Validate VIN in real-time
+  useEffect(() => {
+    if (vin.trim() === '') {
+      setVinError(null)
+    } else {
+      const validation = validateVIN(vin)
+      setVinError(validation.valid ? null : validation.error || 'Invalid VIN')
+    }
+  }, [vin])
+
   const fetchVehicle = async () => {
     try {
       setLoading(true)
@@ -95,6 +108,7 @@ function EditVehicleContent() {
       const data = await response.json()
       setVehicle(data)
       setStockNumber(data.stockNumber)
+      setVin(data.vin || '')
     } catch (err) {
       console.error('Error fetching vehicle:', err)
       setError('Failed to load vehicle details')
@@ -126,8 +140,20 @@ function EditVehicleContent() {
       return
     }
 
+    if (!vin.trim()) {
+      setError('VIN is required')
+      setShowRetry(false)
+      return
+    }
+
     if (validationError) {
       setError(validationError)
+      setShowRetry(false)
+      return
+    }
+
+    if (vinError) {
+      setError(vinError)
       setShowRetry(false)
       return
     }
@@ -143,8 +169,8 @@ function EditVehicleContent() {
     setShowRetry(false)
 
     try {
-      // Update vehicle information if stock number changed
-      if (stockNumber.trim() !== vehicle.stockNumber) {
+      // Update vehicle information if stock number or VIN changed
+      if (stockNumber.trim() !== vehicle.stockNumber || vin.trim() !== vehicle.vin) {
         const vehicleResponse = await fetch(`/api/vehicles/${vehicleId}`, {
           method: 'PUT',
           headers: {
@@ -152,6 +178,7 @@ function EditVehicleContent() {
           },
           body: JSON.stringify({
             stockNumber: stockNumber.trim(),
+            vin: vin.trim(),
           }),
         })
 
@@ -362,6 +389,44 @@ function EditVehicleContent() {
                     )}
                   </div>
 
+                  {/* VIN Input */}
+                  <div className="mb-6">
+                    <label 
+                      htmlFor="vin" 
+                      className="block text-sm font-medium text-gray-700 mb-2"
+                    >
+                      VIN <span className="text-red-500">*</span>
+                    </label>
+                    <input
+                      id="vin"
+                      type="text"
+                      value={vin}
+                      onChange={(e) => setVin(e.target.value.toUpperCase())}
+                      className={`w-full px-4 py-3 border rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase ${
+                        vinError 
+                          ? 'border-red-300 focus:ring-red-500' 
+                          : 'border-gray-300'
+                      }`}
+                      placeholder="Enter 17-character VIN"
+                      maxLength={17}
+                      required
+                      disabled={saving}
+                    />
+                    {vinError && (
+                      <p className="mt-2 text-sm text-red-600">
+                        {vinError}
+                      </p>
+                    )}
+                    {!vinError && vin.trim() && (
+                      <p className="mt-2 text-sm text-green-600">
+                        ✓ Valid VIN
+                      </p>
+                    )}
+                    <p className="mt-2 text-xs text-gray-500">
+                      17 characters, alphanumeric (excluding I, O, Q)
+                    </p>
+                  </div>
+
                   {/* Store Display */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -383,7 +448,7 @@ function EditVehicleContent() {
                   <div className="flex flex-col gap-3">
                     <button
                       type="submit"
-                      disabled={saving || !stockNumber.trim() || !!validationError}
+                      disabled={saving || !stockNumber.trim() || !vin.trim() || !!validationError || !!vinError}
                       className="w-full py-3 px-4 bg-blue-600 text-white rounded-lg font-medium disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
                     >
                       {saving ? (
@@ -479,7 +544,7 @@ function EditVehicleContent() {
               <div className="flex flex-col gap-3">
                 <button
                   type="submit"
-                  disabled={saving || !stockNumber.trim() || !!validationError}
+                  disabled={saving || !stockNumber.trim() || !vin.trim() || !!validationError || !!vinError}
                   className="w-full py-3 px-4 bg-blue-600 text-white rounded-lg font-medium disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
                 >
                   {saving ? (

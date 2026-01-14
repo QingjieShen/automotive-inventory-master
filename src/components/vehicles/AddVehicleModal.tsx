@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useStore } from '@/components/providers/StoreProvider'
 import SimplePhotoUploader from './SimplePhotoUploader'
+import { validateVIN } from '@/lib/validators/vin-validator'
 
 interface AddVehicleModalProps {
   onClose: () => void
@@ -12,15 +13,42 @@ interface AddVehicleModalProps {
 export default function AddVehicleModal({ onClose, onVehicleAdded }: AddVehicleModalProps) {
   const { selectedStore } = useStore()
   const [stockNumber, setStockNumber] = useState('')
+  const [vin, setVin] = useState('')
+  const [vinError, setVinError] = useState<string | null>(null)
   const [uploadedImages, setUploadedImages] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  const handleVinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newVin = e.target.value.toUpperCase() // Convert to uppercase
+    setVin(newVin)
+    
+    // Validate VIN in real-time
+    if (newVin.trim() === '') {
+      setVinError(null)
+    } else {
+      const validation = validateVIN(newVin)
+      setVinError(validation.valid ? null : validation.error || 'Invalid VIN')
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
     if (!stockNumber.trim()) {
       setError('Stock number is required')
+      return
+    }
+
+    if (!vin.trim()) {
+      setError('VIN is required')
+      return
+    }
+
+    // Validate VIN before submission
+    const vinValidation = validateVIN(vin)
+    if (!vinValidation.valid) {
+      setError(vinValidation.error || 'Invalid VIN')
       return
     }
 
@@ -41,6 +69,7 @@ export default function AddVehicleModal({ onClose, onVehicleAdded }: AddVehicleM
         },
         body: JSON.stringify({
           stockNumber: stockNumber.trim(),
+          vin: vin.trim(),
           storeId: selectedStore.id,
         }),
       })
@@ -129,8 +158,36 @@ export default function AddVehicleModal({ onClose, onVehicleAdded }: AddVehicleM
                 placeholder="Enter stock number (e.g., ABC123)"
                 required
               />
-              <p className="mt-2 text-blue-600 font-medium">
-                💡 Button will be enabled after entering stock number
+            </div>
+
+            {/* VIN Input */}
+            <div>
+              <label className="block text-lg font-bold text-gray-900 mb-3">
+                VIN (Required)
+              </label>
+              <input
+                type="text"
+                value={vin}
+                onChange={handleVinChange}
+                className={`w-full p-4 border-2 rounded-lg text-lg uppercase ${
+                  vinError ? 'border-red-500' : 'border-gray-400'
+                }`}
+                placeholder="Enter 17-character VIN"
+                maxLength={17}
+                required
+              />
+              {vinError && (
+                <p className="mt-2 text-red-600 font-medium">
+                  {vinError}
+                </p>
+              )}
+              {!vinError && vin.trim() && (
+                <p className="mt-2 text-green-600 font-medium">
+                  ✓ Valid VIN
+                </p>
+              )}
+              <p className="mt-2 text-sm text-gray-600">
+                17 characters, alphanumeric (excluding I, O, Q)
               </p>
             </div>
 
@@ -166,7 +223,7 @@ export default function AddVehicleModal({ onClose, onVehicleAdded }: AddVehicleM
           <div className="flex gap-3 p-6 border-t border-gray-200 bg-gray-50 flex-shrink-0">
             <button
               type="submit"
-              disabled={loading || !stockNumber.trim()}
+              disabled={loading || !stockNumber.trim() || !vin.trim() || !!vinError}
               className="flex-1 py-3 px-4 bg-blue-600 text-white rounded-lg font-medium disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-blue-700"
             >
               {loading ? 'Creating...' : (

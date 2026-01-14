@@ -3,6 +3,7 @@ import { getServerSession } from 'next-auth'
 import { authOptions } from '@/lib/auth'
 import { prisma } from '@/lib/prisma'
 import { Vehicle, PaginatedResponse } from '@/types'
+import { validateVIN } from '@/lib/validators/vin-validator'
 
 export async function GET(request: NextRequest) {
   try {
@@ -93,11 +94,27 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
-    const { stockNumber, storeId } = body
+    const { stockNumber, vin, storeId } = body
 
     if (!stockNumber || !storeId) {
       return NextResponse.json(
         { error: 'Stock number and store ID are required' },
+        { status: 400 }
+      )
+    }
+
+    if (!vin) {
+      return NextResponse.json(
+        { error: 'VIN is required' },
+        { status: 400 }
+      )
+    }
+
+    // Validate VIN format
+    const vinValidation = validateVIN(vin)
+    if (!vinValidation.valid) {
+      return NextResponse.json(
+        { error: vinValidation.error || 'Invalid VIN format' },
         { status: 400 }
       )
     }
@@ -122,6 +139,7 @@ export async function POST(request: NextRequest) {
     const vehicle = await prisma.vehicle.create({
       data: {
         stockNumber,
+        vin,
         storeId,
         processingStatus: 'NOT_STARTED'
       },
