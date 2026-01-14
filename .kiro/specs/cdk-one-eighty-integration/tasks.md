@@ -176,8 +176,8 @@ This implementation plan breaks down the CDK One-Eighty integration into discret
   - Test valid API key (200)
   - _Requirements: 7.2, 7.3_
 
-- [ ] 12. Create CSV feed API endpoint
-  - [ ] 12.1 Create GET /api/inventory/feed.csv route handler
+- [x] 12. Create CSV feed API endpoint
+  - [x] 12.1 Create GET /api/inventory/feed.csv route handler
     - Create `src/app/api/inventory/feed.csv/route.ts`
     - Extract API key from query parameter
     - Call APIKeyAuthenticator
