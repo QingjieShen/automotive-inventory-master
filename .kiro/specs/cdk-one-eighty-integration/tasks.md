@@ -22,8 +22,8 @@ This implementation plan breaks down the CDK One-Eighty integration into discret
   - **Property 1: VIN Validation Rejects Invalid Inputs**
   - **Validates: Requirements 1.2, 1.3, 1.4**
 
-- [ ] 2. Create VIN validation utility
-  - [ ] 2.1 Implement VIN validator function
+- [x] 2. Create VIN validation utility
+  - [x] 2.1 Implement VIN validator function
     - Create `src/lib/validators/vin-validator.ts`
     - Implement validation logic for 17-character alphanumeric format
     - Exclude I, O, Q characters from valid VINs
@@ -48,18 +48,18 @@ This implementation plan breaks down the CDK One-Eighty integration into discret
   - **Property 4: Valid Images Are Accepted**
   - **Validates: Requirements 2.1, 2.2, 2.3, 2.4, 2.5**
 
-- [ ] 4. Checkpoint - Ensure validation tests pass
+- [x] 4. Checkpoint - Ensure validation tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 5. Set up Google Cloud Storage service
-  - [ ] 5.1 Install and configure GCS dependencies
+- [x] 5. Set up Google Cloud Storage service
+  - [x] 5.1 Install and configure GCS dependencies
     - Install `@google-cloud/storage` package
     - Add GCS environment variables to `.env.example`
     - Create GCS configuration type definitions
     - _Requirements: 3.2_
 
 
-  - [ ] 5.2 Implement GoogleCloudStorageService class
+  - [x] 5.2 Implement GoogleCloudStorageService class
     - Create `src/lib/services/gcs-service.ts`
     - Implement constructor with credentials configuration
     - Implement `uploadImage()` method for storing images
@@ -73,7 +73,7 @@ This implementation plan breaks down the CDK One-Eighty integration into discret
   - Test upload, retrieval, and deletion operations
   - _Requirements: 3.2_
 
-- [ ] 6. Create background template management
+- [-] 6. Create background template management
   - [ ] 6.1 Upload background templates to GCS
     - Create `backgrounds/` folder in GCS bucket
     - Upload pre-designed background images

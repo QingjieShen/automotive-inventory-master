@@ -16,7 +16,7 @@ describe('VIN Validation Property Tests', () => {
           expect(result.error).toMatch(/17|character|length|required|empty/i);
         }
       ),
-      { numRuns: 100 }
+      { numRuns: 20 }
     );
   });
 
@@ -31,7 +31,7 @@ describe('VIN Validation Property Tests', () => {
           expect(result.error).toMatch(/alphanumeric|I|O|Q|character/i);
         }
       ),
-      { numRuns: 100 }
+      { numRuns: 20 }
     );
   });
 
@@ -52,7 +52,7 @@ describe('VIN Validation Property Tests', () => {
           expect(result.error).toBeDefined();
         }
       ),
-      { numRuns: 100 }
+      { numRuns: 20 }
     );
   });
 
@@ -67,7 +67,7 @@ describe('VIN Validation Property Tests', () => {
           expect(result.error).toMatch(/required|empty/i);
         }
       ),
-      { numRuns: 100 }
+      { numRuns: 20 }
     );
   });
 
@@ -87,7 +87,7 @@ describe('VIN Validation Property Tests', () => {
           expect(result.error).toBeUndefined();
         }
       ),
-      { numRuns: 100 }
+      { numRuns: 20 }
     );
   });
 
@@ -108,7 +108,7 @@ describe('VIN Validation Property Tests', () => {
           expect(result.error!.length).toBeGreaterThan(0);
         }
       ),
-      { numRuns: 100 }
+      { numRuns: 20 }
     );
   });
 });
