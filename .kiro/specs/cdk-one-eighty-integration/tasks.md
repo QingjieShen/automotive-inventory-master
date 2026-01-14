@@ -134,8 +134,8 @@ This implementation plan breaks down the CDK One-Eighty integration into discret
   - Test gallery image skipping
   - _Requirements: 3.1, 3.6, 3.7_
 
-- [ ] 10. Implement CSV generator service
-  - [ ] 10.1 Create CSVGeneratorService class
+- [-] 10. Implement CSV generator service
+  - [x] 10.1 Create CSVGeneratorService class
     - Create `src/lib/services/csv-generator-service.ts`
     - Implement `generateFeed()` main method
     - Implement `fetchVehiclesWithOptimizedImages()` query
