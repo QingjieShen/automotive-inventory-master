@@ -73,14 +73,14 @@ This implementation plan breaks down the CDK One-Eighty integration into discret
   - Test upload, retrieval, and deletion operations
   - _Requirements: 3.2_
 
-- [-] 6. Create background template management
-  - [ ] 6.1 Upload background templates to GCS
+- [x] 6. Create background template management
+  - [x] 6.1 Upload background templates to GCS
     - Create `backgrounds/` folder in GCS bucket
     - Upload pre-designed background images
     - Document background template naming convention
     - _Requirements: 3.3_
 
-  - [ ] 6.2 Implement background template selector
+  - [x] 6.2 Implement background template selector
     - Create `src/lib/services/background-template-service.ts`
     - Map ImageType to background template URLs
     - Implement `selectBackgroundTemplate()` method
