@@ -7,6 +7,8 @@
  * Requirements: 7.1, 7.2, 7.3, 7.4, 7.6, 7.7
  */
 
+import { createLogger } from '../utils/logger';
+
 export interface AuthResult {
   authenticated: boolean;
   error?: string;
@@ -14,6 +16,7 @@ export interface AuthResult {
 
 export class APIKeyAuthenticator {
   private readonly validApiKey: string;
+  private logger = createLogger('APIKeyAuthenticator');
 
   constructor(apiKey: string) {
     if (!apiKey || apiKey.trim().length === 0) {
@@ -31,6 +34,12 @@ export class APIKeyAuthenticator {
   authenticate(providedKey: string | null | undefined): AuthResult {
     // Requirement 7.2: Missing API key returns 401
     if (!providedKey) {
+      // Requirement 11.3: Log authentication failures
+      this.logger.warn('Authentication failed: Missing API key', {
+        operation: 'authentication',
+        reason: 'missing-key',
+      });
+      
       return { 
         authenticated: false, 
         error: 'API key required' 
@@ -40,6 +49,12 @@ export class APIKeyAuthenticator {
     // Requirement 7.3: Invalid API key returns 403
     // Requirement 7.6: Use constant-time comparison for security
     if (!this.constantTimeCompare(providedKey, this.validApiKey)) {
+      // Requirement 11.3: Log authentication failures
+      this.logger.warn('Authentication failed: Invalid API key', {
+        operation: 'authentication',
+        reason: 'invalid-key',
+      });
+      
       return { 
         authenticated: false, 
         error: 'Invalid API key' 
@@ -47,6 +62,10 @@ export class APIKeyAuthenticator {
     }
 
     // Requirement 7.4: Valid API key grants access
+    this.logger.info('Authentication successful', {
+      operation: 'authentication',
+    });
+    
     return { authenticated: true };
   }
 

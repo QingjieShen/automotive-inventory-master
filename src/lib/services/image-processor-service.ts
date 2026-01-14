@@ -2,6 +2,7 @@ import { ImageType } from '@/types';
 import { GoogleCloudStorageService } from './gcs-service';
 import { BackgroundTemplateService } from './background-template-service';
 import { prisma } from '@/lib/prisma';
+import { createLogger } from '@/lib/utils/logger';
 
 /**
  * Result of image processing operation
@@ -56,6 +57,7 @@ export class ImageProcessorService {
   private gcsService: GoogleCloudStorageService;
   private templateService: BackgroundTemplateService;
   private aiConfig: AIProcessorConfig;
+  private logger = createLogger('ImageProcessorService');
 
   /**
    * Key image types that should be processed with AI
@@ -120,14 +122,22 @@ export class ImageProcessorService {
     try {
       // Step 1: Check if this image type should be processed
       if (!this.shouldProcessImage(imageType)) {
-        console.log(`Skipping gallery image: ${vehicleImageId} (${imageType})`);
+        this.logger.info('Skipping gallery image', {
+          operation: 'image-processing',
+          vehicleImageId,
+          imageType,
+        });
         return {
           success: true,
           skipped: true,
         };
       }
 
-      console.log(`Processing image: ${vehicleImageId} (${imageType})`);
+      this.logger.info('Starting image processing', {
+        operation: 'image-processing',
+        vehicleImageId,
+        imageType,
+      });
 
       // Step 2: Get the vehicle image record to access vehicleId
       const vehicleImage = await prisma.vehicleImage.findUnique({
@@ -136,7 +146,12 @@ export class ImageProcessorService {
       });
 
       if (!vehicleImage) {
-        throw new Error(`Vehicle image not found: ${vehicleImageId}`);
+        const error = `Vehicle image not found: ${vehicleImageId}`;
+        this.logger.error('Vehicle image not found', error, {
+          operation: 'image-processing',
+          vehicleImageId,
+        });
+        throw new Error(error);
       }
 
       // Step 3: Download the original image
@@ -146,7 +161,13 @@ export class ImageProcessorService {
       const templateResult = await this.templateService.selectBackgroundTemplate(imageType);
       
       if (!templateResult) {
-        throw new Error(`No background template found for image type: ${imageType}`);
+        const error = `No background template found for image type: ${imageType}`;
+        this.logger.error('Background template not found', error, {
+          operation: 'image-processing',
+          vehicleImageId,
+          imageType,
+        });
+        throw new Error(error);
       }
 
       // Step 5: Process image with AI (background removal and replacement)
@@ -175,7 +196,13 @@ export class ImageProcessorService {
         },
       });
 
-      console.log(`Successfully processed image: ${vehicleImageId}`);
+      this.logger.info('Successfully processed image', {
+        operation: 'image-processing',
+        vehicleImageId,
+        vehicleId: vehicleImage.vehicleId,
+        imageType,
+        optimizedUrl,
+      });
 
       return {
         success: true,
@@ -184,15 +211,12 @@ export class ImageProcessorService {
       };
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown processing error';
-      console.error(`Image processing failed for ${vehicleImageId}:`, errorMessage);
-
-      // Log error to database (optional - could be added to a separate error log table)
-      console.error({
+      
+      // Requirement 11.2: Log image processing errors with context
+      this.logger.error('Image processing failed', error instanceof Error ? error : errorMessage, {
         operation: 'image-processing',
         vehicleImageId,
         imageType,
-        error: errorMessage,
-        timestamp: new Date().toISOString(),
       });
 
       return {
@@ -223,16 +247,31 @@ export class ImageProcessorService {
    */
   private async downloadImage(url: string): Promise<Buffer> {
     try {
+      this.logger.debug('Downloading image', {
+        operation: 'image-download',
+        url,
+      });
+
       const response = await fetch(url);
 
       if (!response.ok) {
-        throw new Error(`Failed to download image: ${response.status} ${response.statusText}`);
+        const error = `Failed to download image: ${response.status} ${response.statusText}`;
+        this.logger.error('Image download failed', error, {
+          operation: 'image-download',
+          url,
+          statusCode: response.status,
+        });
+        throw new Error(error);
       }
 
       const arrayBuffer = await response.arrayBuffer();
       return Buffer.from(arrayBuffer);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown download error';
+      this.logger.error('Image download error', error instanceof Error ? error : errorMessage, {
+        operation: 'image-download',
+        url,
+      });
       throw new Error(`Image download failed: ${errorMessage}`);
     }
   }
@@ -257,6 +296,12 @@ export class ImageProcessorService {
     backgroundTemplate: string
   ): Promise<Buffer> {
     try {
+      this.logger.debug('Starting AI background processing', {
+        operation: 'ai-background-processing',
+        imageType,
+        backgroundTemplate,
+      });
+
       // Convert image buffer to base64 for API transmission
       const base64Image = imageBuffer.toString('base64');
 
@@ -287,9 +332,17 @@ export class ImageProcessorService {
 
       if (!response.ok) {
         const errorText = await response.text().catch(() => 'Unknown error');
-        throw new Error(
-          `AI API request failed: ${response.status} ${response.statusText} - ${errorText}`
-        );
+        const error = `AI API request failed: ${response.status} ${response.statusText} - ${errorText}`;
+        
+        // Requirement 11.7: Log cloud storage/AI API operation failures
+        this.logger.error('AI API request failed', error, {
+          operation: 'ai-background-processing',
+          apiEndpoint: this.aiConfig.apiEndpoint,
+          statusCode: response.status,
+          imageType,
+        });
+        
+        throw new Error(error);
       }
 
       // Parse the response
@@ -297,14 +350,27 @@ export class ImageProcessorService {
 
       // Extract the processed image from the response
       if (!result.processedImage) {
-        throw new Error('AI API response missing processedImage field');
+        const error = 'AI API response missing processedImage field';
+        this.logger.error('Invalid AI API response', error, {
+          operation: 'ai-background-processing',
+          imageType,
+        });
+        throw new Error(error);
       }
+
+      this.logger.debug('AI background processing completed', {
+        operation: 'ai-background-processing',
+        imageType,
+      });
 
       // Convert base64 response back to Buffer
       return Buffer.from(result.processedImage, 'base64');
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown AI processing error';
-      console.error('AI background processing failed:', errorMessage);
+      this.logger.error('AI background processing failed', error instanceof Error ? error : errorMessage, {
+        operation: 'ai-background-processing',
+        imageType,
+      });
       throw new Error(`Background processing failed: ${errorMessage}`);
     }
   }
@@ -355,20 +421,43 @@ Maintain the vehicle's original appearance and details.`;
     vehicleId: string,
     imageId: string
   ): Promise<string> {
-    // Generate unique filename for optimized image
-    const filename = this.gcsService.generateUniqueFilename(
-      `${imageId}_optimized.jpg`,
-      vehicleId
-    );
+    try {
+      this.logger.debug('Uploading optimized image to GCS', {
+        operation: 'gcs-upload',
+        vehicleId,
+        imageId,
+      });
 
-    // Upload to GCS with JPEG content type
-    const uploadResult = await this.gcsService.uploadImage(
-      imageBuffer,
-      filename,
-      'image/jpeg'
-    );
+      // Generate unique filename for optimized image
+      const filename = this.gcsService.generateUniqueFilename(
+        `${imageId}_optimized.jpg`,
+        vehicleId
+      );
 
-    return uploadResult.publicUrl;
+      // Upload to GCS with JPEG content type
+      const uploadResult = await this.gcsService.uploadImage(
+        imageBuffer,
+        filename,
+        'image/jpeg'
+      );
+
+      this.logger.debug('Successfully uploaded optimized image', {
+        operation: 'gcs-upload',
+        vehicleId,
+        imageId,
+        publicUrl: uploadResult.publicUrl,
+      });
+
+      return uploadResult.publicUrl;
+    } catch (error) {
+      // Requirement 11.7: Log cloud storage operation failures
+      this.logger.error('GCS upload failed', error instanceof Error ? error : String(error), {
+        operation: 'gcs-upload',
+        vehicleId,
+        imageId,
+      });
+      throw error;
+    }
   }
 }
 

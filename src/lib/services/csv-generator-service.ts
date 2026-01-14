@@ -1,4 +1,5 @@
 import { prisma } from '../prisma';
+import { createLogger } from '../utils/logger';
 
 /**
  * Vehicle data structure for CSV feed generation
@@ -27,6 +28,7 @@ interface CSVGeneratorConfig {
  */
 export class CSVGeneratorService {
   private config: CSVGeneratorConfig;
+  private logger = createLogger('CSVGeneratorService');
 
   constructor(config: CSVGeneratorConfig) {
     this.config = config;
@@ -41,15 +43,40 @@ export class CSVGeneratorService {
    * @returns CSV string with format: VIN,StockNumber,ImageURLs
    */
   async generateFeed(): Promise<string> {
-    const vehicles = await this.fetchVehiclesWithOptimizedImages();
+    try {
+      this.logger.info('Starting CSV feed generation', {
+        operation: 'csv-generation',
+      });
 
-    // CSV header row
-    const header = 'VIN,StockNumber,ImageURLs\r\n';
+      const vehicles = await this.fetchVehiclesWithOptimizedImages();
 
-    // Generate CSV rows
-    const rows = vehicles.map((vehicle) => this.formatCSVRow(vehicle));
+      this.logger.info('Fetched vehicles with optimized images', {
+        operation: 'csv-generation',
+        vehicleCount: vehicles.length,
+      });
 
-    return header + rows.join('');
+      // CSV header row
+      const header = 'VIN,StockNumber,ImageURLs\r\n';
+
+      // Generate CSV rows
+      const rows = vehicles.map((vehicle) => this.formatCSVRow(vehicle));
+
+      const csv = header + rows.join('');
+
+      this.logger.info('Successfully generated CSV feed', {
+        operation: 'csv-generation',
+        vehicleCount: vehicles.length,
+        csvSize: csv.length,
+      });
+
+      return csv;
+    } catch (error) {
+      // Requirement 11.1: Log CSV feed generation errors
+      this.logger.error('CSV feed generation failed', error instanceof Error ? error : String(error), {
+        operation: 'csv-generation',
+      });
+      throw error;
+    }
   }
 
   /**
@@ -63,35 +90,52 @@ export class CSVGeneratorService {
    * @returns Array of vehicle feed data
    */
   private async fetchVehiclesWithOptimizedImages(): Promise<VehicleFeedData[]> {
-    const vehicles = await prisma.vehicle.findMany({
-      where: {
-        images: {
-          some: {
-            isOptimized: true,
-          },
-        },
-      },
-      include: {
-        images: {
-          where: {
-            isOptimized: true,
-          },
-          select: {
-            optimizedUrl: true,
-            updatedAt: true,
-          },
-        },
-      },
-    });
+    try {
+      this.logger.debug('Querying vehicles with optimized images', {
+        operation: 'database-query',
+      });
 
-    return vehicles.map((vehicle) => ({
-      vin: vehicle.vin,
-      stockNumber: vehicle.stockNumber,
-      imageUrls: vehicle.images
-        .filter((img) => img.optimizedUrl !== null)
-        .map((img) => this.buildImageUrlWithCacheBuster(img.optimizedUrl!, img.updatedAt)),
-      updatedAt: vehicle.updatedAt,
-    }));
+      const vehicles = await prisma.vehicle.findMany({
+        where: {
+          images: {
+            some: {
+              isOptimized: true,
+            },
+          },
+        },
+        include: {
+          images: {
+            where: {
+              isOptimized: true,
+            },
+            select: {
+              optimizedUrl: true,
+              updatedAt: true,
+            },
+          },
+        },
+      });
+
+      this.logger.debug('Database query completed', {
+        operation: 'database-query',
+        vehicleCount: vehicles.length,
+      });
+
+      return vehicles.map((vehicle) => ({
+        vin: vehicle.vin,
+        stockNumber: vehicle.stockNumber,
+        imageUrls: vehicle.images
+          .filter((img) => img.optimizedUrl !== null)
+          .map((img) => this.buildImageUrlWithCacheBuster(img.optimizedUrl!, img.updatedAt)),
+        updatedAt: vehicle.updatedAt,
+      }));
+    } catch (error) {
+      // Requirement 11.1: Log database query failures
+      this.logger.error('Database query failed', error instanceof Error ? error : String(error), {
+        operation: 'database-query',
+      });
+      throw error;
+    }
   }
 
   /**

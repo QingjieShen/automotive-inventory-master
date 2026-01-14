@@ -18,7 +18,6 @@ This implementation plan breaks down the CDK One-Eighty integration into discret
   - _Requirements: 1.1, 9.1, 9.2, 9.3, 9.4_
 
 - [x] 1.1 Write property test for VIN validation
-
   - **Property 1: VIN Validation Rejects Invalid Inputs**
   - **Validates: Requirements 1.2, 1.3, 1.4**
 
@@ -57,7 +56,6 @@ This implementation plan breaks down the CDK One-Eighty integration into discret
     - Add GCS environment variables to `.env.example`
     - Create GCS configuration type definitions
     - _Requirements: 3.2_
-
 
   - [x] 5.2 Implement GoogleCloudStorageService class
     - Create `src/lib/services/gcs-service.ts`
@@ -134,7 +132,7 @@ This implementation plan breaks down the CDK One-Eighty integration into discret
   - Test gallery image skipping
   - _Requirements: 3.1, 3.6, 3.7_
 
-- [-] 10. Implement CSV generator service
+- [x] 10. Implement CSV generator service
   - [x] 10.1 Create CSVGeneratorService class
     - Create `src/lib/services/csv-generator-service.ts`
     - Implement `generateFeed()` main method
@@ -156,7 +154,7 @@ This implementation plan breaks down the CDK One-Eighty integration into discret
   - **Property 16: Feed URL Idempotence**
   - **Validates: Requirements 5.2, 5.3, 5.4, 5.5, 6.1, 6.2, 6.3, 6.4, 6.5, 8.1, 8.2, 8.3, 8.4, 8.5**
 
-- [-] 11. Create API key authenticator
+- [x] 11. Create API key authenticator
   - [x] 11.1 Implement APIKeyAuthenticator class
     - Create `src/lib/services/api-key-authenticator.ts`
     - Implement `authenticate()` method
@@ -194,18 +192,18 @@ This implementation plan breaks down the CDK One-Eighty integration into discret
   - Test proper CSV headers
   - _Requirements: 5.1, 5.6, 5.7, 5.8, 7.2, 7.3, 8.6_
 
-- [ ] 13. Checkpoint - Ensure CSV feed endpoint works
+- [x] 13. Checkpoint - Ensure CSV feed endpoint works
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 14. Implement error logging
-  - [ ] 14.1 Create logging utility
+- [x] 14. Implement error logging
+  - [x] 14.1 Create logging utility
     - Create `src/lib/utils/logger.ts`
     - Implement structured logging with context
     - Support different log levels (info, warn, error, debug)
     - Include operation type, IDs, timestamps in logs
     - _Requirements: 11.1, 11.2, 11.3, 11.6, 11.7_
 
-  - [ ] 14.2 Add logging to all services
+  - [x] 14.2 Add logging to all services
     - Add error logging to ImageProcessorService
     - Add error logging to CSVGeneratorService
     - Add error logging to APIKeyAuthenticator
@@ -218,10 +216,10 @@ This implementation plan breaks down the CDK One-Eighty integration into discret
   - **Property 21: Error Responses Hide Sensitive Data**
   - **Validates: Requirements 11.1, 11.2, 11.3, 11.5, 11.6, 11.7**
 
-- [ ] 15. Update vehicle creation forms to include VIN
+- [-] 15. Update vehicle creation forms to include VIN
   - [ ] 15.1 Update AddVehicleModal component
     - Add VIN input field to form
-    - Add VIN validation on client side
+    - Add VIN validation on client side using validateVIN utility
     - Display validation errors
     - _Requirements: 1.2, 1.3, 1.4_
 
@@ -232,12 +230,13 @@ This implementation plan breaks down the CDK One-Eighty integration into discret
     - _Requirements: 1.2, 1.3, 1.4_
 
   - [ ] 15.3 Update vehicle edit forms
-    - Add VIN field to edit page
+    - Add VIN field to edit page (src/app/vehicles/[id]/edit/page.tsx)
+    - Add VIN field to new vehicle page (src/app/vehicles/new/page.tsx)
     - Allow VIN updates with validation
     - _Requirements: 1.2, 1.3, 1.4_
 
-- [ ] 16. Create infrastructure setup documentation
-  - [ ] 16.1 Create CLOUD_SETUP_GUIDE.md
+- [x] 16. Create infrastructure setup documentation
+  - [x] 16.1 Create GOOGLE_CLOUD_SETUP.md
     - Document Google Cloud project setup
     - Document GCS bucket creation and configuration
     - Document service account creation and key generation
@@ -276,6 +275,7 @@ This implementation plan breaks down the CDK One-Eighty integration into discret
 - Unit tests validate specific examples and edge cases
 - Integration tests validate end-to-end flows
 - The implementation follows an incremental approach: schema → validation → storage → processing → feed → auth
-- Google AI API setup requires careful configuration - refer to CLOUD_SETUP_GUIDE.md
+- Google AI API setup requires careful configuration - refer to docs/GOOGLE_CLOUD_SETUP.md
 - Only 6 key image types are processed (FRONT_QUARTER, FRONT, BACK_QUARTER, BACK, DRIVER_SIDE, PASSENGER_SIDE)
 - Gallery images are NOT processed by AI
+
