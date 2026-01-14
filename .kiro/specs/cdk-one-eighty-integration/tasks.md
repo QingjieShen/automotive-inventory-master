@@ -29,7 +29,8 @@ This implementation plan breaks down the CDK One-Eighty integration into discret
     - Return validation result with descriptive error messages
     - _Requirements: 1.2, 1.3, 1.4_
 
-- [ ]* 2.2 Write unit tests for VIN validator edge cases
+- [x] 2.2 Write unit tests for VIN validator edge cases
+
   - Test empty string, 16 chars, 18 chars, invalid characters
   - _Requirements: 1.2, 1.3, 1.4_
 
@@ -41,7 +42,8 @@ This implementation plan breaks down the CDK One-Eighty integration into discret
     - Return validation result with descriptive errors
     - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5_
 
-- [ ]* 3.2 Write property tests for image validation
+- [x] 3.2 Write property tests for image validation
+
   - **Property 2: Image Format Validation**
   - **Property 3: Image Size Validation**
   - **Property 4: Valid Images Are Accepted**
@@ -66,7 +68,8 @@ This implementation plan breaks down the CDK One-Eighty integration into discret
     - Implement `generateUniqueFilename()` helper
     - _Requirements: 3.2_
 
-- [ ]* 5.3 Write unit tests for GCS service
+- [x] 5.3 Write unit tests for GCS service
+
   - Mock GCS client for testing
   - Test upload, retrieval, and deletion operations
   - _Requirements: 3.2_
@@ -106,7 +109,8 @@ This implementation plan breaks down the CDK One-Eighty integration into discret
     - Update database with optimized URL and timestamps
     - _Requirements: 3.2, 3.4, 3.5, 4.3, 4.4, 4.5_
 
-- [ ]* 7.4 Write property tests for image processing
+- [x] 7.4 Write property tests for image processing
+
   - **Property 5: Image State Transitions**
   - **Property 6: Dual URL Storage**
   - **Property 7: Processing Timestamp Consistency**
@@ -266,6 +270,7 @@ This implementation plan breaks down the CDK One-Eighty integration into discret
 
 - [ ] 18. Final checkpoint - Complete feature
   - Ensure all tests pass, ask the user if questions arise.
+  - **Status**: Unit tests pass (17/17), integration tests require database to be running (25 tests pending)
 
 ## Notes
 
