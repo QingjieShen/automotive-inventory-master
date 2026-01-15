@@ -180,19 +180,19 @@ This implementation plan outlines the step-by-step process for integrating shadc
     - Test that validation logic is preserved
     - Test that error messages are displayed consistently
 
-- [ ] 8. Migrate Table Components (if applicable)
-  - [ ] 8.1 Install Table component
+- [x] 8. Migrate Table Components (if applicable)
+  - [x] 8.1 Install Table component
     - Copy Table component to src/components/ui/table.tsx
     - Verify Table, TableHeader, TableBody, TableRow, TableCell exports
     - _Requirements: 2.7_
 
-  - [ ] 8.2 Update VehicleList to use Table (if using table layout)
+  - [x] 8.2 Update VehicleList to use Table (if using table layout)
     - Replace table elements with shadcn Table components
     - Maintain existing sort functionality
     - Maintain existing pagination controls
     - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.5_
 
-  - [ ] 8.3 Write property test for tables
+  - [x] 8.3 Write property test for tables
     - **Property 4: Functional Preservation**
     - **Validates: Requirements 7.4, 7.5**
     - Test that sorting is preserved
