@@ -4,13 +4,23 @@ import { useState } from 'react'
 import { useStore } from '@/components/providers/StoreProvider'
 import SimplePhotoUploader from './SimplePhotoUploader'
 import { validateVIN } from '@/lib/validators/vin-validator'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from '@/components/ui/dialog'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 
 interface AddVehicleModalProps {
+  open: boolean
   onClose: () => void
   onVehicleAdded: () => void
 }
 
-export default function AddVehicleModal({ onClose, onVehicleAdded }: AddVehicleModalProps) {
+export default function AddVehicleModal({ open, onClose, onVehicleAdded }: AddVehicleModalProps) {
   const { selectedStore } = useStore()
   const [stockNumber, setStockNumber] = useState('')
   const [vin, setVin] = useState('')
@@ -119,22 +129,15 @@ export default function AddVehicleModal({ onClose, onVehicleAdded }: AddVehicleM
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50">
-      <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] flex flex-col">
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent className="max-w-2xl max-h-[90vh] flex flex-col p-0">
         <form onSubmit={handleSubmit} className="flex flex-col h-full">
-          {/* Header - Fixed */}
-          <div className="flex items-center justify-between p-6 border-b border-gray-200 flex-shrink-0">
-            <h3 className="text-xl font-bold text-gray-900">
+          {/* Header */}
+          <DialogHeader className="p-6 border-b border-gray-200 flex-shrink-0">
+            <DialogTitle className="text-xl font-bold text-gray-900">
               Add New Vehicle
-            </h3>
-            <button
-              type="button"
-              onClick={onClose}
-              className="text-gray-400 hover:text-gray-600 text-2xl"
-            >
-              ×
-            </button>
-          </div>
+            </DialogTitle>
+          </DialogHeader>
 
           {/* Content - Scrollable */}
           <div className="flex-1 overflow-y-auto p-6 space-y-6">
@@ -150,7 +153,7 @@ export default function AddVehicleModal({ onClose, onVehicleAdded }: AddVehicleM
               <label className="block text-lg font-bold text-gray-900 mb-3">
                 Stock Number (Required)
               </label>
-              <input
+              <Input
                 type="text"
                 value={stockNumber}
                 onChange={(e) => setStockNumber(e.target.value)}
@@ -165,7 +168,7 @@ export default function AddVehicleModal({ onClose, onVehicleAdded }: AddVehicleM
               <label className="block text-lg font-bold text-gray-900 mb-3">
                 VIN (Required)
               </label>
-              <input
+              <Input
                 type="text"
                 value={vin}
                 onChange={handleVinChange}
@@ -219,12 +222,20 @@ export default function AddVehicleModal({ onClose, onVehicleAdded }: AddVehicleM
             </div>
           </div>
 
-          {/* Buttons - Fixed at bottom */}
-          <div className="flex gap-3 p-6 border-t border-gray-200 bg-gray-50 flex-shrink-0">
-            <button
+          {/* Footer - Fixed at bottom */}
+          <DialogFooter className="p-6 border-t border-gray-200 bg-gray-50 flex-shrink-0">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={onClose}
+              className="px-4 py-3"
+            >
+              Cancel
+            </Button>
+            <Button
               type="submit"
               disabled={loading || !stockNumber.trim() || !vin.trim() || !!vinError}
-              className="flex-1 py-3 px-4 bg-blue-600 text-white rounded-lg font-medium disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-blue-700"
+              className="flex-1 py-3 px-4"
             >
               {loading ? 'Creating...' : (
                 <>
@@ -236,17 +247,10 @@ export default function AddVehicleModal({ onClose, onVehicleAdded }: AddVehicleM
                   )}
                 </>
               )}
-            </button>
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-4 py-3 bg-gray-200 text-gray-700 rounded-lg font-medium hover:bg-gray-300"
-            >
-              Cancel
-            </button>
-          </div>
+            </Button>
+          </DialogFooter>
         </form>
-      </div>
-    </div>
+      </DialogContent>
+    </Dialog>
   )
 }

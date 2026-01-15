@@ -591,9 +591,10 @@ function EditVehicleContent() {
       </div>
       
       {/* Delete Confirmation Modal */}
-      {showDeleteModal && vehicle && (
+      {vehicle && (
         <DeleteVehicleModal
           vehicle={vehicle}
+          open={showDeleteModal}
           onConfirm={handleDeleteConfirm}
           onCancel={handleDeleteCancel}
           isDeleting={isDeleting}

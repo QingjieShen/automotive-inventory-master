@@ -113,39 +113,39 @@ This implementation plan outlines the step-by-step process for integrating shadc
     - Test that background styling is preserved
     - Test that gradient overlay is maintained
 
-- [ ] 5. Checkpoint - Verify Card Components
+- [x] 5. Checkpoint - Verify Card Components
   - Ensure all tests pass for VehicleCard and StoreCard
   - Manually test responsive behavior on mobile, tablet, desktop
   - Verify accessibility with keyboard navigation
   - Ask the user if questions arise
 
-- [ ] 6. Migrate Modal Components
-  - [ ] 6.1 Update AddVehicleModal to use Dialog
+- [x] 6. Migrate Modal Components
+  - [x] 6.1 Update AddVehicleModal to use Dialog
     - Replace custom modal with Dialog component
     - Use DialogHeader, DialogTitle, DialogContent, DialogFooter
     - Maintain existing form state and submission logic
     - _Requirements: 6.1, 6.2, 6.5_
 
-  - [ ] 6.2 Update DeleteVehicleModal to use Dialog
+  - [x] 6.2 Update DeleteVehicleModal to use Dialog
     - Replace custom modal with Dialog component
     - Use destructive Button variant for delete action
     - Maintain existing delete callback
     - _Requirements: 6.1, 6.3, 6.5_
 
-  - [ ] 6.3 Update BulkDeleteModal to use Dialog
+  - [x] 6.3 Update BulkDeleteModal to use Dialog
     - Replace custom modal with Dialog component
     - Add warning styling to DialogDescription
     - Maintain existing bulk delete logic
     - _Requirements: 6.1, 6.4, 6.5_
 
-  - [ ] 6.4 Write unit tests for modal components
+  - [x] 6.4 Write unit tests for modal components
     - Test modal open/close behavior
     - Test callback execution
     - Test form submission in AddVehicleModal
     - Test delete confirmation in DeleteVehicleModal
     - _Requirements: 6.1, 6.2, 6.3, 6.4_
 
-  - [ ] 6.5 Write property test for modals
+  - [x] 6.5 Write property test for modals
     - **Property 2: Modal Focus Management**
     - **Property 4: Functional Preservation**
     - **Validates: Requirements 11.3, 6.5**

@@ -51,6 +51,7 @@ describe('DeleteVehicleModal', () => {
     render(
       <DeleteVehicleModal
         vehicle={mockVehicle}
+        open={true}
         onConfirm={mockOnConfirm}
         onCancel={mockOnCancel}
       />
@@ -66,6 +67,7 @@ describe('DeleteVehicleModal', () => {
     render(
       <DeleteVehicleModal
         vehicle={mockVehicle}
+        open={true}
         onConfirm={mockOnConfirm}
         onCancel={mockOnCancel}
       />
@@ -80,6 +82,7 @@ describe('DeleteVehicleModal', () => {
     render(
       <DeleteVehicleModal
         vehicle={mockVehicle}
+        open={true}
         onConfirm={mockOnConfirm}
         onCancel={mockOnCancel}
       />
@@ -96,12 +99,13 @@ describe('DeleteVehicleModal', () => {
     render(
       <DeleteVehicleModal
         vehicle={mockVehicle}
+        open={true}
         onConfirm={mockOnConfirm}
         onCancel={mockOnCancel}
       />
     )
 
-    const closeButton = screen.getByRole('button', { name: '' })
+    const closeButton = screen.getByRole('button', { name: 'Close' })
     fireEvent.click(closeButton)
 
     expect(mockOnCancel).toHaveBeenCalledTimes(1)
@@ -112,6 +116,7 @@ describe('DeleteVehicleModal', () => {
     render(
       <DeleteVehicleModal
         vehicle={mockVehicle}
+        open={true}
         onConfirm={mockOnConfirm}
         onCancel={mockOnCancel}
       />
@@ -128,6 +133,7 @@ describe('DeleteVehicleModal', () => {
     render(
       <DeleteVehicleModal
         vehicle={mockVehicle}
+        open={true}
         onConfirm={mockOnConfirm}
         onCancel={mockOnCancel}
         isDeleting={true}
@@ -145,6 +151,7 @@ describe('DeleteVehicleModal', () => {
     render(
       <DeleteVehicleModal
         vehicle={mockVehicle}
+        open={true}
         onConfirm={mockOnConfirm}
         onCancel={mockOnCancel}
         isDeleting={true}
@@ -164,6 +171,7 @@ describe('DeleteVehicleModal', () => {
     render(
       <DeleteVehicleModal
         vehicle={vehicleWithOneImage}
+        open={true}
         onConfirm={mockOnConfirm}
         onCancel={mockOnCancel}
       />
@@ -182,6 +190,7 @@ describe('DeleteVehicleModal', () => {
     render(
       <DeleteVehicleModal
         vehicle={vehicleWithNoImages}
+        open={true}
         onConfirm={mockOnConfirm}
         onCancel={mockOnCancel}
       />
@@ -195,6 +204,7 @@ describe('DeleteVehicleModal', () => {
     render(
       <DeleteVehicleModal
         vehicle={mockVehicle}
+        open={true}
         onConfirm={mockOnConfirm}
         onCancel={mockOnCancel}
       />

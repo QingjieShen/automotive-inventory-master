@@ -1,37 +1,40 @@
 'use client'
 
 import { Vehicle } from '@/types'
-import { XMarkIcon, TrashIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline'
+import { TrashIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline'
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from '@/components/ui/dialog'
+import { Button } from '@/components/ui/button'
 
 interface DeleteVehicleModalProps {
   vehicle: Vehicle
+  open: boolean
   onConfirm: () => void
   onCancel: () => void
   isDeleting?: boolean
 }
 
 export default function DeleteVehicleModal({ 
-  vehicle, 
+  vehicle,
+  open,
   onConfirm, 
   onCancel,
   isDeleting = false 
 }: DeleteVehicleModalProps) {
   return (
-    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-      <div className="relative top-20 mx-auto p-5 border w-full max-w-md shadow-lg rounded-md bg-white">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-medium text-gray-900">
+    <Dialog open={open} onOpenChange={onCancel}>
+      <DialogContent className="max-w-md">
+        <DialogHeader>
+          <DialogTitle className="text-lg font-medium text-gray-900">
             Delete Vehicle
-          </h3>
-          <button
-            onClick={onCancel}
-            disabled={isDeleting}
-            className="text-gray-400 hover:text-gray-600 transition-colors disabled:opacity-50"
-          >
-            <XMarkIcon className="h-6 w-6" />
-          </button>
-        </div>
+          </DialogTitle>
+        </DialogHeader>
 
         {/* Vehicle Info */}
         <div className="mb-6 p-4 bg-gray-50 border border-gray-200 rounded-lg">
@@ -65,26 +68,27 @@ export default function DeleteVehicleModal({
               <h4 className="text-sm font-medium text-red-800 mb-2">
                 Are you sure you want to delete this vehicle?
               </h4>
-              <p className="text-sm text-red-700">
+              <DialogDescription className="text-sm text-red-700">
                 This action cannot be undone. The vehicle and all {vehicle.images.length} associated image{vehicle.images.length !== 1 ? 's' : ''} will be permanently removed from both the database and storage.
-              </p>
+              </DialogDescription>
             </div>
           </div>
         </div>
 
         {/* Action Buttons */}
-        <div className="flex justify-end space-x-3">
-          <button
+        <DialogFooter>
+          <Button
+            variant="outline"
             onClick={onCancel}
             disabled={isDeleting}
-            className="px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Cancel
-          </button>
-          <button
+          </Button>
+          <Button
+            variant="destructive"
             onClick={onConfirm}
             disabled={isDeleting}
-            className="px-4 py-2 border border-transparent rounded-md text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+            className="flex items-center"
           >
             {isDeleting ? (
               <>
@@ -97,9 +101,9 @@ export default function DeleteVehicleModal({
                 Delete Vehicle
               </>
             )}
-          </button>
-        </div>
-      </div>
-    </div>
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   )
 }

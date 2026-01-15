@@ -314,13 +314,12 @@ export default function VehicleList({
       </div>
 
       {/* Bulk Delete Modal */}
-      {showBulkDeleteModal && (
-        <BulkDeleteModal
-          vehicleCount={selectedVehicles.size}
-          onConfirm={() => handleDeleteConfirmed(Array.from(selectedVehicles))}
-          onCancel={() => setShowBulkDeleteModal(false)}
-        />
-      )}
+      <BulkDeleteModal
+        vehicleCount={selectedVehicles.size}
+        open={showBulkDeleteModal}
+        onConfirm={() => handleDeleteConfirmed(Array.from(selectedVehicles))}
+        onCancel={() => setShowBulkDeleteModal(false)}
+      />
     </>
   )
 }
