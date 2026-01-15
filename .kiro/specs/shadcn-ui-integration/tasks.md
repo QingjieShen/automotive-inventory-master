@@ -153,27 +153,27 @@ This implementation plan outlines the step-by-step process for integrating shadc
     - Test that focus returns to trigger on close
     - Test that callbacks are preserved
 
-- [ ] 7. Migrate Form Components
-  - [ ] 7.1 Update form inputs to use shadcn Input
+- [x] 7. Migrate Form Components
+  - [x] 7.1 Update form inputs to use shadcn Input
     - Replace all text inputs with Input component
     - Replace all select dropdowns with Select component
     - Replace all form buttons with Button component
     - Maintain existing form validation logic
     - _Requirements: 5.1, 5.2, 5.3, 5.5_
 
-  - [ ] 7.2 Update form error display
+  - [x] 7.2 Update form error display
     - Style validation errors using shadcn text-destructive classes
     - Ensure error messages are associated with inputs via ARIA
     - _Requirements: 5.4_
 
-  - [ ] 7.3 Write unit tests for form components
+  - [x] 7.3 Write unit tests for form components
     - Test input rendering and value changes
     - Test select dropdown options
     - Test form submission
     - Test validation error display
     - _Requirements: 5.1, 5.2, 5.3, 5.4_
 
-  - [ ] 7.4 Write property test for forms
+  - [x] 7.4 Write property test for forms
     - **Property 4: Functional Preservation**
     - **Property 6: Form Validation Display**
     - **Validates: Requirements 5.4, 5.5**

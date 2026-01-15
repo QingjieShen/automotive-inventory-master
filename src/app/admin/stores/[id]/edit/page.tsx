@@ -5,6 +5,8 @@ import { useRouter } from 'next/navigation'
 import { ProtectedRoute } from '../../../../../components/auth/ProtectedRoute'
 import { RoleGuard } from '../../../../../components/auth/RoleGuard'
 import { Store } from '../../../../../types'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 
 interface StoreFormData {
   name: string
@@ -185,12 +187,12 @@ function EditStoreContent({ params }: { params: Promise<{ id: string }> }) {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <p className="text-red-600">Store not found</p>
-          <button
+          <Button
             onClick={() => router.push('/admin/stores')}
-            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+            className="mt-4"
           >
             Back to Stores
-          </button>
+          </Button>
         </div>
       </div>
     )
@@ -224,12 +226,12 @@ function EditStoreContent({ params }: { params: Promise<{ id: string }> }) {
                 Update dealership location information
               </p>
             </div>
-            <button
+            <Button
+              variant="outline"
               onClick={() => router.push('/admin/stores')}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
             >
               Cancel
-            </button>
+            </Button>
           </div>
         </div>
       </div>
@@ -242,7 +244,7 @@ function EditStoreContent({ params }: { params: Promise<{ id: string }> }) {
             <h2 className="text-xl font-semibold mb-6">Store Information</h2>
             
             {formError && (
-              <div className="mb-4 bg-red-50 border border-red-200 text-red-700 px-3 py-2 rounded text-sm">
+              <div className="mb-4 bg-destructive/10 border border-destructive/30 text-destructive px-3 py-2 rounded text-sm" role="alert" id="store-form-error">
                 {formError}
               </div>
             )}
@@ -252,12 +254,11 @@ function EditStoreContent({ params }: { params: Promise<{ id: string }> }) {
                 <label htmlFor="store-name" className="block text-sm font-medium text-gray-700 mb-1">
                   Store Name *
                 </label>
-                <input
+                <Input
                   id="store-name"
                   type="text"
                   value={formData.name}
                   onChange={e => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="e.g., Downtown Honda"
                   required
                 />
@@ -267,12 +268,11 @@ function EditStoreContent({ params }: { params: Promise<{ id: string }> }) {
                 <label htmlFor="store-address" className="block text-sm font-medium text-gray-700 mb-1">
                   Address *
                 </label>
-                <input
+                <Input
                   id="store-address"
                   type="text"
                   value={formData.address}
                   onChange={e => setFormData({ ...formData, address: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="e.g., 123 Main St, City, State 12345"
                   required
                 />
@@ -282,12 +282,11 @@ function EditStoreContent({ params }: { params: Promise<{ id: string }> }) {
                 <label htmlFor="store-logos" className="block text-sm font-medium text-gray-700 mb-1">
                   Brand Logos (comma-separated)
                 </label>
-                <input
+                <Input
                   id="store-logos"
                   type="text"
                   value={formData.brandLogos}
                   onChange={e => setFormData({ ...formData, brandLogos: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   placeholder="e.g., Honda, Toyota, Ford"
                 />
                 <p className="mt-1 text-xs text-gray-500">
@@ -299,12 +298,11 @@ function EditStoreContent({ params }: { params: Promise<{ id: string }> }) {
                 <label htmlFor="store-image" className="block text-sm font-medium text-gray-700 mb-1">
                   Store Image
                 </label>
-                <input
+                <Input
                   id="store-image"
                   type="file"
                   accept="image/*"
                   onChange={handleImageChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
                 {imageFile && (
                   <p className="mt-1 text-sm text-gray-500">Selected: {imageFile.name}</p>
@@ -318,21 +316,20 @@ function EditStoreContent({ params }: { params: Promise<{ id: string }> }) {
               </div>
 
               <div className="flex justify-end gap-3 pt-4">
-                <button
+                <Button
                   type="button"
+                  variant="outline"
                   onClick={() => router.push('/admin/stores')}
-                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
                   disabled={submitting}
                 >
                   Cancel
-                </button>
-                <button
+                </Button>
+                <Button
                   type="submit"
-                  className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:opacity-50"
                   disabled={submitting}
                 >
                   {submitting ? 'Updating...' : 'Update Store'}
-                </button>
+                </Button>
               </div>
             </form>
           </div>

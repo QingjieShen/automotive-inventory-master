@@ -11,6 +11,8 @@ import { LoadingSpinner } from '@/components/common'
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute'
 import { ImageType } from '@/types'
 import { validateVIN } from '@/lib/validators/vin-validator'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
 
 interface UploadFile extends File {
   id: string
@@ -217,21 +219,22 @@ function AddVehicleContent() {
           <form onSubmit={handleSubmit}>
             {/* Error Message */}
             {error && (
-              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-md">
+              <div className="mb-6 p-4 bg-destructive/10 border border-destructive/30 rounded-md">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
-                    <p className="text-red-800 font-medium">Error</p>
-                    <p className="text-red-700 mt-1">{error}</p>
+                    <p className="text-destructive font-medium">Error</p>
+                    <p className="text-destructive mt-1">{error}</p>
                   </div>
                   {showRetry && (
-                    <button
+                    <Button
                       type="button"
+                      variant="destructive"
                       onClick={handleRetry}
                       disabled={loading}
-                      className="ml-4 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      className="ml-4"
                     >
                       Retry
-                    </button>
+                    </Button>
                   )}
                 </div>
               </div>
@@ -252,24 +255,22 @@ function AddVehicleContent() {
                       htmlFor="stockNumber" 
                       className="block text-sm font-medium text-gray-700 mb-2"
                     >
-                      Stock Number <span className="text-red-500">*</span>
+                      Stock Number <span className="text-destructive">*</span>
                     </label>
-                    <input
+                    <Input
                       id="stockNumber"
                       type="text"
                       value={stockNumber}
                       onChange={(e) => setStockNumber(e.target.value)}
-                      className={`w-full px-4 py-3 border rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                        validationError 
-                          ? 'border-red-300 focus:ring-red-500' 
-                          : 'border-gray-300'
-                      }`}
+                      className={validationError ? 'border-destructive focus:ring-destructive' : ''}
                       placeholder="Enter stock number (e.g., ABC123)"
                       required
                       disabled={loading}
+                      aria-invalid={!!validationError}
+                      aria-describedby={validationError ? "stockNumber-error" : undefined}
                     />
                     {validationError && (
-                      <p className="mt-2 text-sm text-red-600">
+                      <p className="mt-2 text-sm text-destructive" id="stockNumber-error" role="alert">
                         {validationError}
                       </p>
                     )}
@@ -286,25 +287,23 @@ function AddVehicleContent() {
                       htmlFor="vin" 
                       className="block text-sm font-medium text-gray-700 mb-2"
                     >
-                      VIN <span className="text-red-500">*</span>
+                      VIN <span className="text-destructive">*</span>
                     </label>
-                    <input
+                    <Input
                       id="vin"
                       type="text"
                       value={vin}
                       onChange={(e) => setVin(e.target.value.toUpperCase())}
-                      className={`w-full px-4 py-3 border rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-blue-500 uppercase ${
-                        vinError 
-                          ? 'border-red-300 focus:ring-red-500' 
-                          : 'border-gray-300'
-                      }`}
+                      className={`uppercase ${vinError ? 'border-destructive focus:ring-destructive' : ''}`}
                       placeholder="Enter 17-character VIN"
                       maxLength={17}
                       required
                       disabled={loading}
+                      aria-invalid={!!vinError}
+                      aria-describedby={vinError ? "vin-error" : undefined}
                     />
                     {vinError && (
-                      <p className="mt-2 text-sm text-red-600">
+                      <p className="mt-2 text-sm text-destructive" id="vin-error" role="alert">
                         {vinError}
                       </p>
                     )}
@@ -337,10 +336,10 @@ function AddVehicleContent() {
                 {/* Form Actions - Desktop (hidden on mobile) */}
                 <div className="hidden lg:block bg-white rounded-lg shadow-sm border border-gray-200 p-6">
                   <div className="flex flex-col gap-3">
-                    <button
+                    <Button
                       type="submit"
                       disabled={loading || !stockNumber.trim() || !vin.trim() || !!validationError || !!vinError}
-                      className="w-full py-3 px-4 bg-blue-600 text-white rounded-lg font-medium disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+                      className="w-full"
                     >
                       {loading ? (
                         <span className="flex items-center justify-center">
@@ -357,15 +356,16 @@ function AddVehicleContent() {
                           )}
                         </>
                       )}
-                    </button>
-                    <button
+                    </Button>
+                    <Button
                       type="button"
+                      variant="outline"
                       onClick={handleCancel}
                       disabled={loading}
-                      className="w-full py-3 px-4 bg-white text-gray-700 border border-gray-300 rounded-lg font-medium hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full"
                     >
                       Cancel
-                    </button>
+                    </Button>
                   </div>
                 </div>
               </div>
@@ -406,10 +406,10 @@ function AddVehicleContent() {
             {/* Form Actions - Mobile (shown only on mobile) */}
             <div className="lg:hidden mt-8 bg-white rounded-lg shadow-sm border border-gray-200 p-6">
               <div className="flex flex-col gap-3">
-                <button
+                <Button
                   type="submit"
                   disabled={loading || !stockNumber.trim() || !vin.trim() || !!validationError || !!vinError}
-                  className="w-full py-3 px-4 bg-blue-600 text-white rounded-lg font-medium disabled:bg-gray-300 disabled:cursor-not-allowed hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+                  className="w-full"
                 >
                   {loading ? (
                     <span className="flex items-center justify-center">
@@ -426,15 +426,16 @@ function AddVehicleContent() {
                       )}
                     </>
                   )}
-                </button>
-                <button
+                </Button>
+                <Button
                   type="button"
+                  variant="outline"
                   onClick={handleCancel}
                   disabled={loading}
-                  className="w-full py-3 px-4 bg-white text-gray-700 border border-gray-300 rounded-lg font-medium hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full"
                 >
                   Cancel
-                </button>
+                </Button>
               </div>
             </div>
           </form>

@@ -143,7 +143,7 @@ export default function AddVehicleModal({ open, onClose, onVehicleAdded }: AddVe
           <div className="flex-1 overflow-y-auto p-6 space-y-6">
             {/* Error Message */}
             {error && (
-              <div className="p-3 bg-red-100 border border-red-300 rounded text-red-700">
+              <div className="p-3 bg-destructive/10 border border-destructive/30 rounded text-destructive" role="alert">
                 {error}
               </div>
             )}
@@ -173,14 +173,16 @@ export default function AddVehicleModal({ open, onClose, onVehicleAdded }: AddVe
                 value={vin}
                 onChange={handleVinChange}
                 className={`w-full p-4 border-2 rounded-lg text-lg uppercase ${
-                  vinError ? 'border-red-500' : 'border-gray-400'
+                  vinError ? 'border-destructive' : 'border-gray-400'
                 }`}
                 placeholder="Enter 17-character VIN"
                 maxLength={17}
                 required
+                aria-invalid={!!vinError}
+                aria-describedby={vinError ? "vin-error-modal" : undefined}
               />
               {vinError && (
-                <p className="mt-2 text-red-600 font-medium">
+                <p className="mt-2 text-destructive font-medium" id="vin-error-modal" role="alert">
                   {vinError}
                 </p>
               )}
