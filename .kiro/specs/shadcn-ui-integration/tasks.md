@@ -68,8 +68,8 @@ This implementation plan outlines the step-by-step process for integrating shadc
   - Test that focus indicators are visible
   - Test that error announcements work with screen readers
 
-- [ ] 3. Migrate VehicleCard Component
-  - [ ] 3.1 Update VehicleCard to use shadcn components
+- [x] 3. Migrate VehicleCard Component
+  - [x] 3.1 Update VehicleCard to use shadcn components
     - Replace div container with Card component
     - Replace status span with Badge component
     - Replace button with Button component
@@ -77,21 +77,21 @@ This implementation plan outlines the step-by-step process for integrating shadc
     - Maintain existing layout and responsive behavior
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5_
 
-  - [ ] 3.2 Write unit tests for VehicleCard
+  - [x] 3.2 Write unit tests for VehicleCard
     - Test rendering with vehicle data
     - Test checkbox selection
     - Test button click navigation
     - Test status badge variants
     - _Requirements: 3.1, 3.2, 3.3, 3.4_
 
-  - [ ] 3.3 Write property test for VehicleCard
+  - [x] 3.3 Write property test for VehicleCard
     - **Property 4: Functional Preservation**
     - **Property 5: Hover State Consistency**
     - **Validates: Requirements 3.5, 3.6**
     - Test that all vehicle data is displayed correctly
     - Test that hover states work consistently
 
-- [ ] 4. Migrate StoreCard Component
+- [-] 4. Migrate StoreCard Component
   - [ ] 4.1 Update StoreCard to use shadcn components
     - Replace div container with Card component
     - Use CardHeader and CardTitle for store name

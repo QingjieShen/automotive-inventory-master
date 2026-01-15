@@ -4,6 +4,10 @@ import { Vehicle } from '@/types'
 import { EyeIcon, PhotoIcon } from '@heroicons/react/24/outline'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { Card, CardContent } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
 
 interface VehicleCardProps {
   vehicle: Vehicle
@@ -30,18 +34,18 @@ export default function VehicleCard({
 
   const getStatusBadge = (status: string) => {
     const statusConfig = {
-      NOT_STARTED: { color: 'bg-gray-100 text-gray-800', text: 'Not Started' },
-      IN_PROGRESS: { color: 'bg-yellow-100 text-yellow-800', text: 'In Progress' },
-      COMPLETED: { color: 'bg-green-100 text-green-800', text: 'Completed' },
-      ERROR: { color: 'bg-red-100 text-red-800', text: 'Error' }
+      NOT_STARTED: { variant: 'secondary' as const, text: 'Not Started' },
+      IN_PROGRESS: { variant: 'warning' as const, text: 'In Progress' },
+      COMPLETED: { variant: 'success' as const, text: 'Completed' },
+      ERROR: { variant: 'destructive' as const, text: 'Error' }
     }
 
     const config = statusConfig[status as keyof typeof statusConfig] || statusConfig.NOT_STARTED
 
     return (
-      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${config.color}`}>
+      <Badge variant={config.variant}>
         {config.text}
-      </span>
+      </Badge>
     )
   }
 
@@ -63,145 +67,145 @@ export default function VehicleCard({
   const thumbnailUrl = getThumbnail()
 
   return (
-    <div 
-      className="px-4 sm:px-6 py-4 hover:bg-gray-50 transition-colors duration-150"
+    <Card 
+      className="hover:bg-accent/50 transition-colors duration-150"
       role="row"
     >
-      {/* Mobile layout */}
-      <div className="sm:hidden space-y-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            {showCheckbox && (
-              <input
-                type="checkbox"
+      <CardContent className="p-4 sm:p-6">
+        {/* Mobile layout */}
+        <div className="sm:hidden space-y-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              {showCheckbox && (
+                <Checkbox
+                  checked={isSelected}
+                  onCheckedChange={(checked) => onSelectionChange?.(checked === true)}
+                  aria-label={`Select vehicle ${vehicle.stockNumber}`}
+                />
+              )}
+              <div className="text-sm font-medium text-gray-900">
+                {vehicle.stockNumber}
+              </div>
+            </div>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => router.push(`/vehicles/${vehicle.id}`)}
+              title="View vehicle details"
+              aria-label={`View details for vehicle ${vehicle.stockNumber}`}
+            >
+              <EyeIcon className="h-5 w-5" />
+            </Button>
+          </div>
+          
+          <div className="flex items-center space-x-4">
+            {/* Thumbnail */}
+            <div className="flex-shrink-0">
+              {thumbnailUrl ? (
+                <div className="relative h-12 w-16 rounded-md overflow-hidden bg-gray-100">
+                  <Image
+                    src={thumbnailUrl}
+                    alt={`Vehicle ${vehicle.stockNumber}`}
+                    fill
+                    className="object-cover"
+                    sizes="64px"
+                  />
+                </div>
+              ) : (
+                <div className="h-12 w-16 rounded-md bg-gray-100 flex items-center justify-center">
+                  <PhotoIcon className="h-6 w-6 text-gray-400" />
+                </div>
+              )}
+            </div>
+            
+            <div className="flex-1 min-w-0">
+              <div className="text-sm text-gray-900">
+                {vehicle.images?.length || 0} photos
+              </div>
+              <div className="text-sm text-gray-500">
+                {formatDate(vehicle.createdAt)}
+              </div>
+            </div>
+            
+            <div className="flex-shrink-0">
+              {getStatusBadge(vehicle.processingStatus)}
+            </div>
+          </div>
+        </div>
+
+        {/* Desktop layout */}
+        <div className="hidden sm:grid grid-cols-12 gap-4 items-center">
+          {showCheckbox && (
+            <div className="col-span-1">
+              <Checkbox
                 checked={isSelected}
-                onChange={(e) => onSelectionChange?.(e.target.checked)}
-                className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                onCheckedChange={(checked) => onSelectionChange?.(checked === true)}
                 aria-label={`Select vehicle ${vehicle.stockNumber}`}
               />
-            )}
+            </div>
+          )}
+          
+          {/* Stock Number */}
+          <div className={showCheckbox ? "col-span-2" : "col-span-3"}>
             <div className="text-sm font-medium text-gray-900">
               {vehicle.stockNumber}
             </div>
           </div>
-          <button
-            onClick={() => router.push(`/vehicles/${vehicle.id}`)}
-            className="text-blue-600 hover:text-blue-900 transition-colors duration-150 p-1"
-            title="View vehicle details"
-            aria-label={`View details for vehicle ${vehicle.stockNumber}`}
-          >
-            <EyeIcon className="h-5 w-5" />
-          </button>
-        </div>
-        
-        <div className="flex items-center space-x-4">
+
           {/* Thumbnail */}
-          <div className="flex-shrink-0">
-            {thumbnailUrl ? (
-              <div className="relative h-12 w-16 rounded-md overflow-hidden bg-gray-100">
-                <Image
-                  src={thumbnailUrl}
-                  alt={`Vehicle ${vehicle.stockNumber}`}
-                  fill
-                  className="object-cover"
-                  sizes="64px"
-                />
-              </div>
-            ) : (
-              <div className="h-12 w-16 rounded-md bg-gray-100 flex items-center justify-center">
-                <PhotoIcon className="h-6 w-6 text-gray-400" />
-              </div>
-            )}
+          <div className="col-span-2">
+            <div className="flex items-center">
+              {thumbnailUrl ? (
+                <div className="relative h-12 w-16 rounded-md overflow-hidden bg-gray-100">
+                  <Image
+                    src={thumbnailUrl}
+                    alt={`Vehicle ${vehicle.stockNumber}`}
+                    fill
+                    className="object-cover"
+                    sizes="64px"
+                  />
+                </div>
+              ) : (
+                <div className="h-12 w-16 rounded-md bg-gray-100 flex items-center justify-center">
+                  <PhotoIcon className="h-6 w-6 text-gray-400" />
+                </div>
+              )}
+            </div>
           </div>
-          
-          <div className="flex-1 min-w-0">
+
+          {/* Photo Count */}
+          <div className="col-span-2">
             <div className="text-sm text-gray-900">
               {vehicle.images?.length || 0} photos
             </div>
+          </div>
+
+          {/* Created Date */}
+          <div className="col-span-2">
             <div className="text-sm text-gray-500">
               {formatDate(vehicle.createdAt)}
             </div>
           </div>
-          
-          <div className="flex-shrink-0">
+
+          {/* Status */}
+          <div className="col-span-2">
             {getStatusBadge(vehicle.processingStatus)}
           </div>
-        </div>
-      </div>
 
-      {/* Desktop layout */}
-      <div className="hidden sm:grid grid-cols-12 gap-4 items-center">
-        {showCheckbox && (
+          {/* Actions */}
           <div className="col-span-1">
-            <input
-              type="checkbox"
-              checked={isSelected}
-              onChange={(e) => onSelectionChange?.(e.target.checked)}
-              className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-              aria-label={`Select vehicle ${vehicle.stockNumber}`}
-            />
-          </div>
-        )}
-        
-        {/* Stock Number */}
-        <div className={showCheckbox ? "col-span-2" : "col-span-3"}>
-          <div className="text-sm font-medium text-gray-900">
-            {vehicle.stockNumber}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => router.push(`/vehicles/${vehicle.id}`)}
+              title="View vehicle details"
+              aria-label={`View details for vehicle ${vehicle.stockNumber}`}
+            >
+              <EyeIcon className="h-5 w-5" />
+            </Button>
           </div>
         </div>
-
-        {/* Thumbnail */}
-        <div className="col-span-2">
-          <div className="flex items-center">
-            {thumbnailUrl ? (
-              <div className="relative h-12 w-16 rounded-md overflow-hidden bg-gray-100">
-                <Image
-                  src={thumbnailUrl}
-                  alt={`Vehicle ${vehicle.stockNumber}`}
-                  fill
-                  className="object-cover"
-                  sizes="64px"
-                />
-              </div>
-            ) : (
-              <div className="h-12 w-16 rounded-md bg-gray-100 flex items-center justify-center">
-                <PhotoIcon className="h-6 w-6 text-gray-400" />
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Photo Count */}
-        <div className="col-span-2">
-          <div className="text-sm text-gray-900">
-            {vehicle.images?.length || 0} photos
-          </div>
-        </div>
-
-        {/* Created Date */}
-        <div className="col-span-2">
-          <div className="text-sm text-gray-500">
-            {formatDate(vehicle.createdAt)}
-          </div>
-        </div>
-
-        {/* Status */}
-        <div className="col-span-2">
-          {getStatusBadge(vehicle.processingStatus)}
-        </div>
-
-        {/* Actions */}
-        <div className="col-span-1">
-          <button
-            onClick={() => router.push(`/vehicles/${vehicle.id}`)}
-            className="text-blue-600 hover:text-blue-900 transition-colors duration-150 p-1 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 rounded"
-            title="View vehicle details"
-            aria-label={`View details for vehicle ${vehicle.stockNumber}`}
-          >
-            <EyeIcon className="h-5 w-5" />
-          </button>
-        </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   )
 }
