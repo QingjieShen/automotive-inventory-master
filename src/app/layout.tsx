@@ -4,6 +4,7 @@ import './globals.css'
 import { SessionProvider } from '../components/providers/SessionProvider'
 import { StoreProvider } from '../components/providers/StoreProvider'
 import { ErrorBoundary } from '../components/common'
+import { Toaster } from '../components/ui/sonner'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -35,6 +36,7 @@ export default function RootLayout({
             </StoreProvider>
           </SessionProvider>
         </ErrorBoundary>
+        <Toaster />
       </body>
     </html>
   )
