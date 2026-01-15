@@ -91,8 +91,8 @@ This implementation plan outlines the step-by-step process for integrating shadc
     - Test that all vehicle data is displayed correctly
     - Test that hover states work consistently
 
-- [-] 4. Migrate StoreCard Component
-  - [ ] 4.1 Update StoreCard to use shadcn components
+- [x] 4. Migrate StoreCard Component
+  - [x] 4.1 Update StoreCard to use shadcn components
     - Replace div container with Card component
     - Use CardHeader and CardTitle for store name
     - Replace brand logo spans with Badge components
@@ -100,14 +100,14 @@ This implementation plan outlines the step-by-step process for integrating shadc
     - Maintain background image and gradient overlay styling
     - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5_
 
-  - [ ] 4.2 Write unit tests for StoreCard
+  - [x] 4.2 Write unit tests for StoreCard
     - Test rendering with store data
     - Test button click callback
     - Test keyboard navigation
     - Test background image styling
     - _Requirements: 4.1, 4.2, 4.3_
 
-  - [ ] 4.3 Write property test for StoreCard
+  - [x] 4.3 Write property test for StoreCard
     - **Property 4: Functional Preservation**
     - **Validates: Requirements 4.4, 4.5**
     - Test that background styling is preserved

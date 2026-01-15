@@ -89,4 +89,109 @@ describe('StoreCard Property-Based Tests', () => {
       { numRuns: 100 }
     )
   })
+
+  // Feature: shadcn-ui-integration, Property 4: Functional Preservation
+  // **Validates: Requirements 4.4**
+  test('background styling is preserved after migration to shadcn components', () => {
+    // Use more realistic URLs without special characters that break CSS
+    const validImageUrl = fc.tuple(
+      fc.constantFrom('http', 'https'),
+      fc.domain(),
+      fc.stringMatching(/^[a-zA-Z0-9_\-\/\.]+$/)
+    ).map(([protocol, domain, path]) => `${protocol}://${domain}/${path}`)
+
+    const storeArbitrary = fc.record({
+      id: fc.uuid(),
+      name: fc.string({ minLength: 5, maxLength: 50 }),
+      address: fc.string({ minLength: 10, maxLength: 100 }),
+      brandLogos: fc.array(fc.constantFrom('toyota-logo.png', 'honda-logo.png', 'lexus-logo.png'), { minLength: 1, maxLength: 4 }),
+      imageUrl: fc.option(validImageUrl, { nil: undefined })
+    })
+
+    fc.assert(
+      fc.property(storeArbitrary, (store: Store) => {
+        const mockOnSelect = jest.fn()
+        const { container } = render(<StoreCard store={store} onSelect={mockOnSelect} />)
+        
+        const card = container.querySelector('[role="gridcell"]')
+        expect(card).toBeTruthy()
+        
+        if (card) {
+          const element = card as HTMLElement
+          
+          if (store.imageUrl) {
+            // When imageUrl is provided, should have background image with gradient overlay
+            // Check the style attribute directly since inline styles may not parse correctly with special chars
+            const styleAttr = element.getAttribute('style')
+            expect(styleAttr).toBeTruthy()
+            
+            if (styleAttr) {
+              // Should contain background-image property
+              expect(styleAttr).toContain('background-image')
+              // Should contain gradient
+              expect(styleAttr.toLowerCase()).toContain('linear-gradient')
+              // Should contain background-size and background-position
+              expect(styleAttr).toContain('background-size')
+              expect(styleAttr).toContain('background-position')
+            }
+          } else {
+            // When no imageUrl, should have gradient background
+            const styleAttr = element.getAttribute('style')
+            expect(styleAttr).toBeTruthy()
+            
+            if (styleAttr) {
+              expect(styleAttr.toLowerCase()).toContain('linear-gradient')
+              expect(styleAttr).toContain('#667eea')
+              expect(styleAttr).toContain('#764ba2')
+            }
+          }
+        }
+      }),
+      { numRuns: 100 }
+    )
+  })
+
+  // Feature: shadcn-ui-integration, Property 4: Functional Preservation
+  // **Validates: Requirements 4.5**
+  test('gradient overlay is maintained after migration to shadcn components', () => {
+    // Use more realistic URLs without special characters that break CSS
+    const validImageUrl = fc.tuple(
+      fc.constantFrom('http', 'https'),
+      fc.domain(),
+      fc.stringMatching(/^[a-zA-Z0-9_\-\/\.]+$/)
+    ).map(([protocol, domain, path]) => `${protocol}://${domain}/${path}`)
+
+    const storeWithImageArbitrary = fc.record({
+      id: fc.uuid(),
+      name: fc.string({ minLength: 5, maxLength: 50 }),
+      address: fc.string({ minLength: 10, maxLength: 100 }),
+      brandLogos: fc.array(fc.constantFrom('toyota-logo.png', 'honda-logo.png'), { minLength: 1, maxLength: 3 }),
+      imageUrl: validImageUrl
+    })
+
+    fc.assert(
+      fc.property(storeWithImageArbitrary, (store: Store) => {
+        const mockOnSelect = jest.fn()
+        const { container } = render(<StoreCard store={store} onSelect={mockOnSelect} />)
+        
+        const card = container.querySelector('[role="gridcell"]')
+        expect(card).toBeTruthy()
+        
+        if (card) {
+          const element = card as HTMLElement
+          const styleAttr = element.getAttribute('style')
+          
+          expect(styleAttr).toBeTruthy()
+          
+          if (styleAttr) {
+            // Verify gradient overlay is present in background image
+            expect(styleAttr.toLowerCase()).toContain('linear-gradient')
+            expect(styleAttr).toContain('rgba(0, 0, 0, 0.4)')
+            expect(styleAttr).toContain('rgba(0, 0, 0, 0.5)')
+          }
+        }
+      }),
+      { numRuns: 100 }
+    )
+  })
 })

@@ -1,4 +1,7 @@
 import { Store } from '../../types'
+import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 
 interface StoreCardProps {
   store: Store
@@ -25,10 +28,10 @@ export function StoreCard({ store, onSelect }: StoreCardProps) {
       }
 
   return (
-    <div
+    <Card
       onClick={() => onSelect(store)}
       onKeyDown={handleKeyDown}
-      className="rounded-lg shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer border border-gray-200 hover:border-blue-300 p-4 sm:p-6 focus-within:ring-2 focus-within:ring-blue-500 focus-within:ring-offset-2 min-h-[280px]"
+      className="hover:shadow-lg transition-all duration-200 cursor-pointer hover:border-blue-300 p-4 sm:p-6 min-h-[280px]"
       style={backgroundStyle}
       role="gridcell"
       tabIndex={0}
@@ -36,31 +39,36 @@ export function StoreCard({ store, onSelect }: StoreCardProps) {
     >
       <div className="flex flex-col h-full">
         {/* Store Name */}
-        <h3 className="text-lg font-semibold text-white mb-2" style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 0.8)' }}>
-          {store.name}
-        </h3>
+        <CardHeader className="p-0 mb-2">
+          <CardTitle className="text-lg text-white" style={{ textShadow: '2px 2px 4px rgba(0, 0, 0, 0.8)' }}>
+            {store.name}
+          </CardTitle>
+        </CardHeader>
         
         {/* Address */}
-        <p className="text-sm text-white mb-4 flex-grow" style={{ textShadow: '1px 1px 3px rgba(0, 0, 0, 0.8)' }}>
-          {store.address}
-        </p>
+        <CardContent className="p-0 mb-4 flex-grow">
+          <p className="text-sm text-white" style={{ textShadow: '1px 1px 3px rgba(0, 0, 0, 0.8)' }}>
+            {store.address}
+          </p>
+        </CardContent>
         
         {/* Brand Logos */}
         <div className="flex flex-wrap gap-2 mt-auto" aria-label="Available brands">
           {store.brandLogos.map((logo, index) => (
-            <div
+            <Badge
               key={index}
-              className="px-2 py-1 bg-white/90 rounded text-xs text-gray-800 font-medium"
+              variant="secondary"
+              className="bg-white/90 text-gray-800 hover:bg-white/80"
             >
               {logo.replace('-logo.png', '').toUpperCase()}
-            </div>
+            </Badge>
           ))}
         </div>
         
         {/* Select Button */}
-        <div className="mt-4 pt-4 border-t border-white/30">
-          <button 
-            className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200 font-medium"
+        <CardFooter className="p-0 mt-4 pt-4 border-t border-white/30">
+          <Button 
+            className="w-full"
             onClick={(e) => {
               e.stopPropagation()
               onSelect(store)
@@ -68,9 +76,9 @@ export function StoreCard({ store, onSelect }: StoreCardProps) {
             aria-label={`Select ${store.name} store`}
           >
             Select Store
-          </button>
-        </div>
+          </Button>
+        </CardFooter>
       </div>
-    </div>
+    </Card>
   )
 }
