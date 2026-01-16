@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { Store } from '../../types'
 import { StoreCard } from './StoreCard'
-import { LoadingSpinner } from '../common'
+import { StoreCardSkeleton } from './StoreCardSkeleton'
 
 interface StoreGridProps {
   onStoreSelect: (store: Store) => void
@@ -38,11 +38,15 @@ export function StoreGrid({ onStoreSelect }: StoreGridProps) {
 
   if (loading) {
     return (
-      <LoadingSpinner 
-        size="lg" 
-        text="Loading stores..." 
-        className="py-12"
-      />
+      <div 
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
+        role="grid"
+        aria-label="Loading stores"
+      >
+        <StoreCardSkeleton />
+        <StoreCardSkeleton />
+        <StoreCardSkeleton />
+      </div>
     )
   }
 

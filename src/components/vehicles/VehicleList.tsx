@@ -11,8 +11,8 @@ import {
   TrashIcon
 } from '@heroicons/react/24/outline'
 import VehicleCard from '@/components/vehicles/VehicleCard'
+import VehicleCardSkeleton from '@/components/vehicles/VehicleCardSkeleton'
 import BulkDeleteModal from '@/components/vehicles/BulkDeleteModal'
-import { LoadingSpinner } from '@/components/common'
 
 interface VehicleListProps {
   vehicles: Vehicle[]
@@ -125,8 +125,10 @@ export default function VehicleList({
   if (loading) {
     return (
       <div className="bg-white shadow rounded-lg">
-        <div className="p-8 text-center">
-          <LoadingSpinner size="lg" text="Loading vehicles..." />
+        <div className="p-4 sm:p-6 space-y-4">
+          <VehicleCardSkeleton showCheckbox={isAdmin} />
+          <VehicleCardSkeleton showCheckbox={isAdmin} />
+          <VehicleCardSkeleton showCheckbox={isAdmin} />
         </div>
       </div>
     )

@@ -1,5 +1,6 @@
 export { default as VehicleList } from './VehicleList'
 export { default as VehicleCard } from './VehicleCard'
+export { default as VehicleCardSkeleton } from './VehicleCardSkeleton'
 export { default as VehicleHeader } from './VehicleHeader'
 export { default as AddVehicleModal } from './AddVehicleModal'
 export { default as BulkDeleteModal } from './BulkDeleteModal'

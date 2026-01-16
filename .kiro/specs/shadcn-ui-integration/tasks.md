@@ -198,23 +198,23 @@ This implementation plan outlines the step-by-step process for integrating shadc
     - Test that sorting is preserved
     - Test that pagination is preserved
 
-- [ ] 9. Implement Loading States
-  - [ ] 9.1 Create skeleton components for VehicleCard
+- [x] 9. Implement Loading States
+  - [x] 9.1 Create skeleton components for VehicleCard
     - Create VehicleCardSkeleton using Skeleton component
     - Match dimensions and layout of actual VehicleCard
     - _Requirements: 8.1, 8.2_
 
-  - [ ] 9.2 Create skeleton components for StoreCard
+  - [x] 9.2 Create skeleton components for StoreCard
     - Create StoreCardSkeleton using Skeleton component
     - Match dimensions and layout of actual StoreCard
     - _Requirements: 8.1, 8.3_
 
-  - [ ] 9.3 Update loading states throughout application
+  - [x] 9.3 Update loading states throughout application
     - Replace LoadingSpinner with Skeleton where appropriate
     - Use Skeleton for list loading states
     - _Requirements: 8.1_
 
-  - [ ] 9.4 Write property test for loading states
+  - [x] 9.4 Write property test for loading states
     - **Property 7: Loading State Representation**
     - **Validates: Requirements 8.2, 8.3**
     - Test that skeleton dimensions match actual components
