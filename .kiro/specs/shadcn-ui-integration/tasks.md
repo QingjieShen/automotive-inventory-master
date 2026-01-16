@@ -243,32 +243,32 @@ This implementation plan outlines the step-by-step process for integrating shadc
     - Test that toasts auto-dismiss
     - Test that toasts are positioned consistently
 
-- [ ] 12. Implement Dark Mode Support
-  - [ ] 12.1 Add dark mode theme variables to globals.css
+- [x] 12. Implement Dark Mode Support
+  - [x] 12.1 Add dark mode theme variables to globals.css
     - Define dark mode color tokens in :root with .dark selector
     - Ensure proper contrast ratios for dark mode
     - _Requirements: 13.1, 13.3_
 
-  - [ ] 12.2 Create theme toggle component
+  - [x] 12.2 Create theme toggle component
     - Create ThemeToggle component using Button
     - Implement theme switching logic
     - Persist theme preference to localStorage
     - Add ThemeToggle to navigation banner
     - _Requirements: 13.2, 13.5_
 
-  - [ ] 12.3 Add theme provider
+  - [x] 12.3 Add theme provider
     - Create ThemeProvider component
     - Wrap application in ThemeProvider
     - Detect system preference on initial load
     - _Requirements: 13.4_
 
-  - [ ] 12.4 Write unit tests for dark mode
+  - [x] 12.4 Write unit tests for dark mode
     - Test theme toggle functionality
     - Test theme persistence
     - Test system preference detection
     - _Requirements: 13.2, 13.4, 13.5_
 
-  - [ ] 12.5 Write property test for dark mode
+  - [x] 12.5 Write property test for dark mode
     - **Property 10: Dark Mode Application**
     - **Validates: Requirements 13.1, 13.2, 13.3**
     - Test that dark theme colors are applied

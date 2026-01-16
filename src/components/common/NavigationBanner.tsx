@@ -2,6 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import ThemeToggle from './ThemeToggle'
 
 export default function NavigationBanner() {
   const router = useRouter()
@@ -48,6 +49,7 @@ export default function NavigationBanner() {
             >
               Account
             </button>
+            <ThemeToggle />
           </div>
 
           {/* Mobile Menu Button */}
@@ -104,6 +106,9 @@ export default function NavigationBanner() {
             >
               Account
             </button>
+            <div className="flex justify-center pt-2">
+              <ThemeToggle />
+            </div>
           </div>
         </div>
       )}
