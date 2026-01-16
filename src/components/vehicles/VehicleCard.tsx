@@ -83,7 +83,7 @@ export default function VehicleCard({
                   aria-label={`Select vehicle ${vehicle.stockNumber}`}
                 />
               )}
-              <div className="text-sm font-medium text-gray-900">
+              <div className="text-sm font-medium text-foreground">
                 {vehicle.stockNumber}
               </div>
             </div>
@@ -102,7 +102,7 @@ export default function VehicleCard({
             {/* Thumbnail */}
             <div className="flex-shrink-0">
               {thumbnailUrl ? (
-                <div className="relative h-12 w-16 rounded-md overflow-hidden bg-gray-100">
+                <div className="relative h-12 w-16 rounded-md overflow-hidden bg-muted">
                   <Image
                     src={thumbnailUrl}
                     alt={`Vehicle ${vehicle.stockNumber}`}
@@ -112,17 +112,17 @@ export default function VehicleCard({
                   />
                 </div>
               ) : (
-                <div className="h-12 w-16 rounded-md bg-gray-100 flex items-center justify-center">
-                  <PhotoIcon className="h-6 w-6 text-gray-400" />
+                <div className="h-12 w-16 rounded-md bg-muted flex items-center justify-center">
+                  <PhotoIcon className="h-6 w-6 text-muted-foreground" />
                 </div>
               )}
             </div>
             
             <div className="flex-1 min-w-0">
-              <div className="text-sm text-gray-900">
+              <div className="text-sm text-foreground">
                 {vehicle.images?.length || 0} photos
               </div>
-              <div className="text-sm text-gray-500">
+              <div className="text-sm text-muted-foreground">
                 {formatDate(vehicle.createdAt)}
               </div>
             </div>
@@ -147,7 +147,7 @@ export default function VehicleCard({
           
           {/* Stock Number */}
           <div className={showCheckbox ? "col-span-2" : "col-span-3"}>
-            <div className="text-sm font-medium text-gray-900">
+            <div className="text-sm font-medium text-foreground">
               {vehicle.stockNumber}
             </div>
           </div>
@@ -156,7 +156,7 @@ export default function VehicleCard({
           <div className="col-span-2">
             <div className="flex items-center">
               {thumbnailUrl ? (
-                <div className="relative h-12 w-16 rounded-md overflow-hidden bg-gray-100">
+                <div className="relative h-12 w-16 rounded-md overflow-hidden bg-muted">
                   <Image
                     src={thumbnailUrl}
                     alt={`Vehicle ${vehicle.stockNumber}`}
@@ -166,8 +166,8 @@ export default function VehicleCard({
                   />
                 </div>
               ) : (
-                <div className="h-12 w-16 rounded-md bg-gray-100 flex items-center justify-center">
-                  <PhotoIcon className="h-6 w-6 text-gray-400" />
+                <div className="h-12 w-16 rounded-md bg-muted flex items-center justify-center">
+                  <PhotoIcon className="h-6 w-6 text-muted-foreground" />
                 </div>
               )}
             </div>
@@ -175,14 +175,14 @@ export default function VehicleCard({
 
           {/* Photo Count */}
           <div className="col-span-2">
-            <div className="text-sm text-gray-900">
+            <div className="text-sm text-foreground">
               {vehicle.images?.length || 0} photos
             </div>
           </div>
 
           {/* Created Date */}
           <div className="col-span-2">
-            <div className="text-sm text-gray-500">
+            <div className="text-sm text-muted-foreground">
               {formatDate(vehicle.createdAt)}
             </div>
           </div>

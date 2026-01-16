@@ -31,29 +31,29 @@ export default function DeleteVehicleModal({
     <Dialog open={open} onOpenChange={onCancel}>
       <DialogContent className="max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-lg font-medium text-gray-900">
+          <DialogTitle className="text-lg font-medium">
             Delete Vehicle
           </DialogTitle>
         </DialogHeader>
 
         {/* Vehicle Info */}
-        <div className="mb-6 p-4 bg-gray-50 border border-gray-200 rounded-lg">
+        <div className="mb-6 p-4 bg-muted border rounded-lg">
           <div className="space-y-2">
             <div className="flex justify-between">
-              <span className="text-sm font-medium text-gray-700">Stock Number:</span>
-              <span className="text-sm font-semibold text-gray-900">{vehicle.stockNumber}</span>
+              <span className="text-sm font-medium text-muted-foreground">Stock Number:</span>
+              <span className="text-sm font-semibold">{vehicle.stockNumber}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-sm font-medium text-gray-700">Store:</span>
-              <span className="text-sm text-gray-900">{vehicle.store?.name}</span>
+              <span className="text-sm font-medium text-muted-foreground">Store:</span>
+              <span className="text-sm">{vehicle.store?.name}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-sm font-medium text-gray-700">Images:</span>
-              <span className="text-sm text-gray-900">{vehicle.images.length} image{vehicle.images.length !== 1 ? 's' : ''}</span>
+              <span className="text-sm font-medium text-muted-foreground">Images:</span>
+              <span className="text-sm">{vehicle.images.length} image{vehicle.images.length !== 1 ? 's' : ''}</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-sm font-medium text-gray-700">Created:</span>
-              <span className="text-sm text-gray-900">
+              <span className="text-sm font-medium text-muted-foreground">Created:</span>
+              <span className="text-sm">
                 {new Date(vehicle.createdAt).toLocaleDateString()}
               </span>
             </div>
@@ -61,14 +61,14 @@ export default function DeleteVehicleModal({
         </div>
 
         {/* Warning Message */}
-        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-md">
+        <div className="mb-6 p-4 bg-destructive/10 border border-destructive/30 rounded-md">
           <div className="flex">
-            <ExclamationTriangleIcon className="h-6 w-6 text-red-400 mr-3 mt-0.5 flex-shrink-0" />
+            <ExclamationTriangleIcon className="h-6 w-6 text-destructive mr-3 mt-0.5 flex-shrink-0" />
             <div>
-              <h4 className="text-sm font-medium text-red-800 mb-2">
+              <h4 className="text-sm font-medium text-destructive mb-2">
                 Are you sure you want to delete this vehicle?
               </h4>
-              <DialogDescription className="text-sm text-red-700">
+              <DialogDescription className="text-sm text-destructive/90">
                 This action cannot be undone. The vehicle and all {vehicle.images.length} associated image{vehicle.images.length !== 1 ? 's' : ''} will be permanently removed from both the database and storage.
               </DialogDescription>
             </div>

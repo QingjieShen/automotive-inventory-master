@@ -58,7 +58,7 @@ export default function VehicleList({
   const SortButton = ({ field, children }: { field: string; children: React.ReactNode }) => (
     <button
       onClick={() => onSort(field)}
-      className="flex items-center space-x-1 text-left font-medium text-gray-900 hover:text-gray-600"
+      className="flex items-center space-x-1 text-left font-medium hover:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded-sm transition-colors"
     >
       <span>{children}</span>
       {getSortIcon(field)}
@@ -127,7 +127,7 @@ export default function VehicleList({
 
   if (loading) {
     return (
-      <div className="bg-white shadow rounded-lg">
+      <div className="bg-card shadow rounded-lg">
         <div className="p-4 sm:p-6 space-y-4">
           <VehicleCardSkeleton showCheckbox={isAdmin} />
           <VehicleCardSkeleton showCheckbox={isAdmin} />
@@ -139,9 +139,9 @@ export default function VehicleList({
 
   if (vehicles.length === 0) {
     return (
-      <div className="bg-white shadow rounded-lg">
+      <div className="bg-card shadow rounded-lg">
         <div className="p-8 text-center">
-          <p className="text-gray-500">No vehicles found.</p>
+          <p className="text-muted-foreground">No vehicles found.</p>
         </div>
       </div>
     )
@@ -149,21 +149,21 @@ export default function VehicleList({
 
   return (
     <>
-      <div className="bg-white shadow rounded-lg overflow-hidden">
+      <div className="bg-card shadow rounded-lg overflow-hidden">
         {/* Bulk Actions Bar */}
         {isAdmin && selectedVehicles.size > 0 && (
           <div 
-            className="bg-blue-50 border-b border-blue-200 px-4 sm:px-6 py-3"
+            className="bg-primary/10 border-b border-primary/20 px-4 sm:px-6 py-3"
             role="region"
             aria-label="Bulk actions"
           >
             <div className="flex items-center justify-between">
-              <span className="text-sm text-blue-800">
+              <span className="text-sm text-primary">
                 {selectedVehicles.size} vehicle{selectedVehicles.size !== 1 ? 's' : ''} selected
               </span>
               <button
                 onClick={handleBulkDelete}
-                className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200"
+                className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded text-destructive-foreground bg-destructive hover:bg-destructive/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-destructive transition-colors duration-200"
                 aria-label={`Delete ${selectedVehicles.size} selected vehicles`}
               >
                 <TrashIcon className="h-4 w-4 mr-1" aria-hidden="true" />
@@ -174,8 +174,8 @@ export default function VehicleList({
         )}
 
         {/* Mobile-friendly table header - hidden on small screens */}
-        <div className="hidden sm:block bg-gray-50 px-4 sm:px-6 py-3 border-b border-gray-200">
-          <div className="grid grid-cols-12 gap-4 items-center text-xs font-medium text-gray-500 uppercase tracking-wider">
+        <div className="hidden sm:block bg-muted px-4 sm:px-6 py-3 border-b">
+          <div className="grid grid-cols-12 gap-4 items-center text-xs font-medium text-muted-foreground uppercase tracking-wider">
             {isAdmin && (
               <div className="col-span-1">
                 <input
@@ -185,7 +185,7 @@ export default function VehicleList({
                     if (input) input.indeterminate = isPartiallySelected
                   }}
                   onChange={(e) => handleSelectAll(e.target.checked)}
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  className="h-4 w-4 text-primary focus:ring-ring border-input rounded"
                   aria-label="Select all vehicles"
                 />
               </div>
@@ -213,7 +213,7 @@ export default function VehicleList({
 
         {/* Vehicle List */}
         <div 
-          className="divide-y divide-gray-200"
+          className="divide-y divide-border"
           role="table"
           aria-label="Vehicle inventory"
         >
@@ -230,24 +230,24 @@ export default function VehicleList({
 
         {/* Pagination */}
         {pagination.totalPages > 1 && (
-          <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+          <div className="bg-card px-4 py-3 flex items-center justify-between border-t sm:px-6">
             {/* Mobile pagination */}
             <div className="flex-1 flex justify-between sm:hidden">
               <button
                 onClick={() => onPageChange(pagination.currentPage - 1)}
                 disabled={pagination.currentPage === 1}
-                className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
+                className="relative inline-flex items-center px-4 py-2 border text-sm font-medium rounded-md bg-card hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-colors duration-200"
                 aria-label="Go to previous page"
               >
                 Previous
               </button>
-              <span className="text-sm text-gray-700 flex items-center">
+              <span className="text-sm flex items-center">
                 Page {pagination.currentPage} of {pagination.totalPages}
               </span>
               <button
                 onClick={() => onPageChange(pagination.currentPage + 1)}
                 disabled={pagination.currentPage === pagination.totalPages}
-                className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
+                className="ml-3 relative inline-flex items-center px-4 py-2 border text-sm font-medium rounded-md bg-card hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-colors duration-200"
                 aria-label="Go to next page"
               >
                 Next
@@ -257,7 +257,7 @@ export default function VehicleList({
             {/* Desktop pagination */}
             <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
               <div>
-                <p className="text-sm text-gray-700">
+                <p className="text-sm">
                   Showing{' '}
                   <span className="font-medium">
                     {(pagination.currentPage - 1) * 10 + 1}
@@ -280,7 +280,7 @@ export default function VehicleList({
                   <button
                     onClick={() => onPageChange(pagination.currentPage - 1)}
                     disabled={pagination.currentPage === 1}
-                    className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
+                    className="relative inline-flex items-center px-2 py-2 rounded-l-md border bg-card text-sm font-medium text-muted-foreground hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-colors duration-200"
                     aria-label="Go to previous page"
                   >
                     <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
@@ -291,10 +291,10 @@ export default function VehicleList({
                     <button
                       key={page}
                       onClick={() => onPageChange(page)}
-                      className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200 ${
+                      className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-colors duration-200 ${
                         page === pagination.currentPage
-                          ? 'z-10 bg-blue-50 border-blue-500 text-blue-600'
-                          : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
+                          ? 'z-10 bg-primary/10 border-primary text-primary'
+                          : 'bg-card border-border hover:bg-accent'
                       }`}
                       aria-label={`Go to page ${page}`}
                       aria-current={page === pagination.currentPage ? 'page' : undefined}
@@ -306,7 +306,7 @@ export default function VehicleList({
                   <button
                     onClick={() => onPageChange(pagination.currentPage + 1)}
                     disabled={pagination.currentPage === pagination.totalPages}
-                    className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200"
+                    className="relative inline-flex items-center px-2 py-2 rounded-r-md border bg-card text-sm font-medium text-muted-foreground hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-colors duration-200"
                     aria-label="Go to next page"
                   >
                     <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />

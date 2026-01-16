@@ -24,11 +24,11 @@ export default function LoadingSpinner({
       aria-live="polite"
     >
       <div 
-        className={`animate-spin rounded-full border-b-2 border-blue-600 ${sizeClasses[size]}`}
+        className={`animate-spin rounded-full border-b-2 border-primary ${sizeClasses[size]}`}
         aria-hidden="true"
       />
       {text && (
-        <span className="ml-2 text-gray-600 sr-only sm:not-sr-only">
+        <span className="ml-2 text-muted-foreground sr-only sm:not-sr-only">
           {text}
         </span>
       )}

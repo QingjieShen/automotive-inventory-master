@@ -35,17 +35,17 @@ export default function BulkDeleteModal({ vehicleCount, open, onConfirm, onCance
     <Dialog open={open} onOpenChange={onCancel}>
       <DialogContent className="sm:max-w-lg">
         <div className="sm:flex sm:items-start">
-          <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
-            <ExclamationTriangleIcon className="h-6 w-6 text-red-600" />
+          <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-destructive/10 sm:mx-0 sm:h-10 sm:w-10">
+            <ExclamationTriangleIcon className="h-6 w-6 text-destructive" />
           </div>
           <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left flex-1">
             <DialogHeader>
-              <DialogTitle className="text-lg leading-6 font-medium text-gray-900">
+              <DialogTitle className="text-lg leading-6 font-medium">
                 Delete Vehicles
               </DialogTitle>
             </DialogHeader>
             <div className="mt-2">
-              <DialogDescription className="text-sm text-red-700 font-medium">
+              <DialogDescription className="text-sm text-destructive/90 font-medium">
                 Are you sure you want to delete {vehicleCount} vehicle{vehicleCount !== 1 ? 's' : ''}? 
                 This action will permanently remove the vehicle{vehicleCount !== 1 ? 's' : ''} and all 
                 associated photos and processing data. This action cannot be undone.

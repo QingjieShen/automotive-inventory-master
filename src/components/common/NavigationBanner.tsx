@@ -20,7 +20,7 @@ export default function NavigationBanner() {
 
   return (
     <nav 
-      className="fixed top-0 left-0 right-0 z-50 h-16 bg-white border-b border-gray-200 shadow-sm"
+      className="fixed top-0 left-0 right-0 z-50 h-16 bg-card border-b shadow-sm"
       role="navigation"
       aria-label="Main navigation"
     >
@@ -28,7 +28,7 @@ export default function NavigationBanner() {
         <div className="flex items-center justify-between h-full">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <div className="text-xl font-bold text-gray-900">
+            <div className="text-xl font-bold">
               MMG
             </div>
           </div>
@@ -37,14 +37,14 @@ export default function NavigationBanner() {
           <div className="hidden md:flex items-center gap-4">
             <button
               onClick={handleStores}
-              className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors"
+              className="px-4 py-2 text-sm font-medium hover:bg-accent rounded-md transition-colors"
               aria-label="Stores"
             >
               Stores
             </button>
             <button
               onClick={handleAccount}
-              className="px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors"
+              className="px-4 py-2 text-sm font-medium hover:bg-accent rounded-md transition-colors"
               aria-label="Account"
             >
               Account
@@ -56,7 +56,7 @@ export default function NavigationBanner() {
           <div className="md:hidden">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+              className="p-2 rounded-md hover:bg-accent focus:outline-none focus:ring-2 focus:ring-inset focus:ring-ring"
               aria-expanded={isMobileMenuOpen}
               aria-label="Toggle navigation menu"
             >
@@ -90,18 +90,18 @@ export default function NavigationBanner() {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden border-t border-gray-200 bg-white">
+        <div className="md:hidden border-t bg-card">
           <div className="px-4 py-3 space-y-3">
             <button
               onClick={handleStores}
-              className="w-full px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors text-left"
+              className="w-full px-4 py-2 text-sm font-medium hover:bg-accent rounded-md transition-colors text-left"
               aria-label="Stores"
             >
               Stores
             </button>
             <button
               onClick={handleAccount}
-              className="w-full px-4 py-2 text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-md transition-colors text-left"
+              className="w-full px-4 py-2 text-sm font-medium hover:bg-accent rounded-md transition-colors text-left"
               aria-label="Account"
             >
               Account

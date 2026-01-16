@@ -133,8 +133,8 @@ export default function AddVehicleModal({ open, onClose, onVehicleAdded }: AddVe
       <DialogContent className="max-w-2xl max-h-[90vh] flex flex-col p-0">
         <form onSubmit={handleSubmit} className="flex flex-col h-full">
           {/* Header */}
-          <DialogHeader className="p-6 border-b border-gray-200 flex-shrink-0">
-            <DialogTitle className="text-xl font-bold text-gray-900">
+          <DialogHeader className="p-6 border-b flex-shrink-0">
+            <DialogTitle className="text-xl font-bold">
               Add New Vehicle
             </DialogTitle>
           </DialogHeader>
@@ -150,14 +150,14 @@ export default function AddVehicleModal({ open, onClose, onVehicleAdded }: AddVe
 
             {/* Stock Number Input */}
             <div>
-              <label className="block text-lg font-bold text-gray-900 mb-3">
+              <label className="block text-lg font-bold mb-3">
                 Stock Number (Required)
               </label>
               <Input
                 type="text"
                 value={stockNumber}
                 onChange={(e) => setStockNumber(e.target.value)}
-                className="w-full p-4 border-2 border-gray-400 rounded-lg text-lg"
+                className="w-full p-4 text-lg"
                 placeholder="Enter stock number (e.g., ABC123)"
                 required
               />
@@ -165,15 +165,15 @@ export default function AddVehicleModal({ open, onClose, onVehicleAdded }: AddVe
 
             {/* VIN Input */}
             <div>
-              <label className="block text-lg font-bold text-gray-900 mb-3">
+              <label className="block text-lg font-bold mb-3">
                 VIN (Required)
               </label>
               <Input
                 type="text"
                 value={vin}
                 onChange={handleVinChange}
-                className={`w-full p-4 border-2 rounded-lg text-lg uppercase ${
-                  vinError ? 'border-destructive' : 'border-gray-400'
+                className={`w-full p-4 text-lg uppercase ${
+                  vinError ? 'border-destructive' : ''
                 }`}
                 placeholder="Enter 17-character VIN"
                 maxLength={17}
@@ -191,27 +191,27 @@ export default function AddVehicleModal({ open, onClose, onVehicleAdded }: AddVe
                   ✓ Valid VIN
                 </p>
               )}
-              <p className="mt-2 text-sm text-gray-600">
+              <p className="mt-2 text-sm text-muted-foreground">
                 17 characters, alphanumeric (excluding I, O, Q)
               </p>
             </div>
 
             {/* Store Info */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium mb-2">
                 Store
               </label>
-              <div className="p-3 bg-gray-100 border rounded">
+              <div className="p-3 bg-muted border rounded">
                 {selectedStore?.name || 'No store selected'}
               </div>
             </div>
 
             {/* Photo Upload */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
+              <label className="block text-sm font-medium mb-2">
                 Vehicle Photos (Optional)
                 {uploadedImages.length > 0 && (
-                  <span className="ml-2 text-blue-600 font-semibold">
+                  <span className="ml-2 text-primary font-semibold">
                     ({uploadedImages.length} file{uploadedImages.length !== 1 ? 's' : ''} selected)
                   </span>
                 )}
@@ -225,7 +225,7 @@ export default function AddVehicleModal({ open, onClose, onVehicleAdded }: AddVe
           </div>
 
           {/* Footer - Fixed at bottom */}
-          <DialogFooter className="p-6 border-t border-gray-200 bg-gray-50 flex-shrink-0">
+          <DialogFooter className="p-6 border-t bg-muted/50 flex-shrink-0">
             <Button
               type="button"
               variant="outline"

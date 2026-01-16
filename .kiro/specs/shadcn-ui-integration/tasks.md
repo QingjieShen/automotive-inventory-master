@@ -275,19 +275,19 @@ This implementation plan outlines the step-by-step process for integrating shadc
     - Test that contrast ratios are maintained
     - Test that preference persists
 
-- [ ] 13. Theme Consistency and Styling
-  - [ ] 13.1 Audit all components for theme token usage
+- [x] 13. Theme Consistency and Styling
+  - [x] 13.1 Audit all components for theme token usage
     - Replace hardcoded colors with theme tokens
     - Replace hardcoded spacing with theme tokens
     - Replace hardcoded typography with theme tokens
     - _Requirements: 10.1, 10.2, 10.3, 10.4_
 
-  - [ ] 13.2 Ensure consistent hover and focus states
+  - [x] 13.2 Ensure consistent hover and focus states
     - Verify all interactive elements have hover states
     - Verify all focusable elements have focus indicators
     - _Requirements: 10.2_
 
-  - [ ] 13.3 Write property test for theme consistency
+  - [x] 13.3 Write property test for theme consistency
     - **Property 3: Theme Token Consistency**
     - **Property 5: Hover State Consistency**
     - **Validates: Requirements 10.1, 10.2, 10.3, 10.4, 3.6**

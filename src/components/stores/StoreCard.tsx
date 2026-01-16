@@ -31,7 +31,7 @@ export function StoreCard({ store, onSelect }: StoreCardProps) {
     <Card
       onClick={() => onSelect(store)}
       onKeyDown={handleKeyDown}
-      className="hover:shadow-lg transition-all duration-200 cursor-pointer hover:border-blue-300 p-4 sm:p-6 min-h-[280px]"
+      className="hover:shadow-lg transition-all duration-200 cursor-pointer hover:border-primary/50 p-4 sm:p-6 min-h-[280px]"
       style={backgroundStyle}
       role="gridcell"
       tabIndex={0}
@@ -58,7 +58,7 @@ export function StoreCard({ store, onSelect }: StoreCardProps) {
             <Badge
               key={index}
               variant="secondary"
-              className="bg-white/90 text-gray-800 hover:bg-white/80"
+              className="bg-background/90 text-foreground hover:bg-background/80"
             >
               {logo.replace('-logo.png', '').toUpperCase()}
             </Badge>
