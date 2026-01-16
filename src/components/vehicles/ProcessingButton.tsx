@@ -11,6 +11,7 @@ import {
   ClockIcon
 } from '@heroicons/react/24/outline'
 import { useSession } from 'next-auth/react'
+import { toast } from '@/lib/utils/toast'
 
 interface ProcessingButtonProps {
   image: VehicleImage
@@ -66,10 +67,11 @@ export default function ProcessingButton({
       const updatedImage = result.vehicle?.images?.find((img: VehicleImage) => img.id === image.id)
       if (updatedImage) {
         onProcessingComplete(updatedImage)
+        toast.success('Processing started', 'Image processing has been initiated')
       }
     } catch (error) {
       console.error('Processing error:', error)
-      // TODO: Show error toast/notification
+      toast.error('Processing failed', 'Failed to start image processing. Please try again.')
     } finally {
       setIsProcessing(false)
     }
@@ -103,10 +105,11 @@ export default function ProcessingButton({
       const updatedImage = result.vehicle?.images?.find((img: VehicleImage) => img.id === image.id)
       if (updatedImage) {
         onProcessingComplete(updatedImage)
+        toast.success('Reprocessing started', 'Image reprocessing has been initiated')
       }
     } catch (error) {
       console.error('Reprocessing error:', error)
-      // TODO: Show error toast/notification
+      toast.error('Reprocessing failed', 'Failed to start image reprocessing. Please try again.')
     } finally {
       setIsReprocessing(false)
     }
@@ -141,9 +144,11 @@ export default function ProcessingButton({
       link.click()
       document.body.removeChild(link)
       window.URL.revokeObjectURL(url)
+      
+      toast.success('Download complete', 'Image downloaded successfully')
     } catch (error) {
       console.error('Download error:', error)
-      // TODO: Show error toast/notification
+      toast.error('Download failed', 'Failed to download image. Please try again.')
     } finally {
       setIsDownloading(false)
     }

@@ -13,6 +13,7 @@ import {
 import VehicleCard from '@/components/vehicles/VehicleCard'
 import VehicleCardSkeleton from '@/components/vehicles/VehicleCardSkeleton'
 import BulkDeleteModal from '@/components/vehicles/BulkDeleteModal'
+import { toast } from '@/lib/utils/toast'
 
 interface VehicleListProps {
   vehicles: Vehicle[]
@@ -112,10 +113,12 @@ export default function VehicleList({
       
       // Clear selection after the list has been refreshed
       setSelectedVehicles(new Set())
+      
+      toast.success('Vehicles deleted', `Successfully deleted ${vehicleIds.length} vehicle(s)`)
     } catch (error) {
       console.error('Error deleting vehicles:', error)
       setShowBulkDeleteModal(false)
-      // TODO: Show error toast/notification
+      toast.error('Delete failed', 'Failed to delete vehicles. Please try again.')
     }
   }
 

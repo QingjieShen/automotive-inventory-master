@@ -12,6 +12,7 @@ import { LoadingSpinner } from '@/components/common'
 import NavigationBanner from '@/components/common/NavigationBanner'
 import JSZip from 'jszip'
 import { saveAs } from 'file-saver'
+import { toast } from '@/lib/utils/toast'
 
 export default function VehicleDetailPage() {
   return (
@@ -69,11 +70,13 @@ function VehicleDetailContent() {
 
   const handleDownloadImages = async () => {
     if (!vehicle || !vehicle.images || vehicle.images.length === 0) {
-      alert('No images to download')
+      toast.error('No images', 'No images to download')
       return
     }
 
     setDownloading(true)
+    const loadingToast = toast.loading('Preparing download...')
+    
     try {
       const zip = new JSZip()
       const folder = zip.folder(vehicle.stockNumber)
@@ -117,7 +120,8 @@ function VehicleDetailContent() {
       })
 
       if (successCount === 0) {
-        alert('Failed to download any images')
+        toast.dismiss(loadingToast)
+        toast.error('Download failed', 'Failed to download any images')
         return
       }
 
@@ -125,12 +129,16 @@ function VehicleDetailContent() {
       const content = await zip.generateAsync({ type: 'blob' })
       saveAs(content, `${vehicle.stockNumber}.zip`)
 
+      toast.dismiss(loadingToast)
       if (successCount < vehicle.images.length) {
-        alert(`Downloaded ${successCount} of ${vehicle.images.length} images. Some images failed to download.`)
+        toast.warning('Partial download', `Downloaded ${successCount} of ${vehicle.images.length} images. Some images failed to download.`)
+      } else {
+        toast.success('Download complete', `Downloaded ${successCount} images`)
       }
     } catch (err) {
       console.error('Error creating zip file:', err)
-      alert('Failed to download images. Please try again.')
+      toast.dismiss(loadingToast)
+      toast.error('Download failed', 'Failed to download images. Please try again.')
     } finally {
       setDownloading(false)
     }

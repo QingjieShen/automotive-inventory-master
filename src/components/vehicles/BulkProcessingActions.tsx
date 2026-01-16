@@ -9,6 +9,7 @@ import {
   CheckCircleIcon
 } from '@heroicons/react/24/outline'
 import { useSession } from 'next-auth/react'
+import { toast } from '@/lib/utils/toast'
 
 interface BulkProcessingActionsProps {
   selectedImages: VehicleImage[]
@@ -58,10 +59,11 @@ export default function BulkProcessingActions({
         throw new Error('Failed to start bulk processing')
       }
 
+      toast.success('Processing started', `Processing ${unprocessedKeyImages.length} images`)
       onProcessingComplete()
     } catch (error) {
       console.error('Bulk processing error:', error)
-      // TODO: Show error toast/notification
+      toast.error('Processing failed', 'Failed to start bulk processing. Please try again.')
     } finally {
       setIsProcessing(false)
     }
@@ -88,10 +90,11 @@ export default function BulkProcessingActions({
         throw new Error('Failed to start bulk reprocessing')
       }
 
+      toast.success('Reprocessing started', `Reprocessing ${processedKeyImages.length} images`)
       onProcessingComplete()
     } catch (error) {
       console.error('Bulk reprocessing error:', error)
-      // TODO: Show error toast/notification
+      toast.error('Reprocessing failed', 'Failed to start bulk reprocessing. Please try again.')
     } finally {
       setIsReprocessing(false)
     }
@@ -138,9 +141,11 @@ export default function BulkProcessingActions({
           await new Promise(resolve => setTimeout(resolve, 100))
         }
       }
+
+      toast.success('Download complete', `Downloaded ${processedKeyImages.length} images`)
     } catch (error) {
       console.error('Bulk download error:', error)
-      // TODO: Show error toast/notification
+      toast.error('Download failed', 'Failed to download images. Please try again.')
     } finally {
       setIsDownloading(false)
     }

@@ -4,6 +4,7 @@ import { useState, useCallback, useRef } from 'react'
 import { PhotoIcon, XCircleIcon } from '@heroicons/react/24/outline'
 import { ImageType } from '@/types'
 import Image from 'next/image'
+import { toast } from '@/lib/utils/toast'
 import {
   DndContext,
   closestCenter,
@@ -113,7 +114,7 @@ export default function GalleryImagesUploader({
 
     const totalFiles = exteriorFiles.length + interiorFiles.length
     if (totalFiles + filesToProcess.length > maxFiles) {
-      alert(`Cannot add more than ${maxFiles} files`)
+      toast.error('Upload limit exceeded', `Cannot add more than ${maxFiles} files`)
       return
     }
 
@@ -121,7 +122,7 @@ export default function GalleryImagesUploader({
       const validation = validateFile(file)
       
       if (!validation.valid) {
-        alert(validation.error)
+        toast.error('Invalid file', validation.error)
         continue
       }
 

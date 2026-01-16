@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { Vehicle, VehicleImage, ImageType, ProcessingStatus } from '@/types'
 import Image from 'next/image'
 import { PhotoIcon, TrashIcon } from '@heroicons/react/24/outline'
+import { toast } from '@/lib/utils/toast'
 import {
   DndContext,
   closestCenter,
@@ -268,9 +269,10 @@ export default function ImageGallery({ vehicle, onVehicleUpdate }: ImageGalleryP
 
       onVehicleUpdate(updatedVehicle)
       setImageToDelete(null)
+      toast.success('Image deleted', 'Image has been removed successfully')
     } catch (error) {
       console.error('Error deleting image:', error)
-      // TODO: Show error toast/notification
+      toast.error('Delete failed', 'Failed to delete image. Please try again.')
     } finally {
       setIsDeleting(false)
     }

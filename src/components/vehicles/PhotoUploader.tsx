@@ -4,6 +4,7 @@ import { useState, useCallback, useRef } from 'react'
 import { PhotoIcon, XCircleIcon, CheckCircleIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { ImageType } from '@/types'
 import Image from 'next/image'
+import { toast } from '@/lib/utils/toast'
 
 interface UploadFile extends File {
   id: string
@@ -90,7 +91,7 @@ export default function PhotoUploader({
 
     // Check if adding these files would exceed the limit
     if (files.length + filesToProcess.length > maxFiles) {
-      alert(`Cannot add more than ${maxFiles} files`)
+      toast.error('Upload limit exceeded', `Cannot add more than ${maxFiles} files`)
       return
     }
 
@@ -246,7 +247,7 @@ export default function PhotoUploader({
   // Upload all files
   const uploadFiles = async () => {
     if (!vehicleId) {
-      alert('Vehicle ID is required for upload')
+      toast.error('Upload failed', 'Vehicle ID is required for upload')
       return
     }
 

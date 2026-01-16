@@ -4,6 +4,7 @@ import { useState, useCallback } from 'react'
 import { PhotoIcon, XCircleIcon } from '@heroicons/react/24/outline'
 import { ImageType } from '@/types'
 import Image from 'next/image'
+import { toast } from '@/lib/utils/toast'
 import {
   DndContext,
   closestCenter,
@@ -102,7 +103,7 @@ export default function KeyImagesUploader({
     const validation = validateFile(file)
     
     if (!validation.valid) {
-      alert(validation.error)
+      toast.error('Invalid file', validation.error)
       return
     }
 
@@ -125,7 +126,7 @@ export default function KeyImagesUploader({
       onFilesChange?.(filesArray)
     } catch (error) {
       console.error('Failed to process file:', error)
-      alert('Failed to process file. Please try again.')
+      toast.error('Failed to process file', 'Please try again.')
     }
   }, [slots, onFilesChange])
 
