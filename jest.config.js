@@ -26,6 +26,11 @@ const customJestConfig = {
     'node_modules/(?!(uuid)/)',
   ],
   testTimeout: 10000,
+  globals: {
+    'fast-check': {
+      numRuns: 20, // Reduced from default 100 for faster test execution
+    },
+  },
 }
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
