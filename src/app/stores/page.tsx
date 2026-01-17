@@ -6,6 +6,7 @@ import { ProtectedRoute } from '../../components/auth/ProtectedRoute'
 import { StoreGrid } from '../../components/stores/StoreGrid'
 import { useStore } from '../../components/providers/StoreProvider'
 import NavigationBanner from '../../components/common/NavigationBanner'
+import { Button } from '@/components/ui/button'
 import { Store } from '../../types'
 
 function StoresPageContent() {
@@ -26,33 +27,30 @@ function StoresPageContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
       {/* Navigation Banner */}
       <NavigationBanner />
 
       {/* Header */}
-      <div className="bg-white shadow-sm border-b mt-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">
+      <div className="border-b mt-16">
+        <div className="container py-8">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div className="space-y-1">
+              <h1 className="text-3xl font-bold tracking-tight">
                 Select Store Location
               </h1>
-              <p className="mt-1 text-sm text-gray-600">
+              <p className="text-muted-foreground">
                 Welcome, {user?.name}! Choose a dealership to manage vehicle inventory.
               </p>
             </div>
             <div className="flex items-center gap-4">
               {isSuperAdmin && (
-                <button
-                  onClick={handleManageStores}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
-                >
+                <Button onClick={handleManageStores}>
                   Manage Stores
-                </button>
+                </Button>
               )}
               <div className="text-right">
-                <p className="text-sm text-gray-500">Role: {user?.role}</p>
+                <p className="text-sm text-muted-foreground">Role: {user?.role}</p>
               </div>
             </div>
           </div>
@@ -60,7 +58,7 @@ function StoresPageContent() {
       </div>
 
       {/* Store Grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="container py-8">
         <StoreGrid onStoreSelect={handleStoreSelect} />
       </div>
     </div>

@@ -3,9 +3,9 @@
 import { useState } from 'react'
 import { signIn, getSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import Image from 'next/image'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
 
 export default function LoginPage() {
   const [email, setEmail] = useState('')
@@ -43,20 +43,20 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-4">
       <div className="max-w-md w-full space-y-8">
-        <div className="bg-white rounded-lg shadow-xl p-6 sm:p-8">
+        <Card className="p-6 sm:p-8">
           {/* MMG Logo */}
           <div className="text-center mb-6 sm:mb-8">
             <div className="mx-auto h-12 sm:h-16 w-auto flex items-center justify-center">
-              <div className="text-2xl sm:text-3xl font-bold text-blue-600" aria-label="MMG Logo">
+              <div className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent" aria-label="MMG Logo">
                 MMG
               </div>
             </div>
-            <h1 className="mt-4 text-xl sm:text-2xl font-bold text-gray-900">
+            <h1 className="mt-4 text-xl sm:text-2xl font-bold tracking-tight">
               Vehicle Inventory Tool
             </h1>
-            <p className="mt-2 text-sm text-gray-600">
+            <p className="mt-2 text-sm text-muted-foreground">
               Sign in to your account
             </p>
           </div>
@@ -65,7 +65,7 @@ export default function LoginPage() {
           <form className="space-y-6" onSubmit={handleSubmit} noValidate>
             {error && (
               <div 
-                className="bg-destructive/10 border border-destructive/30 text-destructive px-4 py-3 rounded-md text-sm"
+                className="bg-destructive/10 border border-destructive/30 text-destructive px-4 py-3 rounded-lg text-sm"
                 role="alert"
                 aria-live="polite"
                 id="login-error"
@@ -74,8 +74,8 @@ export default function LoginPage() {
               </div>
             )}
 
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+            <div className="space-y-2">
+              <label htmlFor="email" className="text-sm font-medium">
                 Email address
               </label>
               <Input
@@ -86,14 +86,13 @@ export default function LoginPage() {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="mt-1"
                 placeholder="Enter your email"
                 aria-describedby={error ? "login-error" : undefined}
               />
             </div>
 
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+            <div className="space-y-2">
+              <label htmlFor="password" className="text-sm font-medium">
                 Password
               </label>
               <Input
@@ -104,7 +103,6 @@ export default function LoginPage() {
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="mt-1"
                 placeholder="Enter your password"
                 aria-describedby={error ? "login-error" : undefined}
               />
@@ -119,7 +117,7 @@ export default function LoginPage() {
               >
                 {isLoading ? (
                   <>
-                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2" aria-hidden="true" />
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary-foreground mr-2" aria-hidden="true" />
                     <span>Signing in...</span>
                     <span className="sr-only" id="loading-status">Please wait, signing you in</span>
                   </>
@@ -132,11 +130,11 @@ export default function LoginPage() {
 
           {/* Footer */}
           <div className="mt-6 sm:mt-8 text-center">
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-muted-foreground">
               © 2024 Mark Motors Group. All rights reserved.
             </p>
           </div>
-        </div>
+        </Card>
       </div>
     </div>
   )

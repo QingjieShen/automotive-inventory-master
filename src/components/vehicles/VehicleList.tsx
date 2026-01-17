@@ -4,15 +4,17 @@ import { useState } from 'react'
 import { Vehicle } from '@/types'
 import { useSession } from 'next-auth/react'
 import { 
-  ChevronUpIcon, 
-  ChevronDownIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  TrashIcon
-} from '@heroicons/react/24/outline'
+  ChevronUp, 
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  Trash2
+} from 'lucide-react'
 import VehicleCard from '@/components/vehicles/VehicleCard'
 import VehicleCardSkeleton from '@/components/vehicles/VehicleCardSkeleton'
 import BulkDeleteModal from '@/components/vehicles/BulkDeleteModal'
+import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
 import { toast } from '@/lib/utils/toast'
 
 interface VehicleListProps {
@@ -49,9 +51,9 @@ export default function VehicleList({
   const getSortIcon = (field: string) => {
     if (sortBy !== field) return null
     return sortOrder === 'asc' ? (
-      <ChevronUpIcon className="h-4 w-4" />
+      <ChevronUp className="h-4 w-4" />
     ) : (
-      <ChevronDownIcon className="h-4 w-4" />
+      <ChevronDown className="h-4 w-4" />
     )
   }
 
@@ -158,17 +160,18 @@ export default function VehicleList({
             aria-label="Bulk actions"
           >
             <div className="flex items-center justify-between">
-              <span className="text-sm text-primary">
+              <span className="text-sm text-primary font-medium">
                 {selectedVehicles.size} vehicle{selectedVehicles.size !== 1 ? 's' : ''} selected
               </span>
-              <button
+              <Button
+                variant="destructive"
+                size="sm"
                 onClick={handleBulkDelete}
-                className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded text-destructive-foreground bg-destructive hover:bg-destructive/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-destructive transition-colors duration-200"
                 aria-label={`Delete ${selectedVehicles.size} selected vehicles`}
               >
-                <TrashIcon className="h-4 w-4 mr-1" aria-hidden="true" />
+                <Trash2 className="h-4 w-4 mr-1" aria-hidden="true" />
                 Delete Selected
-              </button>
+              </Button>
             </div>
           </div>
         )}
@@ -178,14 +181,9 @@ export default function VehicleList({
           <div className="grid grid-cols-12 gap-4 items-center text-xs font-medium text-muted-foreground uppercase tracking-wider">
             {isAdmin && (
               <div className="col-span-1">
-                <input
-                  type="checkbox"
+                <Checkbox
                   checked={isAllSelected}
-                  ref={(input) => {
-                    if (input) input.indeterminate = isPartiallySelected
-                  }}
-                  onChange={(e) => handleSelectAll(e.target.checked)}
-                  className="h-4 w-4 text-primary focus:ring-ring border-input rounded"
+                  onCheckedChange={handleSelectAll}
                   aria-label="Select all vehicles"
                 />
               </div>
@@ -233,84 +231,85 @@ export default function VehicleList({
           <div className="bg-card px-4 py-3 flex items-center justify-between border-t sm:px-6">
             {/* Mobile pagination */}
             <div className="flex-1 flex justify-between sm:hidden">
-              <button
+              <Button
+                variant="outline"
+                size="sm"
                 onClick={() => onPageChange(pagination.currentPage - 1)}
                 disabled={pagination.currentPage === 1}
-                className="relative inline-flex items-center px-4 py-2 border text-sm font-medium rounded-md bg-card hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-colors duration-200"
                 aria-label="Go to previous page"
               >
                 Previous
-              </button>
+              </Button>
               <span className="text-sm flex items-center">
                 Page {pagination.currentPage} of {pagination.totalPages}
               </span>
-              <button
+              <Button
+                variant="outline"
+                size="sm"
                 onClick={() => onPageChange(pagination.currentPage + 1)}
                 disabled={pagination.currentPage === pagination.totalPages}
-                className="ml-3 relative inline-flex items-center px-4 py-2 border text-sm font-medium rounded-md bg-card hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-colors duration-200"
                 aria-label="Go to next page"
               >
                 Next
-              </button>
+              </Button>
             </div>
             
             {/* Desktop pagination */}
             <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
               <div>
-                <p className="text-sm">
+                <p className="text-sm text-muted-foreground">
                   Showing{' '}
-                  <span className="font-medium">
+                  <span className="font-medium text-foreground">
                     {(pagination.currentPage - 1) * 10 + 1}
                   </span>{' '}
                   to{' '}
-                  <span className="font-medium">
+                  <span className="font-medium text-foreground">
                     {Math.min(pagination.currentPage * 10, pagination.totalCount)}
                   </span>{' '}
                   of{' '}
-                  <span className="font-medium">{pagination.totalCount}</span>{' '}
+                  <span className="font-medium text-foreground">{pagination.totalCount}</span>{' '}
                   results
                 </p>
               </div>
               <div>
                 <nav 
-                  className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" 
+                  className="flex items-center gap-1" 
                   aria-label="Pagination"
                   role="navigation"
                 >
-                  <button
+                  <Button
+                    variant="outline"
+                    size="icon"
                     onClick={() => onPageChange(pagination.currentPage - 1)}
                     disabled={pagination.currentPage === 1}
-                    className="relative inline-flex items-center px-2 py-2 rounded-l-md border bg-card text-sm font-medium text-muted-foreground hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-colors duration-200"
                     aria-label="Go to previous page"
                   >
-                    <ChevronLeftIcon className="h-5 w-5" aria-hidden="true" />
-                  </button>
+                    <ChevronLeft className="h-4 w-4" aria-hidden="true" />
+                  </Button>
                   
                   {/* Page numbers */}
                   {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map((page) => (
-                    <button
+                    <Button
                       key={page}
+                      variant={page === pagination.currentPage ? "default" : "outline"}
+                      size="sm"
                       onClick={() => onPageChange(page)}
-                      className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-colors duration-200 ${
-                        page === pagination.currentPage
-                          ? 'z-10 bg-primary/10 border-primary text-primary'
-                          : 'bg-card border-border hover:bg-accent'
-                      }`}
                       aria-label={`Go to page ${page}`}
                       aria-current={page === pagination.currentPage ? 'page' : undefined}
                     >
                       {page}
-                    </button>
+                    </Button>
                   ))}
                   
-                  <button
+                  <Button
+                    variant="outline"
+                    size="icon"
                     onClick={() => onPageChange(pagination.currentPage + 1)}
                     disabled={pagination.currentPage === pagination.totalPages}
-                    className="relative inline-flex items-center px-2 py-2 rounded-r-md border bg-card text-sm font-medium text-muted-foreground hover:bg-accent disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 transition-colors duration-200"
                     aria-label="Go to next page"
                   >
-                    <ChevronRightIcon className="h-5 w-5" aria-hidden="true" />
-                  </button>
+                    <ChevronRight className="h-4 w-4" aria-hidden="true" />
+                  </Button>
                 </nav>
               </div>
             </div>

@@ -118,7 +118,7 @@ export default function VehiclesPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
       <NavigationBanner />
       
       {/* Add padding-top to account for fixed navigation banner */}
@@ -130,10 +130,10 @@ export default function VehiclesPage() {
           onVehicleAdded={handleVehicleAdded}
         />
         
-        <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <main className="container py-8">
           {error && (
-            <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-md">
-              <p className="text-red-800">{error}</p>
+            <div className="mb-4 p-4 bg-destructive/10 border border-destructive/20 rounded-lg">
+              <p className="text-destructive text-sm">{error}</p>
             </div>
           )}
 

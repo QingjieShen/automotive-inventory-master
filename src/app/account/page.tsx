@@ -7,13 +7,16 @@ import { useStore } from '@/components/providers/StoreProvider'
 import NavigationBanner from '@/components/common/NavigationBanner'
 import { LoadingSpinner } from '@/components/common'
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Badge } from '@/components/ui/badge'
 import { 
-  UserCircleIcon, 
-  EnvelopeIcon, 
-  ShieldCheckIcon,
-  ArrowRightOnRectangleIcon,
-  BuildingStorefrontIcon
-} from '@heroicons/react/24/outline'
+  User, 
+  Mail, 
+  Shield,
+  LogOut,
+  Store
+} from 'lucide-react'
 
 export default function AccountPage() {
   return (
@@ -48,16 +51,16 @@ function AccountContent() {
     }
   }
 
-  const getRoleBadgeColor = (role: string) => {
+  const getRoleBadgeVariant = (role: string) => {
     switch (role) {
       case 'SUPER_ADMIN':
-        return 'bg-purple-100 text-purple-800 border-purple-200'
+        return 'default' as const
       case 'ADMIN':
-        return 'bg-blue-100 text-blue-800 border-blue-200'
+        return 'secondary' as const
       case 'PHOTOGRAPHER':
-        return 'bg-green-100 text-green-800 border-green-200'
+        return 'success' as const
       default:
-        return 'bg-gray-100 text-gray-800 border-gray-200'
+        return 'secondary' as const
     }
   }
 
@@ -74,6 +77,19 @@ function AccountContent() {
     }
   }
 
+  const getRoleDescription = (role: string) => {
+    switch (role) {
+      case 'SUPER_ADMIN':
+        return 'Full system access including store management'
+      case 'ADMIN':
+        return 'Can manage vehicles, delete, and reprocess images'
+      case 'PHOTOGRAPHER':
+        return 'Can upload and manage vehicle photos'
+      default:
+        return ''
+    }
+  }
+
   if (status === 'loading') {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -87,35 +103,34 @@ function AccountContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
       <NavigationBanner />
       
-      {/* Add padding-top to account for fixed navigation banner */}
       <div className="pt-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="container max-w-4xl py-8">
           {/* Page Header */}
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900">
+          <div className="mb-8 space-y-1">
+            <h1 className="text-3xl font-bold tracking-tight">
               Account Settings
             </h1>
-            <p className="mt-2 text-sm text-gray-600">
+            <p className="text-muted-foreground">
               Manage your account information and preferences
             </p>
           </div>
 
           {/* Profile Card */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden mb-6">
+          <Card className="mb-6">
             {/* Header with gradient */}
-            <div className="bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-8">
+            <div className="bg-gradient-to-r from-primary to-primary/60 px-6 py-8 rounded-t-lg">
               <div className="flex items-center">
-                <div className="bg-white rounded-full p-3">
-                  <UserCircleIcon className="h-16 w-16 text-blue-600" />
+                <div className="bg-background rounded-full p-3">
+                  <User className="h-12 w-12 text-primary" />
                 </div>
                 <div className="ml-6">
-                  <h2 className="text-2xl font-bold text-white">
+                  <h2 className="text-2xl font-bold text-primary-foreground">
                     {session.user.name}
                   </h2>
-                  <p className="text-blue-100 mt-1">
+                  <p className="text-primary-foreground/80 mt-1">
                     {session.user.email}
                   </p>
                 </div>
@@ -123,89 +138,75 @@ function AccountContent() {
             </div>
 
             {/* Profile Details */}
-            <div className="px-6 py-6 space-y-6">
+            <CardContent className="pt-6 space-y-6">
               {/* Email */}
-              <div className="flex items-start">
-                <EnvelopeIcon className="h-6 w-6 text-gray-400 mt-0.5" />
-                <div className="ml-4 flex-1">
-                  <p className="text-sm font-medium text-gray-700">Email Address</p>
-                  <p className="text-base text-gray-900 mt-1">{session.user.email}</p>
+              <div className="flex items-start gap-4">
+                <Mail className="h-5 w-5 text-muted-foreground mt-0.5" />
+                <div className="flex-1 space-y-1">
+                  <p className="text-sm font-medium">Email Address</p>
+                  <p className="text-sm text-muted-foreground">{session.user.email}</p>
                 </div>
               </div>
 
               {/* Role */}
-              <div className="flex items-start">
-                <ShieldCheckIcon className="h-6 w-6 text-gray-400 mt-0.5" />
-                <div className="ml-4 flex-1">
-                  <p className="text-sm font-medium text-gray-700">Role</p>
-                  <div className="mt-2">
-                    <span className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-medium border ${getRoleBadgeColor(session.user.role)}`}>
-                      {getRoleDisplayName(session.user.role)}
-                    </span>
-                  </div>
-                  <p className="text-sm text-gray-500 mt-2">
-                    {session.user.role === 'SUPER_ADMIN' && 'Full system access including store management'}
-                    {session.user.role === 'ADMIN' && 'Can manage vehicles, delete, and reprocess images'}
-                    {session.user.role === 'PHOTOGRAPHER' && 'Can upload and manage vehicle photos'}
+              <div className="flex items-start gap-4">
+                <Shield className="h-5 w-5 text-muted-foreground mt-0.5" />
+                <div className="flex-1 space-y-2">
+                  <p className="text-sm font-medium">Role</p>
+                  <Badge variant={getRoleBadgeVariant(session.user.role)}>
+                    {getRoleDisplayName(session.user.role)}
+                  </Badge>
+                  <p className="text-sm text-muted-foreground">
+                    {getRoleDescription(session.user.role)}
                   </p>
                 </div>
               </div>
 
               {/* User ID (for debugging/support) */}
-              <div className="flex items-start pt-4 border-t border-gray-200">
-                <div className="ml-4 flex-1">
-                  <p className="text-xs font-medium text-gray-500">User ID</p>
-                  <p className="text-xs text-gray-400 mt-1 font-mono">{session.user.id}</p>
-                </div>
+              <div className="pt-4 border-t">
+                <p className="text-xs font-medium text-muted-foreground">User ID</p>
+                <p className="text-xs text-muted-foreground/60 mt-1 font-mono">{session.user.id}</p>
               </div>
-            </div>
-          </div>
+            </CardContent>
+          </Card>
 
           {/* Actions Card */}
-          <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-            <h3 className="text-lg font-semibold text-gray-900 mb-4">
-              Account Actions
-            </h3>
+          <Card>
+            <CardHeader>
+              <CardTitle>Account Actions</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {/* Back to Stores */}
+              <Button
+                variant="outline"
+                className="w-full justify-start"
+                onClick={() => router.push('/stores')}
+              >
+                <Store className="h-4 w-4 mr-2" />
+                Back to Stores
+              </Button>
 
-            <div className="space-y-3">
               {/* Logout Button */}
-              <button
+              <Button
+                variant="destructive"
+                className="w-full justify-start"
                 onClick={handleLogout}
                 disabled={isLoggingOut}
-                className="w-full flex items-center justify-between px-4 py-3 bg-red-50 border border-red-200 rounded-lg hover:bg-red-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed group"
               >
-                <div className="flex items-center">
-                  <ArrowRightOnRectangleIcon className="h-5 w-5 text-red-600 group-hover:text-red-700" />
-                  <span className="ml-3 text-sm font-medium text-red-700 group-hover:text-red-800">
-                    {isLoggingOut ? 'Logging out...' : 'Log Out'}
-                  </span>
-                </div>
-                {isLoggingOut && (
-                  <LoadingSpinner size="sm" />
-                )}
-              </button>
-
-              {/* Back to Stores */}
-              <button
-                onClick={() => router.push('/stores')}
-                className="w-full flex items-center justify-between px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 transition-colors group"
-              >
-                <div className="flex items-center">
-                  <BuildingStorefrontIcon className="h-5 w-5 text-gray-600 group-hover:text-gray-700" />
-                  <span className="ml-3 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-                    Back to Stores
-                  </span>
-                </div>
-              </button>
-            </div>
-          </div>
+                <LogOut className="h-4 w-4 mr-2" />
+                {isLoggingOut ? 'Logging out...' : 'Log Out'}
+              </Button>
+            </CardContent>
+          </Card>
 
           {/* Info Card */}
-          <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <p className="text-sm text-blue-800">
-              <strong>Need help?</strong> Contact your system administrator if you need to change your role or access additional features.
-            </p>
-          </div>
+          <Card className="mt-6 border-primary/20 bg-primary/5">
+            <CardContent className="pt-6">
+              <p className="text-sm">
+                <strong>Need help?</strong> Contact your system administrator if you need to change your role or access additional features.
+              </p>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>

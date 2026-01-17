@@ -3,6 +3,8 @@
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import ThemeToggle from './ThemeToggle'
+import { Button } from '@/components/ui/button'
+import { Menu, X } from 'lucide-react'
 
 export default function NavigationBanner() {
   const router = useRouter()
@@ -20,92 +22,76 @@ export default function NavigationBanner() {
 
   return (
     <nav 
-      className="fixed top-0 left-0 right-0 z-50 h-16 bg-card border-b shadow-sm"
+      className="fixed top-0 left-0 right-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
       role="navigation"
       aria-label="Main navigation"
     >
-      <div className="h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-full">
-          {/* Logo */}
-          <div className="flex-shrink-0">
-            <div className="text-xl font-bold">
-              MMG
-            </div>
+      <div className="container flex h-16 items-center">
+        {/* Logo */}
+        <div className="mr-4 flex">
+          <div className="text-xl font-bold bg-gradient-to-r from-primary to-primary/60 bg-clip-text text-transparent">
+            MMG
           </div>
+        </div>
 
-          {/* Navigation Links - Desktop */}
-          <div className="hidden md:flex items-center gap-4">
-            <button
+        {/* Navigation Links - Desktop */}
+        <div className="flex flex-1 items-center justify-end space-x-2">
+          <nav className="hidden md:flex items-center space-x-2">
+            <Button
+              variant="ghost"
               onClick={handleStores}
-              className="px-4 py-2 text-sm font-medium hover:bg-accent rounded-md transition-colors"
               aria-label="Stores"
             >
               Stores
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="ghost"
               onClick={handleAccount}
-              className="px-4 py-2 text-sm font-medium hover:bg-accent rounded-md transition-colors"
               aria-label="Account"
             >
               Account
-            </button>
+            </Button>
             <ThemeToggle />
-          </div>
+          </nav>
 
           {/* Mobile Menu Button */}
-          <div className="md:hidden">
-            <button
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 rounded-md hover:bg-accent focus:outline-none focus:ring-2 focus:ring-inset focus:ring-ring"
-              aria-expanded={isMobileMenuOpen}
-              aria-label="Toggle navigation menu"
-            >
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                aria-hidden="true"
-              >
-                {isMobileMenuOpen ? (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                ) : (
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M4 6h16M4 12h16M4 18h16"
-                  />
-                )}
-              </svg>
-            </button>
-          </div>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="md:hidden"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-expanded={isMobileMenuOpen}
+            aria-label="Toggle navigation menu"
+          >
+            {isMobileMenuOpen ? (
+              <X className="h-5 w-5" />
+            ) : (
+              <Menu className="h-5 w-5" />
+            )}
+          </Button>
         </div>
       </div>
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="md:hidden border-t bg-card">
-          <div className="px-4 py-3 space-y-3">
-            <button
+        <div className="md:hidden border-t">
+          <div className="container py-4 space-y-2">
+            <Button
+              variant="ghost"
+              className="w-full justify-start"
               onClick={handleStores}
-              className="w-full px-4 py-2 text-sm font-medium hover:bg-accent rounded-md transition-colors text-left"
               aria-label="Stores"
             >
               Stores
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="ghost"
+              className="w-full justify-start"
               onClick={handleAccount}
-              className="w-full px-4 py-2 text-sm font-medium hover:bg-accent rounded-md transition-colors text-left"
               aria-label="Account"
             >
               Account
-            </button>
+            </Button>
             <div className="flex justify-center pt-2">
               <ThemeToggle />
             </div>
