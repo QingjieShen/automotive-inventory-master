@@ -1,10 +1,12 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { ProtectedRoute } from '../../../components/auth/ProtectedRoute'
 import { RoleGuard } from '../../../components/auth/RoleGuard'
 import { Store } from '../../../types'
 import Image from 'next/image'
+import NavigationBanner from '../../../components/common/NavigationBanner'
 
 interface StoreBackgrounds {
   id: string
@@ -27,6 +29,7 @@ const IMAGE_TYPES = [
 ]
 
 function BackgroundsManagementContent() {
+  const router = useRouter()
   const [stores, setStores] = useState<Store[]>([])
   const [selectedStore, setSelectedStore] = useState<Store | null>(null)
   const [backgrounds, setBackgrounds] = useState<StoreBackgrounds | null>(null)
@@ -150,16 +153,34 @@ function BackgroundsManagementContent() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <h1 className="text-2xl font-bold text-gray-900">
-            Key Images Background Settings
-          </h1>
-          <p className="mt-2 text-sm text-gray-600">
-            Customize background images for each store's key images. These backgrounds will be used for AI-powered background replacement.
-          </p>
+      {/* Navigation Banner */}
+      <NavigationBanner />
+      
+      {/* Add padding-top to account for fixed navigation banner */}
+      <div className="pt-16">
+        {/* Header */}
+        <div className="bg-white shadow-sm border-b">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+            <div className="flex justify-between items-center">
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900">
+                  Key Images Background Settings
+                </h1>
+                <p className="mt-2 text-sm text-gray-600">
+                  Customize background images for each store's key images. These backgrounds will be used for AI-powered background replacement.
+                </p>
+              </div>
+              <div className="flex gap-3">
+                <button
+                  onClick={() => router.push('/admin/stores')}
+                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+                >
+                  Back to Store Management
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {error && (
@@ -333,6 +354,7 @@ function BackgroundsManagementContent() {
             </div>
           </div>
         )}
+      </div>
       </div>
     </div>
   )
