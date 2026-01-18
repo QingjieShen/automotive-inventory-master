@@ -33,6 +33,7 @@ function BackgroundsManagementContent() {
   const [loading, setLoading] = useState(true)
   const [uploading, setUploading] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [fileInputKey, setFileInputKey] = useState(0) // Key to force file input reset
 
   useEffect(() => {
     fetchStores()
@@ -41,6 +42,7 @@ function BackgroundsManagementContent() {
   useEffect(() => {
     if (selectedStore) {
       fetchBackgrounds(selectedStore.id)
+      setFileInputKey(prev => prev + 1) // Reset file inputs when store changes
     }
   }, [selectedStore])
 
@@ -97,6 +99,9 @@ function BackgroundsManagementContent() {
 
       const data = await response.json()
       setBackgrounds(data.store)
+      
+      // Reset file inputs to allow re-uploading
+      setFileInputKey(prev => prev + 1)
     } catch (err: any) {
       setError(err.message || 'Failed to upload image')
       console.error(err)
@@ -229,27 +234,69 @@ function BackgroundsManagementContent() {
                       </div>
 
                       <div className="space-y-2">
-                        <label className="block">
-                          <span className="sr-only">Choose image</span>
-                          <input
-                            type="file"
-                            accept="image/jpeg,image/jpg,image/png,image/webp"
-                            onChange={(e) => {
-                              const file = e.target.files?.[0]
-                              if (file) {
-                                handleFileUpload(type.key, file)
-                              }
-                            }}
-                            disabled={isUploading}
-                            className="block w-full text-sm text-gray-500
-                              file:mr-4 file:py-2 file:px-4
-                              file:rounded-md file:border-0
-                              file:text-sm file:font-semibold
-                              file:bg-blue-50 file:text-blue-700
-                              hover:file:bg-blue-100
-                              disabled:opacity-50 disabled:cursor-not-allowed"
-                          />
-                        </label>
+                        {imageUrl ? (
+                          // Show current file info and change button
+                          <div className="space-y-2">
+                            <div className="text-sm text-gray-600 bg-gray-50 px-3 py-2 rounded-md border border-gray-200">
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center gap-2">
+                                  <svg className="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                                  </svg>
+                                  <span className="font-medium">Current:</span>
+                                </div>
+                              </div>
+                              <div className="mt-1 text-xs text-gray-500 truncate">
+                                {imageUrl.split('/').pop()}
+                              </div>
+                            </div>
+                            <label className="block">
+                              <input
+                                key={`${type.key}-${fileInputKey}`}
+                                type="file"
+                                accept="image/jpeg,image/jpg,image/png,image/webp"
+                                onChange={(e) => {
+                                  const file = e.target.files?.[0]
+                                  if (file) {
+                                    handleFileUpload(type.key, file)
+                                  }
+                                }}
+                                disabled={isUploading}
+                                className="block w-full text-sm text-gray-500
+                                  file:mr-4 file:py-2 file:px-4
+                                  file:rounded-md file:border-0
+                                  file:text-sm file:font-semibold
+                                  file:bg-blue-50 file:text-blue-700
+                                  hover:file:bg-blue-100
+                                  disabled:opacity-50 disabled:cursor-not-allowed"
+                              />
+                            </label>
+                          </div>
+                        ) : (
+                          // Show upload input when no image
+                          <label className="block">
+                            <span className="sr-only">Choose image</span>
+                            <input
+                              key={`${type.key}-${fileInputKey}`}
+                              type="file"
+                              accept="image/jpeg,image/jpg,image/png,image/webp"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0]
+                                if (file) {
+                                  handleFileUpload(type.key, file)
+                                }
+                              }}
+                              disabled={isUploading}
+                              className="block w-full text-sm text-gray-500
+                                file:mr-4 file:py-2 file:px-4
+                                file:rounded-md file:border-0
+                                file:text-sm file:font-semibold
+                                file:bg-blue-50 file:text-blue-700
+                                hover:file:bg-blue-100
+                                disabled:opacity-50 disabled:cursor-not-allowed"
+                            />
+                          </label>
+                        )}
 
                         {imageUrl && (
                           <button
