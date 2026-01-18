@@ -19,7 +19,9 @@ export default function DeleteImageModal({ image, onConfirm, onCancel }: DeleteI
       'BACK': 'Back',
       'DRIVER_SIDE': 'Driver Side',
       'PASSENGER_SIDE': 'Passenger Side',
-      'GALLERY': 'Gallery'
+      'GALLERY': 'Gallery',
+      'GALLERY_EXTERIOR': 'Gallery Exterior',
+      'GALLERY_INTERIOR': 'Gallery Interior'
     }
     return labels[type]
   }

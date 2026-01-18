@@ -120,9 +120,9 @@ async function main() {
     console.log('Creating sample vehicles...')
     
     const sampleVehicles = [
-      { stockNumber: 'T12345', storeId: firstStore.id },
-      { stockNumber: 'H67890', storeId: firstStore.id },
-      { stockNumber: 'L11111', storeId: firstStore.id }
+      { stockNumber: 'T12345', vin: '1HGBH41JXMN109186', storeId: firstStore.id },
+      { stockNumber: 'H67890', vin: '2HGFG12878H542890', storeId: firstStore.id },
+      { stockNumber: 'L11111', vin: 'JTHBK1GG8E2123456', storeId: firstStore.id }
     ]
 
     for (const vehicle of sampleVehicles) {

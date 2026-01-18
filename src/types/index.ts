@@ -20,6 +20,7 @@ export interface Store {
 export interface Vehicle {
   id: string
   stockNumber: string
+  vin: string
   storeId: string
   store?: Store
   images: VehicleImage[]
@@ -34,11 +35,15 @@ export interface VehicleImage {
   vehicle?: Vehicle
   originalUrl: string
   processedUrl?: string
+  optimizedUrl?: string
   thumbnailUrl: string
   imageType: ImageType
   sortOrder: number
   isProcessed: boolean
+  isOptimized: boolean
+  processedAt?: Date
   uploadedAt: Date
+  updatedAt: Date
 }
 
 export interface ProcessingJob {
@@ -90,6 +95,7 @@ export interface LoginForm {
 
 export interface CreateVehicleForm {
   stockNumber: string
+  vin: string
   storeId: string
   images?: File[]
 }
