@@ -110,7 +110,8 @@ export async function uploadFile(options: GCSUploadOptions): Promise<UploadResul
           uploadedAt: new Date().toISOString(),
         },
       },
-      public: true, // Make file publicly accessible
+      // Note: public: true is not compatible with uniform bucket-level access
+      // Public access is controlled at the bucket level via IAM policy
     });
     
     const publicUrl = getPublicUrl(path);
