@@ -121,14 +121,14 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.UserScalarFieldEnum = {
+exports.Prisma.ProcessingJobScalarFieldEnum = {
   id: 'id',
-  email: 'email',
-  passwordHash: 'passwordHash',
-  role: 'role',
-  name: 'name',
+  vehicleId: 'vehicleId',
+  imageIds: 'imageIds',
+  status: 'status',
+  errorMessage: 'errorMessage',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  completedAt: 'completedAt'
 };
 
 exports.Prisma.StoreScalarFieldEnum = {
@@ -137,16 +137,22 @@ exports.Prisma.StoreScalarFieldEnum = {
   address: 'address',
   brandLogos: 'brandLogos',
   imageUrl: 'imageUrl',
+  bgFrontQuarter: 'bgFrontQuarter',
+  bgFront: 'bgFront',
+  bgBackQuarter: 'bgBackQuarter',
+  bgBack: 'bgBack',
+  bgDriverSide: 'bgDriverSide',
+  bgPassengerSide: 'bgPassengerSide',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.VehicleScalarFieldEnum = {
+exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
-  stockNumber: 'stockNumber',
-  vin: 'vin',
-  storeId: 'storeId',
-  processingStatus: 'processingStatus',
+  email: 'email',
+  passwordHash: 'passwordHash',
+  role: 'role',
+  name: 'name',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -167,14 +173,14 @@ exports.Prisma.VehicleImageScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.ProcessingJobScalarFieldEnum = {
+exports.Prisma.VehicleScalarFieldEnum = {
   id: 'id',
-  vehicleId: 'vehicleId',
-  imageIds: 'imageIds',
-  status: 'status',
-  errorMessage: 'errorMessage',
+  stockNumber: 'stockNumber',
+  vin: 'vin',
+  storeId: 'storeId',
+  processingStatus: 'processingStatus',
   createdAt: 'createdAt',
-  completedAt: 'completedAt'
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -191,17 +197,17 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+exports.JobStatus = exports.$Enums.JobStatus = {
+  QUEUED: 'QUEUED',
+  PROCESSING: 'PROCESSING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+};
+
 exports.UserRole = exports.$Enums.UserRole = {
   PHOTOGRAPHER: 'PHOTOGRAPHER',
   ADMIN: 'ADMIN',
   SUPER_ADMIN: 'SUPER_ADMIN'
-};
-
-exports.ProcessingStatus = exports.$Enums.ProcessingStatus = {
-  NOT_STARTED: 'NOT_STARTED',
-  IN_PROGRESS: 'IN_PROGRESS',
-  COMPLETED: 'COMPLETED',
-  ERROR: 'ERROR'
 };
 
 exports.ImageType = exports.$Enums.ImageType = {
@@ -216,19 +222,19 @@ exports.ImageType = exports.$Enums.ImageType = {
   GALLERY_INTERIOR: 'GALLERY_INTERIOR'
 };
 
-exports.JobStatus = exports.$Enums.JobStatus = {
-  QUEUED: 'QUEUED',
-  PROCESSING: 'PROCESSING',
+exports.ProcessingStatus = exports.$Enums.ProcessingStatus = {
+  NOT_STARTED: 'NOT_STARTED',
+  IN_PROGRESS: 'IN_PROGRESS',
   COMPLETED: 'COMPLETED',
-  FAILED: 'FAILED'
+  ERROR: 'ERROR'
 };
 
 exports.Prisma.ModelName = {
-  User: 'User',
+  ProcessingJob: 'ProcessingJob',
   Store: 'Store',
-  Vehicle: 'Vehicle',
+  User: 'User',
   VehicleImage: 'VehicleImage',
-  ProcessingJob: 'ProcessingJob'
+  Vehicle: 'Vehicle'
 };
 
 /**

@@ -14,45 +14,36 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
 
 
 /**
- * Model User
+ * Model ProcessingJob
  * 
  */
-export type User = $Result.DefaultSelection<Prisma.$UserPayload>
+export type ProcessingJob = $Result.DefaultSelection<Prisma.$ProcessingJobPayload>
 /**
  * Model Store
  * 
  */
 export type Store = $Result.DefaultSelection<Prisma.$StorePayload>
 /**
- * Model Vehicle
+ * Model User
  * 
  */
-export type Vehicle = $Result.DefaultSelection<Prisma.$VehiclePayload>
+export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
  * Model VehicleImage
  * 
  */
 export type VehicleImage = $Result.DefaultSelection<Prisma.$VehicleImagePayload>
 /**
- * Model ProcessingJob
+ * Model Vehicle
  * 
  */
-export type ProcessingJob = $Result.DefaultSelection<Prisma.$ProcessingJobPayload>
+export type Vehicle = $Result.DefaultSelection<Prisma.$VehiclePayload>
 
 /**
  * Enums
  */
 export namespace $Enums {
-  export const UserRole: {
-  PHOTOGRAPHER: 'PHOTOGRAPHER',
-  ADMIN: 'ADMIN',
-  SUPER_ADMIN: 'SUPER_ADMIN'
-};
-
-export type UserRole = (typeof UserRole)[keyof typeof UserRole]
-
-
-export const ImageType: {
+  export const ImageType: {
   FRONT_QUARTER: 'FRONT_QUARTER',
   FRONT: 'FRONT',
   BACK_QUARTER: 'BACK_QUARTER',
@@ -67,6 +58,16 @@ export const ImageType: {
 export type ImageType = (typeof ImageType)[keyof typeof ImageType]
 
 
+export const JobStatus: {
+  QUEUED: 'QUEUED',
+  PROCESSING: 'PROCESSING',
+  COMPLETED: 'COMPLETED',
+  FAILED: 'FAILED'
+};
+
+export type JobStatus = (typeof JobStatus)[keyof typeof JobStatus]
+
+
 export const ProcessingStatus: {
   NOT_STARTED: 'NOT_STARTED',
   IN_PROGRESS: 'IN_PROGRESS',
@@ -77,32 +78,31 @@ export const ProcessingStatus: {
 export type ProcessingStatus = (typeof ProcessingStatus)[keyof typeof ProcessingStatus]
 
 
-export const JobStatus: {
-  QUEUED: 'QUEUED',
-  PROCESSING: 'PROCESSING',
-  COMPLETED: 'COMPLETED',
-  FAILED: 'FAILED'
+export const UserRole: {
+  PHOTOGRAPHER: 'PHOTOGRAPHER',
+  ADMIN: 'ADMIN',
+  SUPER_ADMIN: 'SUPER_ADMIN'
 };
 
-export type JobStatus = (typeof JobStatus)[keyof typeof JobStatus]
+export type UserRole = (typeof UserRole)[keyof typeof UserRole]
 
 }
-
-export type UserRole = $Enums.UserRole
-
-export const UserRole: typeof $Enums.UserRole
 
 export type ImageType = $Enums.ImageType
 
 export const ImageType: typeof $Enums.ImageType
 
+export type JobStatus = $Enums.JobStatus
+
+export const JobStatus: typeof $Enums.JobStatus
+
 export type ProcessingStatus = $Enums.ProcessingStatus
 
 export const ProcessingStatus: typeof $Enums.ProcessingStatus
 
-export type JobStatus = $Enums.JobStatus
+export type UserRole = $Enums.UserRole
 
-export const JobStatus: typeof $Enums.JobStatus
+export const UserRole: typeof $Enums.UserRole
 
 /**
  * ##  Prisma Client ʲˢ
@@ -111,8 +111,8 @@ export const JobStatus: typeof $Enums.JobStatus
  * @example
  * ```
  * const prisma = new PrismaClient()
- * // Fetch zero or more Users
- * const users = await prisma.user.findMany()
+ * // Fetch zero or more ProcessingJobs
+ * const processingJobs = await prisma.processingJob.findMany()
  * ```
  *
  *
@@ -132,8 +132,8 @@ export class PrismaClient<
    * @example
    * ```
    * const prisma = new PrismaClient()
-   * // Fetch zero or more Users
-   * const users = await prisma.user.findMany()
+   * // Fetch zero or more ProcessingJobs
+   * const processingJobs = await prisma.processingJob.findMany()
    * ```
    *
    *
@@ -223,14 +223,14 @@ export class PrismaClient<
   }>>
 
       /**
-   * `prisma.user`: Exposes CRUD operations for the **User** model.
+   * `prisma.processingJob`: Exposes CRUD operations for the **ProcessingJob** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more Users
-    * const users = await prisma.user.findMany()
+    * // Fetch zero or more ProcessingJobs
+    * const processingJobs = await prisma.processingJob.findMany()
     * ```
     */
-  get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
+  get processingJob(): Prisma.ProcessingJobDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.store`: Exposes CRUD operations for the **Store** model.
@@ -243,14 +243,14 @@ export class PrismaClient<
   get store(): Prisma.StoreDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.vehicle`: Exposes CRUD operations for the **Vehicle** model.
+   * `prisma.user`: Exposes CRUD operations for the **User** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more Vehicles
-    * const vehicles = await prisma.vehicle.findMany()
+    * // Fetch zero or more Users
+    * const users = await prisma.user.findMany()
     * ```
     */
-  get vehicle(): Prisma.VehicleDelegate<ExtArgs, ClientOptions>;
+  get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.vehicleImage`: Exposes CRUD operations for the **VehicleImage** model.
@@ -263,14 +263,14 @@ export class PrismaClient<
   get vehicleImage(): Prisma.VehicleImageDelegate<ExtArgs, ClientOptions>;
 
   /**
-   * `prisma.processingJob`: Exposes CRUD operations for the **ProcessingJob** model.
+   * `prisma.vehicle`: Exposes CRUD operations for the **Vehicle** model.
     * Example usage:
     * ```ts
-    * // Fetch zero or more ProcessingJobs
-    * const processingJobs = await prisma.processingJob.findMany()
+    * // Fetch zero or more Vehicles
+    * const vehicles = await prisma.vehicle.findMany()
     * ```
     */
-  get processingJob(): Prisma.ProcessingJobDelegate<ExtArgs, ClientOptions>;
+  get vehicle(): Prisma.VehicleDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -712,11 +712,11 @@ export namespace Prisma {
 
 
   export const ModelName: {
-    User: 'User',
+    ProcessingJob: 'ProcessingJob',
     Store: 'Store',
-    Vehicle: 'Vehicle',
+    User: 'User',
     VehicleImage: 'VehicleImage',
-    ProcessingJob: 'ProcessingJob'
+    Vehicle: 'Vehicle'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -735,81 +735,81 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "store" | "vehicle" | "vehicleImage" | "processingJob"
+      modelProps: "processingJob" | "store" | "user" | "vehicleImage" | "vehicle"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
-      User: {
-        payload: Prisma.$UserPayload<ExtArgs>
-        fields: Prisma.UserFieldRefs
+      ProcessingJob: {
+        payload: Prisma.$ProcessingJobPayload<ExtArgs>
+        fields: Prisma.ProcessingJobFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.UserFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload> | null
+            args: Prisma.ProcessingJobFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProcessingJobPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.UserFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+            args: Prisma.ProcessingJobFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProcessingJobPayload>
           }
           findFirst: {
-            args: Prisma.UserFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload> | null
+            args: Prisma.ProcessingJobFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProcessingJobPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.UserFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+            args: Prisma.ProcessingJobFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProcessingJobPayload>
           }
           findMany: {
-            args: Prisma.UserFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>[]
+            args: Prisma.ProcessingJobFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProcessingJobPayload>[]
           }
           create: {
-            args: Prisma.UserCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+            args: Prisma.ProcessingJobCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProcessingJobPayload>
           }
           createMany: {
-            args: Prisma.UserCreateManyArgs<ExtArgs>
+            args: Prisma.ProcessingJobCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.UserCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>[]
+            args: Prisma.ProcessingJobCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProcessingJobPayload>[]
           }
           delete: {
-            args: Prisma.UserDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+            args: Prisma.ProcessingJobDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProcessingJobPayload>
           }
           update: {
-            args: Prisma.UserUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+            args: Prisma.ProcessingJobUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProcessingJobPayload>
           }
           deleteMany: {
-            args: Prisma.UserDeleteManyArgs<ExtArgs>
+            args: Prisma.ProcessingJobDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.UserUpdateManyArgs<ExtArgs>
+            args: Prisma.ProcessingJobUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.UserUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>[]
+            args: Prisma.ProcessingJobUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProcessingJobPayload>[]
           }
           upsert: {
-            args: Prisma.UserUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$UserPayload>
+            args: Prisma.ProcessingJobUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProcessingJobPayload>
           }
           aggregate: {
-            args: Prisma.UserAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateUser>
+            args: Prisma.ProcessingJobAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateProcessingJob>
           }
           groupBy: {
-            args: Prisma.UserGroupByArgs<ExtArgs>
-            result: $Utils.Optional<UserGroupByOutputType>[]
+            args: Prisma.ProcessingJobGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ProcessingJobGroupByOutputType>[]
           }
           count: {
-            args: Prisma.UserCountArgs<ExtArgs>
-            result: $Utils.Optional<UserCountAggregateOutputType> | number
+            args: Prisma.ProcessingJobCountArgs<ExtArgs>
+            result: $Utils.Optional<ProcessingJobCountAggregateOutputType> | number
           }
         }
       }
@@ -887,77 +887,77 @@ export namespace Prisma {
           }
         }
       }
-      Vehicle: {
-        payload: Prisma.$VehiclePayload<ExtArgs>
-        fields: Prisma.VehicleFieldRefs
+      User: {
+        payload: Prisma.$UserPayload<ExtArgs>
+        fields: Prisma.UserFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.VehicleFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VehiclePayload> | null
+            args: Prisma.UserFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.VehicleFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VehiclePayload>
+            args: Prisma.UserFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>
           }
           findFirst: {
-            args: Prisma.VehicleFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VehiclePayload> | null
+            args: Prisma.UserFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.VehicleFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VehiclePayload>
+            args: Prisma.UserFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>
           }
           findMany: {
-            args: Prisma.VehicleFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VehiclePayload>[]
+            args: Prisma.UserFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>[]
           }
           create: {
-            args: Prisma.VehicleCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VehiclePayload>
+            args: Prisma.UserCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>
           }
           createMany: {
-            args: Prisma.VehicleCreateManyArgs<ExtArgs>
+            args: Prisma.UserCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.VehicleCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VehiclePayload>[]
+            args: Prisma.UserCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>[]
           }
           delete: {
-            args: Prisma.VehicleDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VehiclePayload>
+            args: Prisma.UserDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>
           }
           update: {
-            args: Prisma.VehicleUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VehiclePayload>
+            args: Prisma.UserUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>
           }
           deleteMany: {
-            args: Prisma.VehicleDeleteManyArgs<ExtArgs>
+            args: Prisma.UserDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.VehicleUpdateManyArgs<ExtArgs>
+            args: Prisma.UserUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.VehicleUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VehiclePayload>[]
+            args: Prisma.UserUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>[]
           }
           upsert: {
-            args: Prisma.VehicleUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$VehiclePayload>
+            args: Prisma.UserUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UserPayload>
           }
           aggregate: {
-            args: Prisma.VehicleAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateVehicle>
+            args: Prisma.UserAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUser>
           }
           groupBy: {
-            args: Prisma.VehicleGroupByArgs<ExtArgs>
-            result: $Utils.Optional<VehicleGroupByOutputType>[]
+            args: Prisma.UserGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UserGroupByOutputType>[]
           }
           count: {
-            args: Prisma.VehicleCountArgs<ExtArgs>
-            result: $Utils.Optional<VehicleCountAggregateOutputType> | number
+            args: Prisma.UserCountArgs<ExtArgs>
+            result: $Utils.Optional<UserCountAggregateOutputType> | number
           }
         }
       }
@@ -1035,77 +1035,77 @@ export namespace Prisma {
           }
         }
       }
-      ProcessingJob: {
-        payload: Prisma.$ProcessingJobPayload<ExtArgs>
-        fields: Prisma.ProcessingJobFieldRefs
+      Vehicle: {
+        payload: Prisma.$VehiclePayload<ExtArgs>
+        fields: Prisma.VehicleFieldRefs
         operations: {
           findUnique: {
-            args: Prisma.ProcessingJobFindUniqueArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProcessingJobPayload> | null
+            args: Prisma.VehicleFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehiclePayload> | null
           }
           findUniqueOrThrow: {
-            args: Prisma.ProcessingJobFindUniqueOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProcessingJobPayload>
+            args: Prisma.VehicleFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehiclePayload>
           }
           findFirst: {
-            args: Prisma.ProcessingJobFindFirstArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProcessingJobPayload> | null
+            args: Prisma.VehicleFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehiclePayload> | null
           }
           findFirstOrThrow: {
-            args: Prisma.ProcessingJobFindFirstOrThrowArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProcessingJobPayload>
+            args: Prisma.VehicleFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehiclePayload>
           }
           findMany: {
-            args: Prisma.ProcessingJobFindManyArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProcessingJobPayload>[]
+            args: Prisma.VehicleFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehiclePayload>[]
           }
           create: {
-            args: Prisma.ProcessingJobCreateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProcessingJobPayload>
+            args: Prisma.VehicleCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehiclePayload>
           }
           createMany: {
-            args: Prisma.ProcessingJobCreateManyArgs<ExtArgs>
+            args: Prisma.VehicleCreateManyArgs<ExtArgs>
             result: BatchPayload
           }
           createManyAndReturn: {
-            args: Prisma.ProcessingJobCreateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProcessingJobPayload>[]
+            args: Prisma.VehicleCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehiclePayload>[]
           }
           delete: {
-            args: Prisma.ProcessingJobDeleteArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProcessingJobPayload>
+            args: Prisma.VehicleDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehiclePayload>
           }
           update: {
-            args: Prisma.ProcessingJobUpdateArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProcessingJobPayload>
+            args: Prisma.VehicleUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehiclePayload>
           }
           deleteMany: {
-            args: Prisma.ProcessingJobDeleteManyArgs<ExtArgs>
+            args: Prisma.VehicleDeleteManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateMany: {
-            args: Prisma.ProcessingJobUpdateManyArgs<ExtArgs>
+            args: Prisma.VehicleUpdateManyArgs<ExtArgs>
             result: BatchPayload
           }
           updateManyAndReturn: {
-            args: Prisma.ProcessingJobUpdateManyAndReturnArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProcessingJobPayload>[]
+            args: Prisma.VehicleUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehiclePayload>[]
           }
           upsert: {
-            args: Prisma.ProcessingJobUpsertArgs<ExtArgs>
-            result: $Utils.PayloadToResult<Prisma.$ProcessingJobPayload>
+            args: Prisma.VehicleUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$VehiclePayload>
           }
           aggregate: {
-            args: Prisma.ProcessingJobAggregateArgs<ExtArgs>
-            result: $Utils.Optional<AggregateProcessingJob>
+            args: Prisma.VehicleAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateVehicle>
           }
           groupBy: {
-            args: Prisma.ProcessingJobGroupByArgs<ExtArgs>
-            result: $Utils.Optional<ProcessingJobGroupByOutputType>[]
+            args: Prisma.VehicleGroupByArgs<ExtArgs>
+            result: $Utils.Optional<VehicleGroupByOutputType>[]
           }
           count: {
-            args: Prisma.ProcessingJobCountArgs<ExtArgs>
-            result: $Utils.Optional<ProcessingJobCountAggregateOutputType> | number
+            args: Prisma.VehicleCountArgs<ExtArgs>
+            result: $Utils.Optional<VehicleCountAggregateOutputType> | number
           }
         }
       }
@@ -1205,11 +1205,11 @@ export namespace Prisma {
     omit?: Prisma.GlobalOmitConfig
   }
   export type GlobalOmitConfig = {
-    user?: UserOmit
-    store?: StoreOmit
-    vehicle?: VehicleOmit
-    vehicleImage?: VehicleImageOmit
     processingJob?: ProcessingJobOmit
+    store?: StoreOmit
+    user?: UserOmit
+    vehicleImage?: VehicleImageOmit
+    vehicle?: VehicleOmit
   }
 
   /* Types for Logging */
@@ -1359,6 +1359,2256 @@ export namespace Prisma {
   /**
    * Models
    */
+
+  /**
+   * Model ProcessingJob
+   */
+
+  export type AggregateProcessingJob = {
+    _count: ProcessingJobCountAggregateOutputType | null
+    _min: ProcessingJobMinAggregateOutputType | null
+    _max: ProcessingJobMaxAggregateOutputType | null
+  }
+
+  export type ProcessingJobMinAggregateOutputType = {
+    id: string | null
+    vehicleId: string | null
+    status: $Enums.JobStatus | null
+    errorMessage: string | null
+    createdAt: Date | null
+    completedAt: Date | null
+  }
+
+  export type ProcessingJobMaxAggregateOutputType = {
+    id: string | null
+    vehicleId: string | null
+    status: $Enums.JobStatus | null
+    errorMessage: string | null
+    createdAt: Date | null
+    completedAt: Date | null
+  }
+
+  export type ProcessingJobCountAggregateOutputType = {
+    id: number
+    vehicleId: number
+    imageIds: number
+    status: number
+    errorMessage: number
+    createdAt: number
+    completedAt: number
+    _all: number
+  }
+
+
+  export type ProcessingJobMinAggregateInputType = {
+    id?: true
+    vehicleId?: true
+    status?: true
+    errorMessage?: true
+    createdAt?: true
+    completedAt?: true
+  }
+
+  export type ProcessingJobMaxAggregateInputType = {
+    id?: true
+    vehicleId?: true
+    status?: true
+    errorMessage?: true
+    createdAt?: true
+    completedAt?: true
+  }
+
+  export type ProcessingJobCountAggregateInputType = {
+    id?: true
+    vehicleId?: true
+    imageIds?: true
+    status?: true
+    errorMessage?: true
+    createdAt?: true
+    completedAt?: true
+    _all?: true
+  }
+
+  export type ProcessingJobAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProcessingJob to aggregate.
+     */
+    where?: ProcessingJobWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProcessingJobs to fetch.
+     */
+    orderBy?: ProcessingJobOrderByWithRelationInput | ProcessingJobOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ProcessingJobWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProcessingJobs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProcessingJobs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned ProcessingJobs
+    **/
+    _count?: true | ProcessingJobCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ProcessingJobMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ProcessingJobMaxAggregateInputType
+  }
+
+  export type GetProcessingJobAggregateType<T extends ProcessingJobAggregateArgs> = {
+        [P in keyof T & keyof AggregateProcessingJob]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateProcessingJob[P]>
+      : GetScalarType<T[P], AggregateProcessingJob[P]>
+  }
+
+
+
+
+  export type ProcessingJobGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProcessingJobWhereInput
+    orderBy?: ProcessingJobOrderByWithAggregationInput | ProcessingJobOrderByWithAggregationInput[]
+    by: ProcessingJobScalarFieldEnum[] | ProcessingJobScalarFieldEnum
+    having?: ProcessingJobScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ProcessingJobCountAggregateInputType | true
+    _min?: ProcessingJobMinAggregateInputType
+    _max?: ProcessingJobMaxAggregateInputType
+  }
+
+  export type ProcessingJobGroupByOutputType = {
+    id: string
+    vehicleId: string
+    imageIds: string[]
+    status: $Enums.JobStatus
+    errorMessage: string | null
+    createdAt: Date
+    completedAt: Date | null
+    _count: ProcessingJobCountAggregateOutputType | null
+    _min: ProcessingJobMinAggregateOutputType | null
+    _max: ProcessingJobMaxAggregateOutputType | null
+  }
+
+  type GetProcessingJobGroupByPayload<T extends ProcessingJobGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ProcessingJobGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ProcessingJobGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ProcessingJobGroupByOutputType[P]>
+            : GetScalarType<T[P], ProcessingJobGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ProcessingJobSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    vehicleId?: boolean
+    imageIds?: boolean
+    status?: boolean
+    errorMessage?: boolean
+    createdAt?: boolean
+    completedAt?: boolean
+    vehicle?: boolean | VehicleDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["processingJob"]>
+
+  export type ProcessingJobSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    vehicleId?: boolean
+    imageIds?: boolean
+    status?: boolean
+    errorMessage?: boolean
+    createdAt?: boolean
+    completedAt?: boolean
+    vehicle?: boolean | VehicleDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["processingJob"]>
+
+  export type ProcessingJobSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    vehicleId?: boolean
+    imageIds?: boolean
+    status?: boolean
+    errorMessage?: boolean
+    createdAt?: boolean
+    completedAt?: boolean
+    vehicle?: boolean | VehicleDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["processingJob"]>
+
+  export type ProcessingJobSelectScalar = {
+    id?: boolean
+    vehicleId?: boolean
+    imageIds?: boolean
+    status?: boolean
+    errorMessage?: boolean
+    createdAt?: boolean
+    completedAt?: boolean
+  }
+
+  export type ProcessingJobOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "vehicleId" | "imageIds" | "status" | "errorMessage" | "createdAt" | "completedAt", ExtArgs["result"]["processingJob"]>
+  export type ProcessingJobInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    vehicle?: boolean | VehicleDefaultArgs<ExtArgs>
+  }
+  export type ProcessingJobIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    vehicle?: boolean | VehicleDefaultArgs<ExtArgs>
+  }
+  export type ProcessingJobIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    vehicle?: boolean | VehicleDefaultArgs<ExtArgs>
+  }
+
+  export type $ProcessingJobPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "ProcessingJob"
+    objects: {
+      vehicle: Prisma.$VehiclePayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      vehicleId: string
+      imageIds: string[]
+      status: $Enums.JobStatus
+      errorMessage: string | null
+      createdAt: Date
+      completedAt: Date | null
+    }, ExtArgs["result"]["processingJob"]>
+    composites: {}
+  }
+
+  type ProcessingJobGetPayload<S extends boolean | null | undefined | ProcessingJobDefaultArgs> = $Result.GetResult<Prisma.$ProcessingJobPayload, S>
+
+  type ProcessingJobCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ProcessingJobFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ProcessingJobCountAggregateInputType | true
+    }
+
+  export interface ProcessingJobDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ProcessingJob'], meta: { name: 'ProcessingJob' } }
+    /**
+     * Find zero or one ProcessingJob that matches the filter.
+     * @param {ProcessingJobFindUniqueArgs} args - Arguments to find a ProcessingJob
+     * @example
+     * // Get one ProcessingJob
+     * const processingJob = await prisma.processingJob.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ProcessingJobFindUniqueArgs>(args: SelectSubset<T, ProcessingJobFindUniqueArgs<ExtArgs>>): Prisma__ProcessingJobClient<$Result.GetResult<Prisma.$ProcessingJobPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one ProcessingJob that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ProcessingJobFindUniqueOrThrowArgs} args - Arguments to find a ProcessingJob
+     * @example
+     * // Get one ProcessingJob
+     * const processingJob = await prisma.processingJob.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ProcessingJobFindUniqueOrThrowArgs>(args: SelectSubset<T, ProcessingJobFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ProcessingJobClient<$Result.GetResult<Prisma.$ProcessingJobPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ProcessingJob that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProcessingJobFindFirstArgs} args - Arguments to find a ProcessingJob
+     * @example
+     * // Get one ProcessingJob
+     * const processingJob = await prisma.processingJob.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ProcessingJobFindFirstArgs>(args?: SelectSubset<T, ProcessingJobFindFirstArgs<ExtArgs>>): Prisma__ProcessingJobClient<$Result.GetResult<Prisma.$ProcessingJobPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first ProcessingJob that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProcessingJobFindFirstOrThrowArgs} args - Arguments to find a ProcessingJob
+     * @example
+     * // Get one ProcessingJob
+     * const processingJob = await prisma.processingJob.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ProcessingJobFindFirstOrThrowArgs>(args?: SelectSubset<T, ProcessingJobFindFirstOrThrowArgs<ExtArgs>>): Prisma__ProcessingJobClient<$Result.GetResult<Prisma.$ProcessingJobPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more ProcessingJobs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProcessingJobFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all ProcessingJobs
+     * const processingJobs = await prisma.processingJob.findMany()
+     * 
+     * // Get first 10 ProcessingJobs
+     * const processingJobs = await prisma.processingJob.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const processingJobWithIdOnly = await prisma.processingJob.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ProcessingJobFindManyArgs>(args?: SelectSubset<T, ProcessingJobFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProcessingJobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a ProcessingJob.
+     * @param {ProcessingJobCreateArgs} args - Arguments to create a ProcessingJob.
+     * @example
+     * // Create one ProcessingJob
+     * const ProcessingJob = await prisma.processingJob.create({
+     *   data: {
+     *     // ... data to create a ProcessingJob
+     *   }
+     * })
+     * 
+     */
+    create<T extends ProcessingJobCreateArgs>(args: SelectSubset<T, ProcessingJobCreateArgs<ExtArgs>>): Prisma__ProcessingJobClient<$Result.GetResult<Prisma.$ProcessingJobPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many ProcessingJobs.
+     * @param {ProcessingJobCreateManyArgs} args - Arguments to create many ProcessingJobs.
+     * @example
+     * // Create many ProcessingJobs
+     * const processingJob = await prisma.processingJob.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ProcessingJobCreateManyArgs>(args?: SelectSubset<T, ProcessingJobCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many ProcessingJobs and returns the data saved in the database.
+     * @param {ProcessingJobCreateManyAndReturnArgs} args - Arguments to create many ProcessingJobs.
+     * @example
+     * // Create many ProcessingJobs
+     * const processingJob = await prisma.processingJob.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many ProcessingJobs and only return the `id`
+     * const processingJobWithIdOnly = await prisma.processingJob.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ProcessingJobCreateManyAndReturnArgs>(args?: SelectSubset<T, ProcessingJobCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProcessingJobPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a ProcessingJob.
+     * @param {ProcessingJobDeleteArgs} args - Arguments to delete one ProcessingJob.
+     * @example
+     * // Delete one ProcessingJob
+     * const ProcessingJob = await prisma.processingJob.delete({
+     *   where: {
+     *     // ... filter to delete one ProcessingJob
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ProcessingJobDeleteArgs>(args: SelectSubset<T, ProcessingJobDeleteArgs<ExtArgs>>): Prisma__ProcessingJobClient<$Result.GetResult<Prisma.$ProcessingJobPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one ProcessingJob.
+     * @param {ProcessingJobUpdateArgs} args - Arguments to update one ProcessingJob.
+     * @example
+     * // Update one ProcessingJob
+     * const processingJob = await prisma.processingJob.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ProcessingJobUpdateArgs>(args: SelectSubset<T, ProcessingJobUpdateArgs<ExtArgs>>): Prisma__ProcessingJobClient<$Result.GetResult<Prisma.$ProcessingJobPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more ProcessingJobs.
+     * @param {ProcessingJobDeleteManyArgs} args - Arguments to filter ProcessingJobs to delete.
+     * @example
+     * // Delete a few ProcessingJobs
+     * const { count } = await prisma.processingJob.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ProcessingJobDeleteManyArgs>(args?: SelectSubset<T, ProcessingJobDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProcessingJobs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProcessingJobUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many ProcessingJobs
+     * const processingJob = await prisma.processingJob.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ProcessingJobUpdateManyArgs>(args: SelectSubset<T, ProcessingJobUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more ProcessingJobs and returns the data updated in the database.
+     * @param {ProcessingJobUpdateManyAndReturnArgs} args - Arguments to update many ProcessingJobs.
+     * @example
+     * // Update many ProcessingJobs
+     * const processingJob = await prisma.processingJob.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more ProcessingJobs and only return the `id`
+     * const processingJobWithIdOnly = await prisma.processingJob.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ProcessingJobUpdateManyAndReturnArgs>(args: SelectSubset<T, ProcessingJobUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProcessingJobPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one ProcessingJob.
+     * @param {ProcessingJobUpsertArgs} args - Arguments to update or create a ProcessingJob.
+     * @example
+     * // Update or create a ProcessingJob
+     * const processingJob = await prisma.processingJob.upsert({
+     *   create: {
+     *     // ... data to create a ProcessingJob
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the ProcessingJob we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ProcessingJobUpsertArgs>(args: SelectSubset<T, ProcessingJobUpsertArgs<ExtArgs>>): Prisma__ProcessingJobClient<$Result.GetResult<Prisma.$ProcessingJobPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of ProcessingJobs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProcessingJobCountArgs} args - Arguments to filter ProcessingJobs to count.
+     * @example
+     * // Count the number of ProcessingJobs
+     * const count = await prisma.processingJob.count({
+     *   where: {
+     *     // ... the filter for the ProcessingJobs we want to count
+     *   }
+     * })
+    **/
+    count<T extends ProcessingJobCountArgs>(
+      args?: Subset<T, ProcessingJobCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ProcessingJobCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a ProcessingJob.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProcessingJobAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ProcessingJobAggregateArgs>(args: Subset<T, ProcessingJobAggregateArgs>): Prisma.PrismaPromise<GetProcessingJobAggregateType<T>>
+
+    /**
+     * Group by ProcessingJob.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProcessingJobGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ProcessingJobGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ProcessingJobGroupByArgs['orderBy'] }
+        : { orderBy?: ProcessingJobGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ProcessingJobGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProcessingJobGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the ProcessingJob model
+   */
+  readonly fields: ProcessingJobFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for ProcessingJob.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ProcessingJobClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    vehicle<T extends VehicleDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VehicleDefaultArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the ProcessingJob model
+   */
+  interface ProcessingJobFieldRefs {
+    readonly id: FieldRef<"ProcessingJob", 'String'>
+    readonly vehicleId: FieldRef<"ProcessingJob", 'String'>
+    readonly imageIds: FieldRef<"ProcessingJob", 'String[]'>
+    readonly status: FieldRef<"ProcessingJob", 'JobStatus'>
+    readonly errorMessage: FieldRef<"ProcessingJob", 'String'>
+    readonly createdAt: FieldRef<"ProcessingJob", 'DateTime'>
+    readonly completedAt: FieldRef<"ProcessingJob", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * ProcessingJob findUnique
+   */
+  export type ProcessingJobFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProcessingJob
+     */
+    select?: ProcessingJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProcessingJob
+     */
+    omit?: ProcessingJobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProcessingJobInclude<ExtArgs> | null
+    /**
+     * Filter, which ProcessingJob to fetch.
+     */
+    where: ProcessingJobWhereUniqueInput
+  }
+
+  /**
+   * ProcessingJob findUniqueOrThrow
+   */
+  export type ProcessingJobFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProcessingJob
+     */
+    select?: ProcessingJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProcessingJob
+     */
+    omit?: ProcessingJobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProcessingJobInclude<ExtArgs> | null
+    /**
+     * Filter, which ProcessingJob to fetch.
+     */
+    where: ProcessingJobWhereUniqueInput
+  }
+
+  /**
+   * ProcessingJob findFirst
+   */
+  export type ProcessingJobFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProcessingJob
+     */
+    select?: ProcessingJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProcessingJob
+     */
+    omit?: ProcessingJobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProcessingJobInclude<ExtArgs> | null
+    /**
+     * Filter, which ProcessingJob to fetch.
+     */
+    where?: ProcessingJobWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProcessingJobs to fetch.
+     */
+    orderBy?: ProcessingJobOrderByWithRelationInput | ProcessingJobOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProcessingJobs.
+     */
+    cursor?: ProcessingJobWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProcessingJobs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProcessingJobs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProcessingJobs.
+     */
+    distinct?: ProcessingJobScalarFieldEnum | ProcessingJobScalarFieldEnum[]
+  }
+
+  /**
+   * ProcessingJob findFirstOrThrow
+   */
+  export type ProcessingJobFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProcessingJob
+     */
+    select?: ProcessingJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProcessingJob
+     */
+    omit?: ProcessingJobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProcessingJobInclude<ExtArgs> | null
+    /**
+     * Filter, which ProcessingJob to fetch.
+     */
+    where?: ProcessingJobWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProcessingJobs to fetch.
+     */
+    orderBy?: ProcessingJobOrderByWithRelationInput | ProcessingJobOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for ProcessingJobs.
+     */
+    cursor?: ProcessingJobWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProcessingJobs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProcessingJobs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProcessingJobs.
+     */
+    distinct?: ProcessingJobScalarFieldEnum | ProcessingJobScalarFieldEnum[]
+  }
+
+  /**
+   * ProcessingJob findMany
+   */
+  export type ProcessingJobFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProcessingJob
+     */
+    select?: ProcessingJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProcessingJob
+     */
+    omit?: ProcessingJobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProcessingJobInclude<ExtArgs> | null
+    /**
+     * Filter, which ProcessingJobs to fetch.
+     */
+    where?: ProcessingJobWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of ProcessingJobs to fetch.
+     */
+    orderBy?: ProcessingJobOrderByWithRelationInput | ProcessingJobOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing ProcessingJobs.
+     */
+    cursor?: ProcessingJobWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` ProcessingJobs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` ProcessingJobs.
+     */
+    skip?: number
+    distinct?: ProcessingJobScalarFieldEnum | ProcessingJobScalarFieldEnum[]
+  }
+
+  /**
+   * ProcessingJob create
+   */
+  export type ProcessingJobCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProcessingJob
+     */
+    select?: ProcessingJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProcessingJob
+     */
+    omit?: ProcessingJobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProcessingJobInclude<ExtArgs> | null
+    /**
+     * The data needed to create a ProcessingJob.
+     */
+    data: XOR<ProcessingJobCreateInput, ProcessingJobUncheckedCreateInput>
+  }
+
+  /**
+   * ProcessingJob createMany
+   */
+  export type ProcessingJobCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many ProcessingJobs.
+     */
+    data: ProcessingJobCreateManyInput | ProcessingJobCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * ProcessingJob createManyAndReturn
+   */
+  export type ProcessingJobCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProcessingJob
+     */
+    select?: ProcessingJobSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProcessingJob
+     */
+    omit?: ProcessingJobOmit<ExtArgs> | null
+    /**
+     * The data used to create many ProcessingJobs.
+     */
+    data: ProcessingJobCreateManyInput | ProcessingJobCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProcessingJobIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProcessingJob update
+   */
+  export type ProcessingJobUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProcessingJob
+     */
+    select?: ProcessingJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProcessingJob
+     */
+    omit?: ProcessingJobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProcessingJobInclude<ExtArgs> | null
+    /**
+     * The data needed to update a ProcessingJob.
+     */
+    data: XOR<ProcessingJobUpdateInput, ProcessingJobUncheckedUpdateInput>
+    /**
+     * Choose, which ProcessingJob to update.
+     */
+    where: ProcessingJobWhereUniqueInput
+  }
+
+  /**
+   * ProcessingJob updateMany
+   */
+  export type ProcessingJobUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update ProcessingJobs.
+     */
+    data: XOR<ProcessingJobUpdateManyMutationInput, ProcessingJobUncheckedUpdateManyInput>
+    /**
+     * Filter which ProcessingJobs to update
+     */
+    where?: ProcessingJobWhereInput
+    /**
+     * Limit how many ProcessingJobs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * ProcessingJob updateManyAndReturn
+   */
+  export type ProcessingJobUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProcessingJob
+     */
+    select?: ProcessingJobSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProcessingJob
+     */
+    omit?: ProcessingJobOmit<ExtArgs> | null
+    /**
+     * The data used to update ProcessingJobs.
+     */
+    data: XOR<ProcessingJobUpdateManyMutationInput, ProcessingJobUncheckedUpdateManyInput>
+    /**
+     * Filter which ProcessingJobs to update
+     */
+    where?: ProcessingJobWhereInput
+    /**
+     * Limit how many ProcessingJobs to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProcessingJobIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * ProcessingJob upsert
+   */
+  export type ProcessingJobUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProcessingJob
+     */
+    select?: ProcessingJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProcessingJob
+     */
+    omit?: ProcessingJobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProcessingJobInclude<ExtArgs> | null
+    /**
+     * The filter to search for the ProcessingJob to update in case it exists.
+     */
+    where: ProcessingJobWhereUniqueInput
+    /**
+     * In case the ProcessingJob found by the `where` argument doesn't exist, create a new ProcessingJob with this data.
+     */
+    create: XOR<ProcessingJobCreateInput, ProcessingJobUncheckedCreateInput>
+    /**
+     * In case the ProcessingJob was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ProcessingJobUpdateInput, ProcessingJobUncheckedUpdateInput>
+  }
+
+  /**
+   * ProcessingJob delete
+   */
+  export type ProcessingJobDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProcessingJob
+     */
+    select?: ProcessingJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProcessingJob
+     */
+    omit?: ProcessingJobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProcessingJobInclude<ExtArgs> | null
+    /**
+     * Filter which ProcessingJob to delete.
+     */
+    where: ProcessingJobWhereUniqueInput
+  }
+
+  /**
+   * ProcessingJob deleteMany
+   */
+  export type ProcessingJobDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which ProcessingJobs to delete
+     */
+    where?: ProcessingJobWhereInput
+    /**
+     * Limit how many ProcessingJobs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * ProcessingJob without action
+   */
+  export type ProcessingJobDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProcessingJob
+     */
+    select?: ProcessingJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProcessingJob
+     */
+    omit?: ProcessingJobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProcessingJobInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Store
+   */
+
+  export type AggregateStore = {
+    _count: StoreCountAggregateOutputType | null
+    _min: StoreMinAggregateOutputType | null
+    _max: StoreMaxAggregateOutputType | null
+  }
+
+  export type StoreMinAggregateOutputType = {
+    id: string | null
+    name: string | null
+    address: string | null
+    imageUrl: string | null
+    bgFrontQuarter: string | null
+    bgFront: string | null
+    bgBackQuarter: string | null
+    bgBack: string | null
+    bgDriverSide: string | null
+    bgPassengerSide: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type StoreMaxAggregateOutputType = {
+    id: string | null
+    name: string | null
+    address: string | null
+    imageUrl: string | null
+    bgFrontQuarter: string | null
+    bgFront: string | null
+    bgBackQuarter: string | null
+    bgBack: string | null
+    bgDriverSide: string | null
+    bgPassengerSide: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type StoreCountAggregateOutputType = {
+    id: number
+    name: number
+    address: number
+    brandLogos: number
+    imageUrl: number
+    bgFrontQuarter: number
+    bgFront: number
+    bgBackQuarter: number
+    bgBack: number
+    bgDriverSide: number
+    bgPassengerSide: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type StoreMinAggregateInputType = {
+    id?: true
+    name?: true
+    address?: true
+    imageUrl?: true
+    bgFrontQuarter?: true
+    bgFront?: true
+    bgBackQuarter?: true
+    bgBack?: true
+    bgDriverSide?: true
+    bgPassengerSide?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type StoreMaxAggregateInputType = {
+    id?: true
+    name?: true
+    address?: true
+    imageUrl?: true
+    bgFrontQuarter?: true
+    bgFront?: true
+    bgBackQuarter?: true
+    bgBack?: true
+    bgDriverSide?: true
+    bgPassengerSide?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type StoreCountAggregateInputType = {
+    id?: true
+    name?: true
+    address?: true
+    brandLogos?: true
+    imageUrl?: true
+    bgFrontQuarter?: true
+    bgFront?: true
+    bgBackQuarter?: true
+    bgBack?: true
+    bgDriverSide?: true
+    bgPassengerSide?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type StoreAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Store to aggregate.
+     */
+    where?: StoreWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Stores to fetch.
+     */
+    orderBy?: StoreOrderByWithRelationInput | StoreOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: StoreWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Stores from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Stores.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Stores
+    **/
+    _count?: true | StoreCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: StoreMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: StoreMaxAggregateInputType
+  }
+
+  export type GetStoreAggregateType<T extends StoreAggregateArgs> = {
+        [P in keyof T & keyof AggregateStore]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateStore[P]>
+      : GetScalarType<T[P], AggregateStore[P]>
+  }
+
+
+
+
+  export type StoreGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: StoreWhereInput
+    orderBy?: StoreOrderByWithAggregationInput | StoreOrderByWithAggregationInput[]
+    by: StoreScalarFieldEnum[] | StoreScalarFieldEnum
+    having?: StoreScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: StoreCountAggregateInputType | true
+    _min?: StoreMinAggregateInputType
+    _max?: StoreMaxAggregateInputType
+  }
+
+  export type StoreGroupByOutputType = {
+    id: string
+    name: string
+    address: string
+    brandLogos: string[]
+    imageUrl: string | null
+    bgFrontQuarter: string | null
+    bgFront: string | null
+    bgBackQuarter: string | null
+    bgBack: string | null
+    bgDriverSide: string | null
+    bgPassengerSide: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: StoreCountAggregateOutputType | null
+    _min: StoreMinAggregateOutputType | null
+    _max: StoreMaxAggregateOutputType | null
+  }
+
+  type GetStoreGroupByPayload<T extends StoreGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<StoreGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof StoreGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], StoreGroupByOutputType[P]>
+            : GetScalarType<T[P], StoreGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type StoreSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    address?: boolean
+    brandLogos?: boolean
+    imageUrl?: boolean
+    bgFrontQuarter?: boolean
+    bgFront?: boolean
+    bgBackQuarter?: boolean
+    bgBack?: boolean
+    bgDriverSide?: boolean
+    bgPassengerSide?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    vehicles?: boolean | Store$vehiclesArgs<ExtArgs>
+    _count?: boolean | StoreCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["store"]>
+
+  export type StoreSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    address?: boolean
+    brandLogos?: boolean
+    imageUrl?: boolean
+    bgFrontQuarter?: boolean
+    bgFront?: boolean
+    bgBackQuarter?: boolean
+    bgBack?: boolean
+    bgDriverSide?: boolean
+    bgPassengerSide?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["store"]>
+
+  export type StoreSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    address?: boolean
+    brandLogos?: boolean
+    imageUrl?: boolean
+    bgFrontQuarter?: boolean
+    bgFront?: boolean
+    bgBackQuarter?: boolean
+    bgBack?: boolean
+    bgDriverSide?: boolean
+    bgPassengerSide?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["store"]>
+
+  export type StoreSelectScalar = {
+    id?: boolean
+    name?: boolean
+    address?: boolean
+    brandLogos?: boolean
+    imageUrl?: boolean
+    bgFrontQuarter?: boolean
+    bgFront?: boolean
+    bgBackQuarter?: boolean
+    bgBack?: boolean
+    bgDriverSide?: boolean
+    bgPassengerSide?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type StoreOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "address" | "brandLogos" | "imageUrl" | "bgFrontQuarter" | "bgFront" | "bgBackQuarter" | "bgBack" | "bgDriverSide" | "bgPassengerSide" | "createdAt" | "updatedAt", ExtArgs["result"]["store"]>
+  export type StoreInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    vehicles?: boolean | Store$vehiclesArgs<ExtArgs>
+    _count?: boolean | StoreCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type StoreIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type StoreIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $StorePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Store"
+    objects: {
+      vehicles: Prisma.$VehiclePayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      name: string
+      address: string
+      brandLogos: string[]
+      imageUrl: string | null
+      bgFrontQuarter: string | null
+      bgFront: string | null
+      bgBackQuarter: string | null
+      bgBack: string | null
+      bgDriverSide: string | null
+      bgPassengerSide: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["store"]>
+    composites: {}
+  }
+
+  type StoreGetPayload<S extends boolean | null | undefined | StoreDefaultArgs> = $Result.GetResult<Prisma.$StorePayload, S>
+
+  type StoreCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<StoreFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: StoreCountAggregateInputType | true
+    }
+
+  export interface StoreDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Store'], meta: { name: 'Store' } }
+    /**
+     * Find zero or one Store that matches the filter.
+     * @param {StoreFindUniqueArgs} args - Arguments to find a Store
+     * @example
+     * // Get one Store
+     * const store = await prisma.store.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends StoreFindUniqueArgs>(args: SelectSubset<T, StoreFindUniqueArgs<ExtArgs>>): Prisma__StoreClient<$Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Store that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {StoreFindUniqueOrThrowArgs} args - Arguments to find a Store
+     * @example
+     * // Get one Store
+     * const store = await prisma.store.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends StoreFindUniqueOrThrowArgs>(args: SelectSubset<T, StoreFindUniqueOrThrowArgs<ExtArgs>>): Prisma__StoreClient<$Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Store that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoreFindFirstArgs} args - Arguments to find a Store
+     * @example
+     * // Get one Store
+     * const store = await prisma.store.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends StoreFindFirstArgs>(args?: SelectSubset<T, StoreFindFirstArgs<ExtArgs>>): Prisma__StoreClient<$Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Store that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoreFindFirstOrThrowArgs} args - Arguments to find a Store
+     * @example
+     * // Get one Store
+     * const store = await prisma.store.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends StoreFindFirstOrThrowArgs>(args?: SelectSubset<T, StoreFindFirstOrThrowArgs<ExtArgs>>): Prisma__StoreClient<$Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Stores that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoreFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Stores
+     * const stores = await prisma.store.findMany()
+     * 
+     * // Get first 10 Stores
+     * const stores = await prisma.store.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const storeWithIdOnly = await prisma.store.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends StoreFindManyArgs>(args?: SelectSubset<T, StoreFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Store.
+     * @param {StoreCreateArgs} args - Arguments to create a Store.
+     * @example
+     * // Create one Store
+     * const Store = await prisma.store.create({
+     *   data: {
+     *     // ... data to create a Store
+     *   }
+     * })
+     * 
+     */
+    create<T extends StoreCreateArgs>(args: SelectSubset<T, StoreCreateArgs<ExtArgs>>): Prisma__StoreClient<$Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Stores.
+     * @param {StoreCreateManyArgs} args - Arguments to create many Stores.
+     * @example
+     * // Create many Stores
+     * const store = await prisma.store.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends StoreCreateManyArgs>(args?: SelectSubset<T, StoreCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Stores and returns the data saved in the database.
+     * @param {StoreCreateManyAndReturnArgs} args - Arguments to create many Stores.
+     * @example
+     * // Create many Stores
+     * const store = await prisma.store.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Stores and only return the `id`
+     * const storeWithIdOnly = await prisma.store.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends StoreCreateManyAndReturnArgs>(args?: SelectSubset<T, StoreCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Store.
+     * @param {StoreDeleteArgs} args - Arguments to delete one Store.
+     * @example
+     * // Delete one Store
+     * const Store = await prisma.store.delete({
+     *   where: {
+     *     // ... filter to delete one Store
+     *   }
+     * })
+     * 
+     */
+    delete<T extends StoreDeleteArgs>(args: SelectSubset<T, StoreDeleteArgs<ExtArgs>>): Prisma__StoreClient<$Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Store.
+     * @param {StoreUpdateArgs} args - Arguments to update one Store.
+     * @example
+     * // Update one Store
+     * const store = await prisma.store.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends StoreUpdateArgs>(args: SelectSubset<T, StoreUpdateArgs<ExtArgs>>): Prisma__StoreClient<$Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Stores.
+     * @param {StoreDeleteManyArgs} args - Arguments to filter Stores to delete.
+     * @example
+     * // Delete a few Stores
+     * const { count } = await prisma.store.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends StoreDeleteManyArgs>(args?: SelectSubset<T, StoreDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Stores.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoreUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Stores
+     * const store = await prisma.store.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends StoreUpdateManyArgs>(args: SelectSubset<T, StoreUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Stores and returns the data updated in the database.
+     * @param {StoreUpdateManyAndReturnArgs} args - Arguments to update many Stores.
+     * @example
+     * // Update many Stores
+     * const store = await prisma.store.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Stores and only return the `id`
+     * const storeWithIdOnly = await prisma.store.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends StoreUpdateManyAndReturnArgs>(args: SelectSubset<T, StoreUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Store.
+     * @param {StoreUpsertArgs} args - Arguments to update or create a Store.
+     * @example
+     * // Update or create a Store
+     * const store = await prisma.store.upsert({
+     *   create: {
+     *     // ... data to create a Store
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Store we want to update
+     *   }
+     * })
+     */
+    upsert<T extends StoreUpsertArgs>(args: SelectSubset<T, StoreUpsertArgs<ExtArgs>>): Prisma__StoreClient<$Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Stores.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoreCountArgs} args - Arguments to filter Stores to count.
+     * @example
+     * // Count the number of Stores
+     * const count = await prisma.store.count({
+     *   where: {
+     *     // ... the filter for the Stores we want to count
+     *   }
+     * })
+    **/
+    count<T extends StoreCountArgs>(
+      args?: Subset<T, StoreCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], StoreCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Store.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoreAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends StoreAggregateArgs>(args: Subset<T, StoreAggregateArgs>): Prisma.PrismaPromise<GetStoreAggregateType<T>>
+
+    /**
+     * Group by Store.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {StoreGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends StoreGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: StoreGroupByArgs['orderBy'] }
+        : { orderBy?: StoreGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, StoreGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStoreGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Store model
+   */
+  readonly fields: StoreFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Store.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__StoreClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    vehicles<T extends Store$vehiclesArgs<ExtArgs> = {}>(args?: Subset<T, Store$vehiclesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Store model
+   */
+  interface StoreFieldRefs {
+    readonly id: FieldRef<"Store", 'String'>
+    readonly name: FieldRef<"Store", 'String'>
+    readonly address: FieldRef<"Store", 'String'>
+    readonly brandLogos: FieldRef<"Store", 'String[]'>
+    readonly imageUrl: FieldRef<"Store", 'String'>
+    readonly bgFrontQuarter: FieldRef<"Store", 'String'>
+    readonly bgFront: FieldRef<"Store", 'String'>
+    readonly bgBackQuarter: FieldRef<"Store", 'String'>
+    readonly bgBack: FieldRef<"Store", 'String'>
+    readonly bgDriverSide: FieldRef<"Store", 'String'>
+    readonly bgPassengerSide: FieldRef<"Store", 'String'>
+    readonly createdAt: FieldRef<"Store", 'DateTime'>
+    readonly updatedAt: FieldRef<"Store", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Store findUnique
+   */
+  export type StoreFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Store
+     */
+    select?: StoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Store
+     */
+    omit?: StoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoreInclude<ExtArgs> | null
+    /**
+     * Filter, which Store to fetch.
+     */
+    where: StoreWhereUniqueInput
+  }
+
+  /**
+   * Store findUniqueOrThrow
+   */
+  export type StoreFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Store
+     */
+    select?: StoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Store
+     */
+    omit?: StoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoreInclude<ExtArgs> | null
+    /**
+     * Filter, which Store to fetch.
+     */
+    where: StoreWhereUniqueInput
+  }
+
+  /**
+   * Store findFirst
+   */
+  export type StoreFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Store
+     */
+    select?: StoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Store
+     */
+    omit?: StoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoreInclude<ExtArgs> | null
+    /**
+     * Filter, which Store to fetch.
+     */
+    where?: StoreWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Stores to fetch.
+     */
+    orderBy?: StoreOrderByWithRelationInput | StoreOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Stores.
+     */
+    cursor?: StoreWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Stores from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Stores.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Stores.
+     */
+    distinct?: StoreScalarFieldEnum | StoreScalarFieldEnum[]
+  }
+
+  /**
+   * Store findFirstOrThrow
+   */
+  export type StoreFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Store
+     */
+    select?: StoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Store
+     */
+    omit?: StoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoreInclude<ExtArgs> | null
+    /**
+     * Filter, which Store to fetch.
+     */
+    where?: StoreWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Stores to fetch.
+     */
+    orderBy?: StoreOrderByWithRelationInput | StoreOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Stores.
+     */
+    cursor?: StoreWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Stores from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Stores.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Stores.
+     */
+    distinct?: StoreScalarFieldEnum | StoreScalarFieldEnum[]
+  }
+
+  /**
+   * Store findMany
+   */
+  export type StoreFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Store
+     */
+    select?: StoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Store
+     */
+    omit?: StoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoreInclude<ExtArgs> | null
+    /**
+     * Filter, which Stores to fetch.
+     */
+    where?: StoreWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Stores to fetch.
+     */
+    orderBy?: StoreOrderByWithRelationInput | StoreOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Stores.
+     */
+    cursor?: StoreWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Stores from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Stores.
+     */
+    skip?: number
+    distinct?: StoreScalarFieldEnum | StoreScalarFieldEnum[]
+  }
+
+  /**
+   * Store create
+   */
+  export type StoreCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Store
+     */
+    select?: StoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Store
+     */
+    omit?: StoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoreInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Store.
+     */
+    data: XOR<StoreCreateInput, StoreUncheckedCreateInput>
+  }
+
+  /**
+   * Store createMany
+   */
+  export type StoreCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Stores.
+     */
+    data: StoreCreateManyInput | StoreCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Store createManyAndReturn
+   */
+  export type StoreCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Store
+     */
+    select?: StoreSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Store
+     */
+    omit?: StoreOmit<ExtArgs> | null
+    /**
+     * The data used to create many Stores.
+     */
+    data: StoreCreateManyInput | StoreCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Store update
+   */
+  export type StoreUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Store
+     */
+    select?: StoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Store
+     */
+    omit?: StoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoreInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Store.
+     */
+    data: XOR<StoreUpdateInput, StoreUncheckedUpdateInput>
+    /**
+     * Choose, which Store to update.
+     */
+    where: StoreWhereUniqueInput
+  }
+
+  /**
+   * Store updateMany
+   */
+  export type StoreUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Stores.
+     */
+    data: XOR<StoreUpdateManyMutationInput, StoreUncheckedUpdateManyInput>
+    /**
+     * Filter which Stores to update
+     */
+    where?: StoreWhereInput
+    /**
+     * Limit how many Stores to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Store updateManyAndReturn
+   */
+  export type StoreUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Store
+     */
+    select?: StoreSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Store
+     */
+    omit?: StoreOmit<ExtArgs> | null
+    /**
+     * The data used to update Stores.
+     */
+    data: XOR<StoreUpdateManyMutationInput, StoreUncheckedUpdateManyInput>
+    /**
+     * Filter which Stores to update
+     */
+    where?: StoreWhereInput
+    /**
+     * Limit how many Stores to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Store upsert
+   */
+  export type StoreUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Store
+     */
+    select?: StoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Store
+     */
+    omit?: StoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoreInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Store to update in case it exists.
+     */
+    where: StoreWhereUniqueInput
+    /**
+     * In case the Store found by the `where` argument doesn't exist, create a new Store with this data.
+     */
+    create: XOR<StoreCreateInput, StoreUncheckedCreateInput>
+    /**
+     * In case the Store was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<StoreUpdateInput, StoreUncheckedUpdateInput>
+  }
+
+  /**
+   * Store delete
+   */
+  export type StoreDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Store
+     */
+    select?: StoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Store
+     */
+    omit?: StoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoreInclude<ExtArgs> | null
+    /**
+     * Filter which Store to delete.
+     */
+    where: StoreWhereUniqueInput
+  }
+
+  /**
+   * Store deleteMany
+   */
+  export type StoreDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Stores to delete
+     */
+    where?: StoreWhereInput
+    /**
+     * Limit how many Stores to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Store.vehicles
+   */
+  export type Store$vehiclesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vehicle
+     */
+    select?: VehicleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vehicle
+     */
+    omit?: VehicleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleInclude<ExtArgs> | null
+    where?: VehicleWhereInput
+    orderBy?: VehicleOrderByWithRelationInput | VehicleOrderByWithRelationInput[]
+    cursor?: VehicleWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: VehicleScalarFieldEnum | VehicleScalarFieldEnum[]
+  }
+
+  /**
+   * Store without action
+   */
+  export type StoreDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Store
+     */
+    select?: StoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Store
+     */
+    omit?: StoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: StoreInclude<ExtArgs> | null
+  }
+
 
   /**
    * Model User
@@ -2378,2240 +4628,6 @@ export namespace Prisma {
      * Omit specific fields from the User
      */
     omit?: UserOmit<ExtArgs> | null
-  }
-
-
-  /**
-   * Model Store
-   */
-
-  export type AggregateStore = {
-    _count: StoreCountAggregateOutputType | null
-    _min: StoreMinAggregateOutputType | null
-    _max: StoreMaxAggregateOutputType | null
-  }
-
-  export type StoreMinAggregateOutputType = {
-    id: string | null
-    name: string | null
-    address: string | null
-    imageUrl: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type StoreMaxAggregateOutputType = {
-    id: string | null
-    name: string | null
-    address: string | null
-    imageUrl: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type StoreCountAggregateOutputType = {
-    id: number
-    name: number
-    address: number
-    brandLogos: number
-    imageUrl: number
-    createdAt: number
-    updatedAt: number
-    _all: number
-  }
-
-
-  export type StoreMinAggregateInputType = {
-    id?: true
-    name?: true
-    address?: true
-    imageUrl?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type StoreMaxAggregateInputType = {
-    id?: true
-    name?: true
-    address?: true
-    imageUrl?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type StoreCountAggregateInputType = {
-    id?: true
-    name?: true
-    address?: true
-    brandLogos?: true
-    imageUrl?: true
-    createdAt?: true
-    updatedAt?: true
-    _all?: true
-  }
-
-  export type StoreAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Store to aggregate.
-     */
-    where?: StoreWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Stores to fetch.
-     */
-    orderBy?: StoreOrderByWithRelationInput | StoreOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: StoreWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Stores from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Stores.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Stores
-    **/
-    _count?: true | StoreCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: StoreMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: StoreMaxAggregateInputType
-  }
-
-  export type GetStoreAggregateType<T extends StoreAggregateArgs> = {
-        [P in keyof T & keyof AggregateStore]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateStore[P]>
-      : GetScalarType<T[P], AggregateStore[P]>
-  }
-
-
-
-
-  export type StoreGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: StoreWhereInput
-    orderBy?: StoreOrderByWithAggregationInput | StoreOrderByWithAggregationInput[]
-    by: StoreScalarFieldEnum[] | StoreScalarFieldEnum
-    having?: StoreScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: StoreCountAggregateInputType | true
-    _min?: StoreMinAggregateInputType
-    _max?: StoreMaxAggregateInputType
-  }
-
-  export type StoreGroupByOutputType = {
-    id: string
-    name: string
-    address: string
-    brandLogos: string[]
-    imageUrl: string | null
-    createdAt: Date
-    updatedAt: Date
-    _count: StoreCountAggregateOutputType | null
-    _min: StoreMinAggregateOutputType | null
-    _max: StoreMaxAggregateOutputType | null
-  }
-
-  type GetStoreGroupByPayload<T extends StoreGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<StoreGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof StoreGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], StoreGroupByOutputType[P]>
-            : GetScalarType<T[P], StoreGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type StoreSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    address?: boolean
-    brandLogos?: boolean
-    imageUrl?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    vehicles?: boolean | Store$vehiclesArgs<ExtArgs>
-    _count?: boolean | StoreCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["store"]>
-
-  export type StoreSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    address?: boolean
-    brandLogos?: boolean
-    imageUrl?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["store"]>
-
-  export type StoreSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    address?: boolean
-    brandLogos?: boolean
-    imageUrl?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }, ExtArgs["result"]["store"]>
-
-  export type StoreSelectScalar = {
-    id?: boolean
-    name?: boolean
-    address?: boolean
-    brandLogos?: boolean
-    imageUrl?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }
-
-  export type StoreOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "address" | "brandLogos" | "imageUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["store"]>
-  export type StoreInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    vehicles?: boolean | Store$vehiclesArgs<ExtArgs>
-    _count?: boolean | StoreCountOutputTypeDefaultArgs<ExtArgs>
-  }
-  export type StoreIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type StoreIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-
-  export type $StorePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Store"
-    objects: {
-      vehicles: Prisma.$VehiclePayload<ExtArgs>[]
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      name: string
-      address: string
-      brandLogos: string[]
-      imageUrl: string | null
-      createdAt: Date
-      updatedAt: Date
-    }, ExtArgs["result"]["store"]>
-    composites: {}
-  }
-
-  type StoreGetPayload<S extends boolean | null | undefined | StoreDefaultArgs> = $Result.GetResult<Prisma.$StorePayload, S>
-
-  type StoreCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<StoreFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: StoreCountAggregateInputType | true
-    }
-
-  export interface StoreDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Store'], meta: { name: 'Store' } }
-    /**
-     * Find zero or one Store that matches the filter.
-     * @param {StoreFindUniqueArgs} args - Arguments to find a Store
-     * @example
-     * // Get one Store
-     * const store = await prisma.store.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends StoreFindUniqueArgs>(args: SelectSubset<T, StoreFindUniqueArgs<ExtArgs>>): Prisma__StoreClient<$Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Store that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {StoreFindUniqueOrThrowArgs} args - Arguments to find a Store
-     * @example
-     * // Get one Store
-     * const store = await prisma.store.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends StoreFindUniqueOrThrowArgs>(args: SelectSubset<T, StoreFindUniqueOrThrowArgs<ExtArgs>>): Prisma__StoreClient<$Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Store that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {StoreFindFirstArgs} args - Arguments to find a Store
-     * @example
-     * // Get one Store
-     * const store = await prisma.store.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends StoreFindFirstArgs>(args?: SelectSubset<T, StoreFindFirstArgs<ExtArgs>>): Prisma__StoreClient<$Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Store that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {StoreFindFirstOrThrowArgs} args - Arguments to find a Store
-     * @example
-     * // Get one Store
-     * const store = await prisma.store.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends StoreFindFirstOrThrowArgs>(args?: SelectSubset<T, StoreFindFirstOrThrowArgs<ExtArgs>>): Prisma__StoreClient<$Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Stores that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {StoreFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Stores
-     * const stores = await prisma.store.findMany()
-     * 
-     * // Get first 10 Stores
-     * const stores = await prisma.store.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const storeWithIdOnly = await prisma.store.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends StoreFindManyArgs>(args?: SelectSubset<T, StoreFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Store.
-     * @param {StoreCreateArgs} args - Arguments to create a Store.
-     * @example
-     * // Create one Store
-     * const Store = await prisma.store.create({
-     *   data: {
-     *     // ... data to create a Store
-     *   }
-     * })
-     * 
-     */
-    create<T extends StoreCreateArgs>(args: SelectSubset<T, StoreCreateArgs<ExtArgs>>): Prisma__StoreClient<$Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Stores.
-     * @param {StoreCreateManyArgs} args - Arguments to create many Stores.
-     * @example
-     * // Create many Stores
-     * const store = await prisma.store.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends StoreCreateManyArgs>(args?: SelectSubset<T, StoreCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Stores and returns the data saved in the database.
-     * @param {StoreCreateManyAndReturnArgs} args - Arguments to create many Stores.
-     * @example
-     * // Create many Stores
-     * const store = await prisma.store.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Stores and only return the `id`
-     * const storeWithIdOnly = await prisma.store.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends StoreCreateManyAndReturnArgs>(args?: SelectSubset<T, StoreCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a Store.
-     * @param {StoreDeleteArgs} args - Arguments to delete one Store.
-     * @example
-     * // Delete one Store
-     * const Store = await prisma.store.delete({
-     *   where: {
-     *     // ... filter to delete one Store
-     *   }
-     * })
-     * 
-     */
-    delete<T extends StoreDeleteArgs>(args: SelectSubset<T, StoreDeleteArgs<ExtArgs>>): Prisma__StoreClient<$Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Store.
-     * @param {StoreUpdateArgs} args - Arguments to update one Store.
-     * @example
-     * // Update one Store
-     * const store = await prisma.store.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends StoreUpdateArgs>(args: SelectSubset<T, StoreUpdateArgs<ExtArgs>>): Prisma__StoreClient<$Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Stores.
-     * @param {StoreDeleteManyArgs} args - Arguments to filter Stores to delete.
-     * @example
-     * // Delete a few Stores
-     * const { count } = await prisma.store.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends StoreDeleteManyArgs>(args?: SelectSubset<T, StoreDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Stores.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {StoreUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Stores
-     * const store = await prisma.store.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends StoreUpdateManyArgs>(args: SelectSubset<T, StoreUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Stores and returns the data updated in the database.
-     * @param {StoreUpdateManyAndReturnArgs} args - Arguments to update many Stores.
-     * @example
-     * // Update many Stores
-     * const store = await prisma.store.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Stores and only return the `id`
-     * const storeWithIdOnly = await prisma.store.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends StoreUpdateManyAndReturnArgs>(args: SelectSubset<T, StoreUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Store.
-     * @param {StoreUpsertArgs} args - Arguments to update or create a Store.
-     * @example
-     * // Update or create a Store
-     * const store = await prisma.store.upsert({
-     *   create: {
-     *     // ... data to create a Store
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Store we want to update
-     *   }
-     * })
-     */
-    upsert<T extends StoreUpsertArgs>(args: SelectSubset<T, StoreUpsertArgs<ExtArgs>>): Prisma__StoreClient<$Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Stores.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {StoreCountArgs} args - Arguments to filter Stores to count.
-     * @example
-     * // Count the number of Stores
-     * const count = await prisma.store.count({
-     *   where: {
-     *     // ... the filter for the Stores we want to count
-     *   }
-     * })
-    **/
-    count<T extends StoreCountArgs>(
-      args?: Subset<T, StoreCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], StoreCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Store.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {StoreAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends StoreAggregateArgs>(args: Subset<T, StoreAggregateArgs>): Prisma.PrismaPromise<GetStoreAggregateType<T>>
-
-    /**
-     * Group by Store.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {StoreGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends StoreGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: StoreGroupByArgs['orderBy'] }
-        : { orderBy?: StoreGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, StoreGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetStoreGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Store model
-   */
-  readonly fields: StoreFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Store.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__StoreClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    vehicles<T extends Store$vehiclesArgs<ExtArgs> = {}>(args?: Subset<T, Store$vehiclesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Store model
-   */
-  interface StoreFieldRefs {
-    readonly id: FieldRef<"Store", 'String'>
-    readonly name: FieldRef<"Store", 'String'>
-    readonly address: FieldRef<"Store", 'String'>
-    readonly brandLogos: FieldRef<"Store", 'String[]'>
-    readonly imageUrl: FieldRef<"Store", 'String'>
-    readonly createdAt: FieldRef<"Store", 'DateTime'>
-    readonly updatedAt: FieldRef<"Store", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Store findUnique
-   */
-  export type StoreFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Store
-     */
-    select?: StoreSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Store
-     */
-    omit?: StoreOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: StoreInclude<ExtArgs> | null
-    /**
-     * Filter, which Store to fetch.
-     */
-    where: StoreWhereUniqueInput
-  }
-
-  /**
-   * Store findUniqueOrThrow
-   */
-  export type StoreFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Store
-     */
-    select?: StoreSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Store
-     */
-    omit?: StoreOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: StoreInclude<ExtArgs> | null
-    /**
-     * Filter, which Store to fetch.
-     */
-    where: StoreWhereUniqueInput
-  }
-
-  /**
-   * Store findFirst
-   */
-  export type StoreFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Store
-     */
-    select?: StoreSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Store
-     */
-    omit?: StoreOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: StoreInclude<ExtArgs> | null
-    /**
-     * Filter, which Store to fetch.
-     */
-    where?: StoreWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Stores to fetch.
-     */
-    orderBy?: StoreOrderByWithRelationInput | StoreOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Stores.
-     */
-    cursor?: StoreWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Stores from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Stores.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Stores.
-     */
-    distinct?: StoreScalarFieldEnum | StoreScalarFieldEnum[]
-  }
-
-  /**
-   * Store findFirstOrThrow
-   */
-  export type StoreFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Store
-     */
-    select?: StoreSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Store
-     */
-    omit?: StoreOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: StoreInclude<ExtArgs> | null
-    /**
-     * Filter, which Store to fetch.
-     */
-    where?: StoreWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Stores to fetch.
-     */
-    orderBy?: StoreOrderByWithRelationInput | StoreOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Stores.
-     */
-    cursor?: StoreWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Stores from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Stores.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Stores.
-     */
-    distinct?: StoreScalarFieldEnum | StoreScalarFieldEnum[]
-  }
-
-  /**
-   * Store findMany
-   */
-  export type StoreFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Store
-     */
-    select?: StoreSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Store
-     */
-    omit?: StoreOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: StoreInclude<ExtArgs> | null
-    /**
-     * Filter, which Stores to fetch.
-     */
-    where?: StoreWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Stores to fetch.
-     */
-    orderBy?: StoreOrderByWithRelationInput | StoreOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Stores.
-     */
-    cursor?: StoreWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Stores from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Stores.
-     */
-    skip?: number
-    distinct?: StoreScalarFieldEnum | StoreScalarFieldEnum[]
-  }
-
-  /**
-   * Store create
-   */
-  export type StoreCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Store
-     */
-    select?: StoreSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Store
-     */
-    omit?: StoreOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: StoreInclude<ExtArgs> | null
-    /**
-     * The data needed to create a Store.
-     */
-    data: XOR<StoreCreateInput, StoreUncheckedCreateInput>
-  }
-
-  /**
-   * Store createMany
-   */
-  export type StoreCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Stores.
-     */
-    data: StoreCreateManyInput | StoreCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Store createManyAndReturn
-   */
-  export type StoreCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Store
-     */
-    select?: StoreSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Store
-     */
-    omit?: StoreOmit<ExtArgs> | null
-    /**
-     * The data used to create many Stores.
-     */
-    data: StoreCreateManyInput | StoreCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Store update
-   */
-  export type StoreUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Store
-     */
-    select?: StoreSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Store
-     */
-    omit?: StoreOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: StoreInclude<ExtArgs> | null
-    /**
-     * The data needed to update a Store.
-     */
-    data: XOR<StoreUpdateInput, StoreUncheckedUpdateInput>
-    /**
-     * Choose, which Store to update.
-     */
-    where: StoreWhereUniqueInput
-  }
-
-  /**
-   * Store updateMany
-   */
-  export type StoreUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Stores.
-     */
-    data: XOR<StoreUpdateManyMutationInput, StoreUncheckedUpdateManyInput>
-    /**
-     * Filter which Stores to update
-     */
-    where?: StoreWhereInput
-    /**
-     * Limit how many Stores to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Store updateManyAndReturn
-   */
-  export type StoreUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Store
-     */
-    select?: StoreSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Store
-     */
-    omit?: StoreOmit<ExtArgs> | null
-    /**
-     * The data used to update Stores.
-     */
-    data: XOR<StoreUpdateManyMutationInput, StoreUncheckedUpdateManyInput>
-    /**
-     * Filter which Stores to update
-     */
-    where?: StoreWhereInput
-    /**
-     * Limit how many Stores to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Store upsert
-   */
-  export type StoreUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Store
-     */
-    select?: StoreSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Store
-     */
-    omit?: StoreOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: StoreInclude<ExtArgs> | null
-    /**
-     * The filter to search for the Store to update in case it exists.
-     */
-    where: StoreWhereUniqueInput
-    /**
-     * In case the Store found by the `where` argument doesn't exist, create a new Store with this data.
-     */
-    create: XOR<StoreCreateInput, StoreUncheckedCreateInput>
-    /**
-     * In case the Store was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<StoreUpdateInput, StoreUncheckedUpdateInput>
-  }
-
-  /**
-   * Store delete
-   */
-  export type StoreDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Store
-     */
-    select?: StoreSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Store
-     */
-    omit?: StoreOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: StoreInclude<ExtArgs> | null
-    /**
-     * Filter which Store to delete.
-     */
-    where: StoreWhereUniqueInput
-  }
-
-  /**
-   * Store deleteMany
-   */
-  export type StoreDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Stores to delete
-     */
-    where?: StoreWhereInput
-    /**
-     * Limit how many Stores to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * Store.vehicles
-   */
-  export type Store$vehiclesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Vehicle
-     */
-    select?: VehicleSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Vehicle
-     */
-    omit?: VehicleOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: VehicleInclude<ExtArgs> | null
-    where?: VehicleWhereInput
-    orderBy?: VehicleOrderByWithRelationInput | VehicleOrderByWithRelationInput[]
-    cursor?: VehicleWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: VehicleScalarFieldEnum | VehicleScalarFieldEnum[]
-  }
-
-  /**
-   * Store without action
-   */
-  export type StoreDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Store
-     */
-    select?: StoreSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Store
-     */
-    omit?: StoreOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: StoreInclude<ExtArgs> | null
-  }
-
-
-  /**
-   * Model Vehicle
-   */
-
-  export type AggregateVehicle = {
-    _count: VehicleCountAggregateOutputType | null
-    _min: VehicleMinAggregateOutputType | null
-    _max: VehicleMaxAggregateOutputType | null
-  }
-
-  export type VehicleMinAggregateOutputType = {
-    id: string | null
-    stockNumber: string | null
-    vin: string | null
-    storeId: string | null
-    processingStatus: $Enums.ProcessingStatus | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type VehicleMaxAggregateOutputType = {
-    id: string | null
-    stockNumber: string | null
-    vin: string | null
-    storeId: string | null
-    processingStatus: $Enums.ProcessingStatus | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type VehicleCountAggregateOutputType = {
-    id: number
-    stockNumber: number
-    vin: number
-    storeId: number
-    processingStatus: number
-    createdAt: number
-    updatedAt: number
-    _all: number
-  }
-
-
-  export type VehicleMinAggregateInputType = {
-    id?: true
-    stockNumber?: true
-    vin?: true
-    storeId?: true
-    processingStatus?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type VehicleMaxAggregateInputType = {
-    id?: true
-    stockNumber?: true
-    vin?: true
-    storeId?: true
-    processingStatus?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type VehicleCountAggregateInputType = {
-    id?: true
-    stockNumber?: true
-    vin?: true
-    storeId?: true
-    processingStatus?: true
-    createdAt?: true
-    updatedAt?: true
-    _all?: true
-  }
-
-  export type VehicleAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Vehicle to aggregate.
-     */
-    where?: VehicleWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Vehicles to fetch.
-     */
-    orderBy?: VehicleOrderByWithRelationInput | VehicleOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: VehicleWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Vehicles from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Vehicles.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Vehicles
-    **/
-    _count?: true | VehicleCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: VehicleMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: VehicleMaxAggregateInputType
-  }
-
-  export type GetVehicleAggregateType<T extends VehicleAggregateArgs> = {
-        [P in keyof T & keyof AggregateVehicle]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateVehicle[P]>
-      : GetScalarType<T[P], AggregateVehicle[P]>
-  }
-
-
-
-
-  export type VehicleGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: VehicleWhereInput
-    orderBy?: VehicleOrderByWithAggregationInput | VehicleOrderByWithAggregationInput[]
-    by: VehicleScalarFieldEnum[] | VehicleScalarFieldEnum
-    having?: VehicleScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: VehicleCountAggregateInputType | true
-    _min?: VehicleMinAggregateInputType
-    _max?: VehicleMaxAggregateInputType
-  }
-
-  export type VehicleGroupByOutputType = {
-    id: string
-    stockNumber: string
-    vin: string
-    storeId: string
-    processingStatus: $Enums.ProcessingStatus
-    createdAt: Date
-    updatedAt: Date
-    _count: VehicleCountAggregateOutputType | null
-    _min: VehicleMinAggregateOutputType | null
-    _max: VehicleMaxAggregateOutputType | null
-  }
-
-  type GetVehicleGroupByPayload<T extends VehicleGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<VehicleGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof VehicleGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], VehicleGroupByOutputType[P]>
-            : GetScalarType<T[P], VehicleGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type VehicleSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    stockNumber?: boolean
-    vin?: boolean
-    storeId?: boolean
-    processingStatus?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    store?: boolean | StoreDefaultArgs<ExtArgs>
-    images?: boolean | Vehicle$imagesArgs<ExtArgs>
-    processingJobs?: boolean | Vehicle$processingJobsArgs<ExtArgs>
-    _count?: boolean | VehicleCountOutputTypeDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["vehicle"]>
-
-  export type VehicleSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    stockNumber?: boolean
-    vin?: boolean
-    storeId?: boolean
-    processingStatus?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    store?: boolean | StoreDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["vehicle"]>
-
-  export type VehicleSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    stockNumber?: boolean
-    vin?: boolean
-    storeId?: boolean
-    processingStatus?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    store?: boolean | StoreDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["vehicle"]>
-
-  export type VehicleSelectScalar = {
-    id?: boolean
-    stockNumber?: boolean
-    vin?: boolean
-    storeId?: boolean
-    processingStatus?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }
-
-  export type VehicleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "stockNumber" | "vin" | "storeId" | "processingStatus" | "createdAt" | "updatedAt", ExtArgs["result"]["vehicle"]>
-  export type VehicleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    store?: boolean | StoreDefaultArgs<ExtArgs>
-    images?: boolean | Vehicle$imagesArgs<ExtArgs>
-    processingJobs?: boolean | Vehicle$processingJobsArgs<ExtArgs>
-    _count?: boolean | VehicleCountOutputTypeDefaultArgs<ExtArgs>
-  }
-  export type VehicleIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    store?: boolean | StoreDefaultArgs<ExtArgs>
-  }
-  export type VehicleIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    store?: boolean | StoreDefaultArgs<ExtArgs>
-  }
-
-  export type $VehiclePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "Vehicle"
-    objects: {
-      store: Prisma.$StorePayload<ExtArgs>
-      images: Prisma.$VehicleImagePayload<ExtArgs>[]
-      processingJobs: Prisma.$ProcessingJobPayload<ExtArgs>[]
-    }
-    scalars: $Extensions.GetPayloadResult<{
-      id: string
-      stockNumber: string
-      vin: string
-      storeId: string
-      processingStatus: $Enums.ProcessingStatus
-      createdAt: Date
-      updatedAt: Date
-    }, ExtArgs["result"]["vehicle"]>
-    composites: {}
-  }
-
-  type VehicleGetPayload<S extends boolean | null | undefined | VehicleDefaultArgs> = $Result.GetResult<Prisma.$VehiclePayload, S>
-
-  type VehicleCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<VehicleFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: VehicleCountAggregateInputType | true
-    }
-
-  export interface VehicleDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Vehicle'], meta: { name: 'Vehicle' } }
-    /**
-     * Find zero or one Vehicle that matches the filter.
-     * @param {VehicleFindUniqueArgs} args - Arguments to find a Vehicle
-     * @example
-     * // Get one Vehicle
-     * const vehicle = await prisma.vehicle.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUnique<T extends VehicleFindUniqueArgs>(args: SelectSubset<T, VehicleFindUniqueArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find one Vehicle that matches the filter or throw an error with `error.code='P2025'`
-     * if no matches were found.
-     * @param {VehicleFindUniqueOrThrowArgs} args - Arguments to find a Vehicle
-     * @example
-     * // Get one Vehicle
-     * const vehicle = await prisma.vehicle.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findUniqueOrThrow<T extends VehicleFindUniqueOrThrowArgs>(args: SelectSubset<T, VehicleFindUniqueOrThrowArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Vehicle that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {VehicleFindFirstArgs} args - Arguments to find a Vehicle
-     * @example
-     * // Get one Vehicle
-     * const vehicle = await prisma.vehicle.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirst<T extends VehicleFindFirstArgs>(args?: SelectSubset<T, VehicleFindFirstArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find the first Vehicle that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {VehicleFindFirstOrThrowArgs} args - Arguments to find a Vehicle
-     * @example
-     * // Get one Vehicle
-     * const vehicle = await prisma.vehicle.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     */
-    findFirstOrThrow<T extends VehicleFindFirstOrThrowArgs>(args?: SelectSubset<T, VehicleFindFirstOrThrowArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Find zero or more Vehicles that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {VehicleFindManyArgs} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Vehicles
-     * const vehicles = await prisma.vehicle.findMany()
-     * 
-     * // Get first 10 Vehicles
-     * const vehicles = await prisma.vehicle.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const vehicleWithIdOnly = await prisma.vehicle.findMany({ select: { id: true } })
-     * 
-     */
-    findMany<T extends VehicleFindManyArgs>(args?: SelectSubset<T, VehicleFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
-
-    /**
-     * Create a Vehicle.
-     * @param {VehicleCreateArgs} args - Arguments to create a Vehicle.
-     * @example
-     * // Create one Vehicle
-     * const Vehicle = await prisma.vehicle.create({
-     *   data: {
-     *     // ... data to create a Vehicle
-     *   }
-     * })
-     * 
-     */
-    create<T extends VehicleCreateArgs>(args: SelectSubset<T, VehicleCreateArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Create many Vehicles.
-     * @param {VehicleCreateManyArgs} args - Arguments to create many Vehicles.
-     * @example
-     * // Create many Vehicles
-     * const vehicle = await prisma.vehicle.createMany({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     *     
-     */
-    createMany<T extends VehicleCreateManyArgs>(args?: SelectSubset<T, VehicleCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create many Vehicles and returns the data saved in the database.
-     * @param {VehicleCreateManyAndReturnArgs} args - Arguments to create many Vehicles.
-     * @example
-     * // Create many Vehicles
-     * const vehicle = await prisma.vehicle.createManyAndReturn({
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Create many Vehicles and only return the `id`
-     * const vehicleWithIdOnly = await prisma.vehicle.createManyAndReturn({
-     *   select: { id: true },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    createManyAndReturn<T extends VehicleCreateManyAndReturnArgs>(args?: SelectSubset<T, VehicleCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Delete a Vehicle.
-     * @param {VehicleDeleteArgs} args - Arguments to delete one Vehicle.
-     * @example
-     * // Delete one Vehicle
-     * const Vehicle = await prisma.vehicle.delete({
-     *   where: {
-     *     // ... filter to delete one Vehicle
-     *   }
-     * })
-     * 
-     */
-    delete<T extends VehicleDeleteArgs>(args: SelectSubset<T, VehicleDeleteArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Update one Vehicle.
-     * @param {VehicleUpdateArgs} args - Arguments to update one Vehicle.
-     * @example
-     * // Update one Vehicle
-     * const vehicle = await prisma.vehicle.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    update<T extends VehicleUpdateArgs>(args: SelectSubset<T, VehicleUpdateArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-    /**
-     * Delete zero or more Vehicles.
-     * @param {VehicleDeleteManyArgs} args - Arguments to filter Vehicles to delete.
-     * @example
-     * // Delete a few Vehicles
-     * const { count } = await prisma.vehicle.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-     */
-    deleteMany<T extends VehicleDeleteManyArgs>(args?: SelectSubset<T, VehicleDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Vehicles.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {VehicleUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Vehicles
-     * const vehicle = await prisma.vehicle.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-     */
-    updateMany<T extends VehicleUpdateManyArgs>(args: SelectSubset<T, VehicleUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Vehicles and returns the data updated in the database.
-     * @param {VehicleUpdateManyAndReturnArgs} args - Arguments to update many Vehicles.
-     * @example
-     * // Update many Vehicles
-     * const vehicle = await prisma.vehicle.updateManyAndReturn({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * 
-     * // Update zero or more Vehicles and only return the `id`
-     * const vehicleWithIdOnly = await prisma.vehicle.updateManyAndReturn({
-     *   select: { id: true },
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: [
-     *     // ... provide data here
-     *   ]
-     * })
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * 
-     */
-    updateManyAndReturn<T extends VehicleUpdateManyAndReturnArgs>(args: SelectSubset<T, VehicleUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
-
-    /**
-     * Create or update one Vehicle.
-     * @param {VehicleUpsertArgs} args - Arguments to update or create a Vehicle.
-     * @example
-     * // Update or create a Vehicle
-     * const vehicle = await prisma.vehicle.upsert({
-     *   create: {
-     *     // ... data to create a Vehicle
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Vehicle we want to update
-     *   }
-     * })
-     */
-    upsert<T extends VehicleUpsertArgs>(args: SelectSubset<T, VehicleUpsertArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
-
-
-    /**
-     * Count the number of Vehicles.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {VehicleCountArgs} args - Arguments to filter Vehicles to count.
-     * @example
-     * // Count the number of Vehicles
-     * const count = await prisma.vehicle.count({
-     *   where: {
-     *     // ... the filter for the Vehicles we want to count
-     *   }
-     * })
-    **/
-    count<T extends VehicleCountArgs>(
-      args?: Subset<T, VehicleCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], VehicleCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Vehicle.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {VehicleAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends VehicleAggregateArgs>(args: Subset<T, VehicleAggregateArgs>): Prisma.PrismaPromise<GetVehicleAggregateType<T>>
-
-    /**
-     * Group by Vehicle.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {VehicleGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends VehicleGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: VehicleGroupByArgs['orderBy'] }
-        : { orderBy?: VehicleGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, VehicleGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVehicleGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Vehicle model
-   */
-  readonly fields: VehicleFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Vehicle.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export interface Prisma__VehicleClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
-    readonly [Symbol.toStringTag]: "PrismaPromise"
-    store<T extends StoreDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StoreDefaultArgs<ExtArgs>>): Prisma__StoreClient<$Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    images<T extends Vehicle$imagesArgs<ExtArgs> = {}>(args?: Subset<T, Vehicle$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VehicleImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    processingJobs<T extends Vehicle$processingJobsArgs<ExtArgs> = {}>(args?: Subset<T, Vehicle$processingJobsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProcessingJobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
-  }
-
-
-
-
-  /**
-   * Fields of the Vehicle model
-   */
-  interface VehicleFieldRefs {
-    readonly id: FieldRef<"Vehicle", 'String'>
-    readonly stockNumber: FieldRef<"Vehicle", 'String'>
-    readonly vin: FieldRef<"Vehicle", 'String'>
-    readonly storeId: FieldRef<"Vehicle", 'String'>
-    readonly processingStatus: FieldRef<"Vehicle", 'ProcessingStatus'>
-    readonly createdAt: FieldRef<"Vehicle", 'DateTime'>
-    readonly updatedAt: FieldRef<"Vehicle", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-  /**
-   * Vehicle findUnique
-   */
-  export type VehicleFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Vehicle
-     */
-    select?: VehicleSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Vehicle
-     */
-    omit?: VehicleOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: VehicleInclude<ExtArgs> | null
-    /**
-     * Filter, which Vehicle to fetch.
-     */
-    where: VehicleWhereUniqueInput
-  }
-
-  /**
-   * Vehicle findUniqueOrThrow
-   */
-  export type VehicleFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Vehicle
-     */
-    select?: VehicleSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Vehicle
-     */
-    omit?: VehicleOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: VehicleInclude<ExtArgs> | null
-    /**
-     * Filter, which Vehicle to fetch.
-     */
-    where: VehicleWhereUniqueInput
-  }
-
-  /**
-   * Vehicle findFirst
-   */
-  export type VehicleFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Vehicle
-     */
-    select?: VehicleSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Vehicle
-     */
-    omit?: VehicleOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: VehicleInclude<ExtArgs> | null
-    /**
-     * Filter, which Vehicle to fetch.
-     */
-    where?: VehicleWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Vehicles to fetch.
-     */
-    orderBy?: VehicleOrderByWithRelationInput | VehicleOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Vehicles.
-     */
-    cursor?: VehicleWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Vehicles from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Vehicles.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Vehicles.
-     */
-    distinct?: VehicleScalarFieldEnum | VehicleScalarFieldEnum[]
-  }
-
-  /**
-   * Vehicle findFirstOrThrow
-   */
-  export type VehicleFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Vehicle
-     */
-    select?: VehicleSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Vehicle
-     */
-    omit?: VehicleOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: VehicleInclude<ExtArgs> | null
-    /**
-     * Filter, which Vehicle to fetch.
-     */
-    where?: VehicleWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Vehicles to fetch.
-     */
-    orderBy?: VehicleOrderByWithRelationInput | VehicleOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Vehicles.
-     */
-    cursor?: VehicleWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Vehicles from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Vehicles.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Vehicles.
-     */
-    distinct?: VehicleScalarFieldEnum | VehicleScalarFieldEnum[]
-  }
-
-  /**
-   * Vehicle findMany
-   */
-  export type VehicleFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Vehicle
-     */
-    select?: VehicleSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Vehicle
-     */
-    omit?: VehicleOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: VehicleInclude<ExtArgs> | null
-    /**
-     * Filter, which Vehicles to fetch.
-     */
-    where?: VehicleWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Vehicles to fetch.
-     */
-    orderBy?: VehicleOrderByWithRelationInput | VehicleOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Vehicles.
-     */
-    cursor?: VehicleWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Vehicles from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Vehicles.
-     */
-    skip?: number
-    distinct?: VehicleScalarFieldEnum | VehicleScalarFieldEnum[]
-  }
-
-  /**
-   * Vehicle create
-   */
-  export type VehicleCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Vehicle
-     */
-    select?: VehicleSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Vehicle
-     */
-    omit?: VehicleOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: VehicleInclude<ExtArgs> | null
-    /**
-     * The data needed to create a Vehicle.
-     */
-    data: XOR<VehicleCreateInput, VehicleUncheckedCreateInput>
-  }
-
-  /**
-   * Vehicle createMany
-   */
-  export type VehicleCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Vehicles.
-     */
-    data: VehicleCreateManyInput | VehicleCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * Vehicle createManyAndReturn
-   */
-  export type VehicleCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Vehicle
-     */
-    select?: VehicleSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Vehicle
-     */
-    omit?: VehicleOmit<ExtArgs> | null
-    /**
-     * The data used to create many Vehicles.
-     */
-    data: VehicleCreateManyInput | VehicleCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: VehicleIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * Vehicle update
-   */
-  export type VehicleUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Vehicle
-     */
-    select?: VehicleSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Vehicle
-     */
-    omit?: VehicleOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: VehicleInclude<ExtArgs> | null
-    /**
-     * The data needed to update a Vehicle.
-     */
-    data: XOR<VehicleUpdateInput, VehicleUncheckedUpdateInput>
-    /**
-     * Choose, which Vehicle to update.
-     */
-    where: VehicleWhereUniqueInput
-  }
-
-  /**
-   * Vehicle updateMany
-   */
-  export type VehicleUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Vehicles.
-     */
-    data: XOR<VehicleUpdateManyMutationInput, VehicleUncheckedUpdateManyInput>
-    /**
-     * Filter which Vehicles to update
-     */
-    where?: VehicleWhereInput
-    /**
-     * Limit how many Vehicles to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * Vehicle updateManyAndReturn
-   */
-  export type VehicleUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Vehicle
-     */
-    select?: VehicleSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the Vehicle
-     */
-    omit?: VehicleOmit<ExtArgs> | null
-    /**
-     * The data used to update Vehicles.
-     */
-    data: XOR<VehicleUpdateManyMutationInput, VehicleUncheckedUpdateManyInput>
-    /**
-     * Filter which Vehicles to update
-     */
-    where?: VehicleWhereInput
-    /**
-     * Limit how many Vehicles to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: VehicleIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * Vehicle upsert
-   */
-  export type VehicleUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Vehicle
-     */
-    select?: VehicleSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Vehicle
-     */
-    omit?: VehicleOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: VehicleInclude<ExtArgs> | null
-    /**
-     * The filter to search for the Vehicle to update in case it exists.
-     */
-    where: VehicleWhereUniqueInput
-    /**
-     * In case the Vehicle found by the `where` argument doesn't exist, create a new Vehicle with this data.
-     */
-    create: XOR<VehicleCreateInput, VehicleUncheckedCreateInput>
-    /**
-     * In case the Vehicle was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<VehicleUpdateInput, VehicleUncheckedUpdateInput>
-  }
-
-  /**
-   * Vehicle delete
-   */
-  export type VehicleDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Vehicle
-     */
-    select?: VehicleSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Vehicle
-     */
-    omit?: VehicleOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: VehicleInclude<ExtArgs> | null
-    /**
-     * Filter which Vehicle to delete.
-     */
-    where: VehicleWhereUniqueInput
-  }
-
-  /**
-   * Vehicle deleteMany
-   */
-  export type VehicleDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Vehicles to delete
-     */
-    where?: VehicleWhereInput
-    /**
-     * Limit how many Vehicles to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * Vehicle.images
-   */
-  export type Vehicle$imagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the VehicleImage
-     */
-    select?: VehicleImageSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the VehicleImage
-     */
-    omit?: VehicleImageOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: VehicleImageInclude<ExtArgs> | null
-    where?: VehicleImageWhereInput
-    orderBy?: VehicleImageOrderByWithRelationInput | VehicleImageOrderByWithRelationInput[]
-    cursor?: VehicleImageWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: VehicleImageScalarFieldEnum | VehicleImageScalarFieldEnum[]
-  }
-
-  /**
-   * Vehicle.processingJobs
-   */
-  export type Vehicle$processingJobsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ProcessingJob
-     */
-    select?: ProcessingJobSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ProcessingJob
-     */
-    omit?: ProcessingJobOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProcessingJobInclude<ExtArgs> | null
-    where?: ProcessingJobWhereInput
-    orderBy?: ProcessingJobOrderByWithRelationInput | ProcessingJobOrderByWithRelationInput[]
-    cursor?: ProcessingJobWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: ProcessingJobScalarFieldEnum | ProcessingJobScalarFieldEnum[]
-  }
-
-  /**
-   * Vehicle without action
-   */
-  export type VehicleDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Vehicle
-     */
-    select?: VehicleSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Vehicle
-     */
-    omit?: VehicleOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: VehicleInclude<ExtArgs> | null
   }
 
 
@@ -5812,370 +5828,382 @@ export namespace Prisma {
 
 
   /**
-   * Model ProcessingJob
+   * Model Vehicle
    */
 
-  export type AggregateProcessingJob = {
-    _count: ProcessingJobCountAggregateOutputType | null
-    _min: ProcessingJobMinAggregateOutputType | null
-    _max: ProcessingJobMaxAggregateOutputType | null
+  export type AggregateVehicle = {
+    _count: VehicleCountAggregateOutputType | null
+    _min: VehicleMinAggregateOutputType | null
+    _max: VehicleMaxAggregateOutputType | null
   }
 
-  export type ProcessingJobMinAggregateOutputType = {
+  export type VehicleMinAggregateOutputType = {
     id: string | null
-    vehicleId: string | null
-    status: $Enums.JobStatus | null
-    errorMessage: string | null
+    stockNumber: string | null
+    vin: string | null
+    storeId: string | null
+    processingStatus: $Enums.ProcessingStatus | null
     createdAt: Date | null
-    completedAt: Date | null
+    updatedAt: Date | null
   }
 
-  export type ProcessingJobMaxAggregateOutputType = {
+  export type VehicleMaxAggregateOutputType = {
     id: string | null
-    vehicleId: string | null
-    status: $Enums.JobStatus | null
-    errorMessage: string | null
+    stockNumber: string | null
+    vin: string | null
+    storeId: string | null
+    processingStatus: $Enums.ProcessingStatus | null
     createdAt: Date | null
-    completedAt: Date | null
+    updatedAt: Date | null
   }
 
-  export type ProcessingJobCountAggregateOutputType = {
+  export type VehicleCountAggregateOutputType = {
     id: number
-    vehicleId: number
-    imageIds: number
-    status: number
-    errorMessage: number
+    stockNumber: number
+    vin: number
+    storeId: number
+    processingStatus: number
     createdAt: number
-    completedAt: number
+    updatedAt: number
     _all: number
   }
 
 
-  export type ProcessingJobMinAggregateInputType = {
+  export type VehicleMinAggregateInputType = {
     id?: true
-    vehicleId?: true
-    status?: true
-    errorMessage?: true
+    stockNumber?: true
+    vin?: true
+    storeId?: true
+    processingStatus?: true
     createdAt?: true
-    completedAt?: true
+    updatedAt?: true
   }
 
-  export type ProcessingJobMaxAggregateInputType = {
+  export type VehicleMaxAggregateInputType = {
     id?: true
-    vehicleId?: true
-    status?: true
-    errorMessage?: true
+    stockNumber?: true
+    vin?: true
+    storeId?: true
+    processingStatus?: true
     createdAt?: true
-    completedAt?: true
+    updatedAt?: true
   }
 
-  export type ProcessingJobCountAggregateInputType = {
+  export type VehicleCountAggregateInputType = {
     id?: true
-    vehicleId?: true
-    imageIds?: true
-    status?: true
-    errorMessage?: true
+    stockNumber?: true
+    vin?: true
+    storeId?: true
+    processingStatus?: true
     createdAt?: true
-    completedAt?: true
+    updatedAt?: true
     _all?: true
   }
 
-  export type ProcessingJobAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type VehicleAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Filter which ProcessingJob to aggregate.
+     * Filter which Vehicle to aggregate.
      */
-    where?: ProcessingJobWhereInput
+    where?: VehicleWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of ProcessingJobs to fetch.
+     * Determine the order of Vehicles to fetch.
      */
-    orderBy?: ProcessingJobOrderByWithRelationInput | ProcessingJobOrderByWithRelationInput[]
+    orderBy?: VehicleOrderByWithRelationInput | VehicleOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
      * Sets the start position
      */
-    cursor?: ProcessingJobWhereUniqueInput
+    cursor?: VehicleWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` ProcessingJobs from the position of the cursor.
+     * Take `±n` Vehicles from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` ProcessingJobs.
+     * Skip the first `n` Vehicles.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Count returned ProcessingJobs
+     * Count returned Vehicles
     **/
-    _count?: true | ProcessingJobCountAggregateInputType
+    _count?: true | VehicleCountAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the minimum value
     **/
-    _min?: ProcessingJobMinAggregateInputType
+    _min?: VehicleMinAggregateInputType
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
      * Select which fields to find the maximum value
     **/
-    _max?: ProcessingJobMaxAggregateInputType
+    _max?: VehicleMaxAggregateInputType
   }
 
-  export type GetProcessingJobAggregateType<T extends ProcessingJobAggregateArgs> = {
-        [P in keyof T & keyof AggregateProcessingJob]: P extends '_count' | 'count'
+  export type GetVehicleAggregateType<T extends VehicleAggregateArgs> = {
+        [P in keyof T & keyof AggregateVehicle]: P extends '_count' | 'count'
       ? T[P] extends true
         ? number
-        : GetScalarType<T[P], AggregateProcessingJob[P]>
-      : GetScalarType<T[P], AggregateProcessingJob[P]>
+        : GetScalarType<T[P], AggregateVehicle[P]>
+      : GetScalarType<T[P], AggregateVehicle[P]>
   }
 
 
 
 
-  export type ProcessingJobGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: ProcessingJobWhereInput
-    orderBy?: ProcessingJobOrderByWithAggregationInput | ProcessingJobOrderByWithAggregationInput[]
-    by: ProcessingJobScalarFieldEnum[] | ProcessingJobScalarFieldEnum
-    having?: ProcessingJobScalarWhereWithAggregatesInput
+  export type VehicleGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: VehicleWhereInput
+    orderBy?: VehicleOrderByWithAggregationInput | VehicleOrderByWithAggregationInput[]
+    by: VehicleScalarFieldEnum[] | VehicleScalarFieldEnum
+    having?: VehicleScalarWhereWithAggregatesInput
     take?: number
     skip?: number
-    _count?: ProcessingJobCountAggregateInputType | true
-    _min?: ProcessingJobMinAggregateInputType
-    _max?: ProcessingJobMaxAggregateInputType
+    _count?: VehicleCountAggregateInputType | true
+    _min?: VehicleMinAggregateInputType
+    _max?: VehicleMaxAggregateInputType
   }
 
-  export type ProcessingJobGroupByOutputType = {
+  export type VehicleGroupByOutputType = {
     id: string
-    vehicleId: string
-    imageIds: string[]
-    status: $Enums.JobStatus
-    errorMessage: string | null
+    stockNumber: string
+    vin: string
+    storeId: string
+    processingStatus: $Enums.ProcessingStatus
     createdAt: Date
-    completedAt: Date | null
-    _count: ProcessingJobCountAggregateOutputType | null
-    _min: ProcessingJobMinAggregateOutputType | null
-    _max: ProcessingJobMaxAggregateOutputType | null
+    updatedAt: Date
+    _count: VehicleCountAggregateOutputType | null
+    _min: VehicleMinAggregateOutputType | null
+    _max: VehicleMaxAggregateOutputType | null
   }
 
-  type GetProcessingJobGroupByPayload<T extends ProcessingJobGroupByArgs> = Prisma.PrismaPromise<
+  type GetVehicleGroupByPayload<T extends VehicleGroupByArgs> = Prisma.PrismaPromise<
     Array<
-      PickEnumerable<ProcessingJobGroupByOutputType, T['by']> &
+      PickEnumerable<VehicleGroupByOutputType, T['by']> &
         {
-          [P in ((keyof T) & (keyof ProcessingJobGroupByOutputType))]: P extends '_count'
+          [P in ((keyof T) & (keyof VehicleGroupByOutputType))]: P extends '_count'
             ? T[P] extends boolean
               ? number
-              : GetScalarType<T[P], ProcessingJobGroupByOutputType[P]>
-            : GetScalarType<T[P], ProcessingJobGroupByOutputType[P]>
+              : GetScalarType<T[P], VehicleGroupByOutputType[P]>
+            : GetScalarType<T[P], VehicleGroupByOutputType[P]>
         }
       >
     >
 
 
-  export type ProcessingJobSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type VehicleSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    vehicleId?: boolean
-    imageIds?: boolean
-    status?: boolean
-    errorMessage?: boolean
+    stockNumber?: boolean
+    vin?: boolean
+    storeId?: boolean
+    processingStatus?: boolean
     createdAt?: boolean
-    completedAt?: boolean
-    vehicle?: boolean | VehicleDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["processingJob"]>
+    updatedAt?: boolean
+    store?: boolean | StoreDefaultArgs<ExtArgs>
+    images?: boolean | Vehicle$imagesArgs<ExtArgs>
+    processingJobs?: boolean | Vehicle$processingJobsArgs<ExtArgs>
+    _count?: boolean | VehicleCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["vehicle"]>
 
-  export type ProcessingJobSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type VehicleSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    vehicleId?: boolean
-    imageIds?: boolean
-    status?: boolean
-    errorMessage?: boolean
+    stockNumber?: boolean
+    vin?: boolean
+    storeId?: boolean
+    processingStatus?: boolean
     createdAt?: boolean
-    completedAt?: boolean
-    vehicle?: boolean | VehicleDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["processingJob"]>
+    updatedAt?: boolean
+    store?: boolean | StoreDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["vehicle"]>
 
-  export type ProcessingJobSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+  export type VehicleSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    vehicleId?: boolean
-    imageIds?: boolean
-    status?: boolean
-    errorMessage?: boolean
+    stockNumber?: boolean
+    vin?: boolean
+    storeId?: boolean
+    processingStatus?: boolean
     createdAt?: boolean
-    completedAt?: boolean
-    vehicle?: boolean | VehicleDefaultArgs<ExtArgs>
-  }, ExtArgs["result"]["processingJob"]>
+    updatedAt?: boolean
+    store?: boolean | StoreDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["vehicle"]>
 
-  export type ProcessingJobSelectScalar = {
+  export type VehicleSelectScalar = {
     id?: boolean
-    vehicleId?: boolean
-    imageIds?: boolean
-    status?: boolean
-    errorMessage?: boolean
+    stockNumber?: boolean
+    vin?: boolean
+    storeId?: boolean
+    processingStatus?: boolean
     createdAt?: boolean
-    completedAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type ProcessingJobOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "vehicleId" | "imageIds" | "status" | "errorMessage" | "createdAt" | "completedAt", ExtArgs["result"]["processingJob"]>
-  export type ProcessingJobInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    vehicle?: boolean | VehicleDefaultArgs<ExtArgs>
+  export type VehicleOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "stockNumber" | "vin" | "storeId" | "processingStatus" | "createdAt" | "updatedAt", ExtArgs["result"]["vehicle"]>
+  export type VehicleInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    store?: boolean | StoreDefaultArgs<ExtArgs>
+    images?: boolean | Vehicle$imagesArgs<ExtArgs>
+    processingJobs?: boolean | Vehicle$processingJobsArgs<ExtArgs>
+    _count?: boolean | VehicleCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type ProcessingJobIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    vehicle?: boolean | VehicleDefaultArgs<ExtArgs>
+  export type VehicleIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    store?: boolean | StoreDefaultArgs<ExtArgs>
   }
-  export type ProcessingJobIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    vehicle?: boolean | VehicleDefaultArgs<ExtArgs>
+  export type VehicleIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    store?: boolean | StoreDefaultArgs<ExtArgs>
   }
 
-  export type $ProcessingJobPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    name: "ProcessingJob"
+  export type $VehiclePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Vehicle"
     objects: {
-      vehicle: Prisma.$VehiclePayload<ExtArgs>
+      store: Prisma.$StorePayload<ExtArgs>
+      images: Prisma.$VehicleImagePayload<ExtArgs>[]
+      processingJobs: Prisma.$ProcessingJobPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      vehicleId: string
-      imageIds: string[]
-      status: $Enums.JobStatus
-      errorMessage: string | null
+      stockNumber: string
+      vin: string
+      storeId: string
+      processingStatus: $Enums.ProcessingStatus
       createdAt: Date
-      completedAt: Date | null
-    }, ExtArgs["result"]["processingJob"]>
+      updatedAt: Date
+    }, ExtArgs["result"]["vehicle"]>
     composites: {}
   }
 
-  type ProcessingJobGetPayload<S extends boolean | null | undefined | ProcessingJobDefaultArgs> = $Result.GetResult<Prisma.$ProcessingJobPayload, S>
+  type VehicleGetPayload<S extends boolean | null | undefined | VehicleDefaultArgs> = $Result.GetResult<Prisma.$VehiclePayload, S>
 
-  type ProcessingJobCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
-    Omit<ProcessingJobFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
-      select?: ProcessingJobCountAggregateInputType | true
+  type VehicleCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<VehicleFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: VehicleCountAggregateInputType | true
     }
 
-  export interface ProcessingJobDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['ProcessingJob'], meta: { name: 'ProcessingJob' } }
+  export interface VehicleDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Vehicle'], meta: { name: 'Vehicle' } }
     /**
-     * Find zero or one ProcessingJob that matches the filter.
-     * @param {ProcessingJobFindUniqueArgs} args - Arguments to find a ProcessingJob
+     * Find zero or one Vehicle that matches the filter.
+     * @param {VehicleFindUniqueArgs} args - Arguments to find a Vehicle
      * @example
-     * // Get one ProcessingJob
-     * const processingJob = await prisma.processingJob.findUnique({
+     * // Get one Vehicle
+     * const vehicle = await prisma.vehicle.findUnique({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUnique<T extends ProcessingJobFindUniqueArgs>(args: SelectSubset<T, ProcessingJobFindUniqueArgs<ExtArgs>>): Prisma__ProcessingJobClient<$Result.GetResult<Prisma.$ProcessingJobPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findUnique<T extends VehicleFindUniqueArgs>(args: SelectSubset<T, VehicleFindUniqueArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find one ProcessingJob that matches the filter or throw an error with `error.code='P2025'`
+     * Find one Vehicle that matches the filter or throw an error with `error.code='P2025'`
      * if no matches were found.
-     * @param {ProcessingJobFindUniqueOrThrowArgs} args - Arguments to find a ProcessingJob
+     * @param {VehicleFindUniqueOrThrowArgs} args - Arguments to find a Vehicle
      * @example
-     * // Get one ProcessingJob
-     * const processingJob = await prisma.processingJob.findUniqueOrThrow({
+     * // Get one Vehicle
+     * const vehicle = await prisma.vehicle.findUniqueOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findUniqueOrThrow<T extends ProcessingJobFindUniqueOrThrowArgs>(args: SelectSubset<T, ProcessingJobFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ProcessingJobClient<$Result.GetResult<Prisma.$ProcessingJobPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findUniqueOrThrow<T extends VehicleFindUniqueOrThrowArgs>(args: SelectSubset<T, VehicleFindUniqueOrThrowArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first ProcessingJob that matches the filter.
+     * Find the first Vehicle that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProcessingJobFindFirstArgs} args - Arguments to find a ProcessingJob
+     * @param {VehicleFindFirstArgs} args - Arguments to find a Vehicle
      * @example
-     * // Get one ProcessingJob
-     * const processingJob = await prisma.processingJob.findFirst({
+     * // Get one Vehicle
+     * const vehicle = await prisma.vehicle.findFirst({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirst<T extends ProcessingJobFindFirstArgs>(args?: SelectSubset<T, ProcessingJobFindFirstArgs<ExtArgs>>): Prisma__ProcessingJobClient<$Result.GetResult<Prisma.$ProcessingJobPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    findFirst<T extends VehicleFindFirstArgs>(args?: SelectSubset<T, VehicleFindFirstArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find the first ProcessingJob that matches the filter or
+     * Find the first Vehicle that matches the filter or
      * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProcessingJobFindFirstOrThrowArgs} args - Arguments to find a ProcessingJob
+     * @param {VehicleFindFirstOrThrowArgs} args - Arguments to find a Vehicle
      * @example
-     * // Get one ProcessingJob
-     * const processingJob = await prisma.processingJob.findFirstOrThrow({
+     * // Get one Vehicle
+     * const vehicle = await prisma.vehicle.findFirstOrThrow({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      */
-    findFirstOrThrow<T extends ProcessingJobFindFirstOrThrowArgs>(args?: SelectSubset<T, ProcessingJobFindFirstOrThrowArgs<ExtArgs>>): Prisma__ProcessingJobClient<$Result.GetResult<Prisma.$ProcessingJobPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    findFirstOrThrow<T extends VehicleFindFirstOrThrowArgs>(args?: SelectSubset<T, VehicleFindFirstOrThrowArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Find zero or more ProcessingJobs that matches the filter.
+     * Find zero or more Vehicles that matches the filter.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProcessingJobFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @param {VehicleFindManyArgs} args - Arguments to filter and select certain fields only.
      * @example
-     * // Get all ProcessingJobs
-     * const processingJobs = await prisma.processingJob.findMany()
+     * // Get all Vehicles
+     * const vehicles = await prisma.vehicle.findMany()
      * 
-     * // Get first 10 ProcessingJobs
-     * const processingJobs = await prisma.processingJob.findMany({ take: 10 })
+     * // Get first 10 Vehicles
+     * const vehicles = await prisma.vehicle.findMany({ take: 10 })
      * 
      * // Only select the `id`
-     * const processingJobWithIdOnly = await prisma.processingJob.findMany({ select: { id: true } })
+     * const vehicleWithIdOnly = await prisma.vehicle.findMany({ select: { id: true } })
      * 
      */
-    findMany<T extends ProcessingJobFindManyArgs>(args?: SelectSubset<T, ProcessingJobFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProcessingJobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+    findMany<T extends VehicleFindManyArgs>(args?: SelectSubset<T, VehicleFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
 
     /**
-     * Create a ProcessingJob.
-     * @param {ProcessingJobCreateArgs} args - Arguments to create a ProcessingJob.
+     * Create a Vehicle.
+     * @param {VehicleCreateArgs} args - Arguments to create a Vehicle.
      * @example
-     * // Create one ProcessingJob
-     * const ProcessingJob = await prisma.processingJob.create({
+     * // Create one Vehicle
+     * const Vehicle = await prisma.vehicle.create({
      *   data: {
-     *     // ... data to create a ProcessingJob
+     *     // ... data to create a Vehicle
      *   }
      * })
      * 
      */
-    create<T extends ProcessingJobCreateArgs>(args: SelectSubset<T, ProcessingJobCreateArgs<ExtArgs>>): Prisma__ProcessingJobClient<$Result.GetResult<Prisma.$ProcessingJobPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    create<T extends VehicleCreateArgs>(args: SelectSubset<T, VehicleCreateArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Create many ProcessingJobs.
-     * @param {ProcessingJobCreateManyArgs} args - Arguments to create many ProcessingJobs.
+     * Create many Vehicles.
+     * @param {VehicleCreateManyArgs} args - Arguments to create many Vehicles.
      * @example
-     * // Create many ProcessingJobs
-     * const processingJob = await prisma.processingJob.createMany({
+     * // Create many Vehicles
+     * const vehicle = await prisma.vehicle.createMany({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      *     
      */
-    createMany<T extends ProcessingJobCreateManyArgs>(args?: SelectSubset<T, ProcessingJobCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    createMany<T extends VehicleCreateManyArgs>(args?: SelectSubset<T, VehicleCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Create many ProcessingJobs and returns the data saved in the database.
-     * @param {ProcessingJobCreateManyAndReturnArgs} args - Arguments to create many ProcessingJobs.
+     * Create many Vehicles and returns the data saved in the database.
+     * @param {VehicleCreateManyAndReturnArgs} args - Arguments to create many Vehicles.
      * @example
-     * // Create many ProcessingJobs
-     * const processingJob = await prisma.processingJob.createManyAndReturn({
+     * // Create many Vehicles
+     * const vehicle = await prisma.vehicle.createManyAndReturn({
      *   data: [
      *     // ... provide data here
      *   ]
      * })
      * 
-     * // Create many ProcessingJobs and only return the `id`
-     * const processingJobWithIdOnly = await prisma.processingJob.createManyAndReturn({
+     * // Create many Vehicles and only return the `id`
+     * const vehicleWithIdOnly = await prisma.vehicle.createManyAndReturn({
      *   select: { id: true },
      *   data: [
      *     // ... provide data here
@@ -6185,28 +6213,28 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    createManyAndReturn<T extends ProcessingJobCreateManyAndReturnArgs>(args?: SelectSubset<T, ProcessingJobCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProcessingJobPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+    createManyAndReturn<T extends VehicleCreateManyAndReturnArgs>(args?: SelectSubset<T, VehicleCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Delete a ProcessingJob.
-     * @param {ProcessingJobDeleteArgs} args - Arguments to delete one ProcessingJob.
+     * Delete a Vehicle.
+     * @param {VehicleDeleteArgs} args - Arguments to delete one Vehicle.
      * @example
-     * // Delete one ProcessingJob
-     * const ProcessingJob = await prisma.processingJob.delete({
+     * // Delete one Vehicle
+     * const Vehicle = await prisma.vehicle.delete({
      *   where: {
-     *     // ... filter to delete one ProcessingJob
+     *     // ... filter to delete one Vehicle
      *   }
      * })
      * 
      */
-    delete<T extends ProcessingJobDeleteArgs>(args: SelectSubset<T, ProcessingJobDeleteArgs<ExtArgs>>): Prisma__ProcessingJobClient<$Result.GetResult<Prisma.$ProcessingJobPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    delete<T extends VehicleDeleteArgs>(args: SelectSubset<T, VehicleDeleteArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Update one ProcessingJob.
-     * @param {ProcessingJobUpdateArgs} args - Arguments to update one ProcessingJob.
+     * Update one Vehicle.
+     * @param {VehicleUpdateArgs} args - Arguments to update one Vehicle.
      * @example
-     * // Update one ProcessingJob
-     * const processingJob = await prisma.processingJob.update({
+     * // Update one Vehicle
+     * const vehicle = await prisma.vehicle.update({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -6216,30 +6244,30 @@ export namespace Prisma {
      * })
      * 
      */
-    update<T extends ProcessingJobUpdateArgs>(args: SelectSubset<T, ProcessingJobUpdateArgs<ExtArgs>>): Prisma__ProcessingJobClient<$Result.GetResult<Prisma.$ProcessingJobPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    update<T extends VehicleUpdateArgs>(args: SelectSubset<T, VehicleUpdateArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
     /**
-     * Delete zero or more ProcessingJobs.
-     * @param {ProcessingJobDeleteManyArgs} args - Arguments to filter ProcessingJobs to delete.
+     * Delete zero or more Vehicles.
+     * @param {VehicleDeleteManyArgs} args - Arguments to filter Vehicles to delete.
      * @example
-     * // Delete a few ProcessingJobs
-     * const { count } = await prisma.processingJob.deleteMany({
+     * // Delete a few Vehicles
+     * const { count } = await prisma.vehicle.deleteMany({
      *   where: {
      *     // ... provide filter here
      *   }
      * })
      * 
      */
-    deleteMany<T extends ProcessingJobDeleteManyArgs>(args?: SelectSubset<T, ProcessingJobDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    deleteMany<T extends VehicleDeleteManyArgs>(args?: SelectSubset<T, VehicleDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more ProcessingJobs.
+     * Update zero or more Vehicles.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProcessingJobUpdateManyArgs} args - Arguments to update one or more rows.
+     * @param {VehicleUpdateManyArgs} args - Arguments to update one or more rows.
      * @example
-     * // Update many ProcessingJobs
-     * const processingJob = await prisma.processingJob.updateMany({
+     * // Update many Vehicles
+     * const vehicle = await prisma.vehicle.updateMany({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -6249,14 +6277,14 @@ export namespace Prisma {
      * })
      * 
      */
-    updateMany<T extends ProcessingJobUpdateManyArgs>(args: SelectSubset<T, ProcessingJobUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+    updateMany<T extends VehicleUpdateManyArgs>(args: SelectSubset<T, VehicleUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
 
     /**
-     * Update zero or more ProcessingJobs and returns the data updated in the database.
-     * @param {ProcessingJobUpdateManyAndReturnArgs} args - Arguments to update many ProcessingJobs.
+     * Update zero or more Vehicles and returns the data updated in the database.
+     * @param {VehicleUpdateManyAndReturnArgs} args - Arguments to update many Vehicles.
      * @example
-     * // Update many ProcessingJobs
-     * const processingJob = await prisma.processingJob.updateManyAndReturn({
+     * // Update many Vehicles
+     * const vehicle = await prisma.vehicle.updateManyAndReturn({
      *   where: {
      *     // ... provide filter here
      *   },
@@ -6265,8 +6293,8 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more ProcessingJobs and only return the `id`
-     * const processingJobWithIdOnly = await prisma.processingJob.updateManyAndReturn({
+     * // Update zero or more Vehicles and only return the `id`
+     * const vehicleWithIdOnly = await prisma.vehicle.updateManyAndReturn({
      *   select: { id: true },
      *   where: {
      *     // ... provide filter here
@@ -6279,56 +6307,56 @@ export namespace Prisma {
      * Read more here: https://pris.ly/d/null-undefined
      * 
      */
-    updateManyAndReturn<T extends ProcessingJobUpdateManyAndReturnArgs>(args: SelectSubset<T, ProcessingJobUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProcessingJobPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+    updateManyAndReturn<T extends VehicleUpdateManyAndReturnArgs>(args: SelectSubset<T, VehicleUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
     /**
-     * Create or update one ProcessingJob.
-     * @param {ProcessingJobUpsertArgs} args - Arguments to update or create a ProcessingJob.
+     * Create or update one Vehicle.
+     * @param {VehicleUpsertArgs} args - Arguments to update or create a Vehicle.
      * @example
-     * // Update or create a ProcessingJob
-     * const processingJob = await prisma.processingJob.upsert({
+     * // Update or create a Vehicle
+     * const vehicle = await prisma.vehicle.upsert({
      *   create: {
-     *     // ... data to create a ProcessingJob
+     *     // ... data to create a Vehicle
      *   },
      *   update: {
      *     // ... in case it already exists, update
      *   },
      *   where: {
-     *     // ... the filter for the ProcessingJob we want to update
+     *     // ... the filter for the Vehicle we want to update
      *   }
      * })
      */
-    upsert<T extends ProcessingJobUpsertArgs>(args: SelectSubset<T, ProcessingJobUpsertArgs<ExtArgs>>): Prisma__ProcessingJobClient<$Result.GetResult<Prisma.$ProcessingJobPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+    upsert<T extends VehicleUpsertArgs>(args: SelectSubset<T, VehicleUpsertArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
 
 
     /**
-     * Count the number of ProcessingJobs.
+     * Count the number of Vehicles.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProcessingJobCountArgs} args - Arguments to filter ProcessingJobs to count.
+     * @param {VehicleCountArgs} args - Arguments to filter Vehicles to count.
      * @example
-     * // Count the number of ProcessingJobs
-     * const count = await prisma.processingJob.count({
+     * // Count the number of Vehicles
+     * const count = await prisma.vehicle.count({
      *   where: {
-     *     // ... the filter for the ProcessingJobs we want to count
+     *     // ... the filter for the Vehicles we want to count
      *   }
      * })
     **/
-    count<T extends ProcessingJobCountArgs>(
-      args?: Subset<T, ProcessingJobCountArgs>,
+    count<T extends VehicleCountArgs>(
+      args?: Subset<T, VehicleCountArgs>,
     ): Prisma.PrismaPromise<
       T extends $Utils.Record<'select', any>
         ? T['select'] extends true
           ? number
-          : GetScalarType<T['select'], ProcessingJobCountAggregateOutputType>
+          : GetScalarType<T['select'], VehicleCountAggregateOutputType>
         : number
     >
 
     /**
-     * Allows you to perform aggregations operations on a ProcessingJob.
+     * Allows you to perform aggregations operations on a Vehicle.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProcessingJobAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @param {VehicleAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
      * @example
      * // Ordered by age ascending
      * // Where email contains prisma.io
@@ -6348,13 +6376,13 @@ export namespace Prisma {
      *   take: 10,
      * })
     **/
-    aggregate<T extends ProcessingJobAggregateArgs>(args: Subset<T, ProcessingJobAggregateArgs>): Prisma.PrismaPromise<GetProcessingJobAggregateType<T>>
+    aggregate<T extends VehicleAggregateArgs>(args: Subset<T, VehicleAggregateArgs>): Prisma.PrismaPromise<GetVehicleAggregateType<T>>
 
     /**
-     * Group by ProcessingJob.
+     * Group by Vehicle.
      * Note, that providing `undefined` is treated as the value not being there.
      * Read more here: https://pris.ly/d/null-undefined
-     * @param {ProcessingJobGroupByArgs} args - Group by arguments.
+     * @param {VehicleGroupByArgs} args - Group by arguments.
      * @example
      * // Group by city, order by createdAt, get count
      * const result = await prisma.user.groupBy({
@@ -6369,14 +6397,14 @@ export namespace Prisma {
      * 
     **/
     groupBy<
-      T extends ProcessingJobGroupByArgs,
+      T extends VehicleGroupByArgs,
       HasSelectOrTake extends Or<
         Extends<'skip', Keys<T>>,
         Extends<'take', Keys<T>>
       >,
       OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: ProcessingJobGroupByArgs['orderBy'] }
-        : { orderBy?: ProcessingJobGroupByArgs['orderBy'] },
+        ? { orderBy: VehicleGroupByArgs['orderBy'] }
+        : { orderBy?: VehicleGroupByArgs['orderBy'] },
       OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
       ByFields extends MaybeTupleToUnion<T['by']>,
       ByValid extends Has<ByFields, OrderFields>,
@@ -6425,22 +6453,24 @@ export namespace Prisma {
             ? never
             : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
         }[OrderFields]
-    >(args: SubsetIntersection<T, ProcessingJobGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProcessingJobGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+    >(args: SubsetIntersection<T, VehicleGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetVehicleGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
   /**
-   * Fields of the ProcessingJob model
+   * Fields of the Vehicle model
    */
-  readonly fields: ProcessingJobFieldRefs;
+  readonly fields: VehicleFieldRefs;
   }
 
   /**
-   * The delegate class that acts as a "Promise-like" for ProcessingJob.
+   * The delegate class that acts as a "Promise-like" for Vehicle.
    * Why is this prefixed with `Prisma__`?
    * Because we want to prevent naming conflicts as mentioned in
    * https://github.com/prisma/prisma-client-js/issues/707
    */
-  export interface Prisma__ProcessingJobClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+  export interface Prisma__VehicleClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    vehicle<T extends VehicleDefaultArgs<ExtArgs> = {}>(args?: Subset<T, VehicleDefaultArgs<ExtArgs>>): Prisma__VehicleClient<$Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    store<T extends StoreDefaultArgs<ExtArgs> = {}>(args?: Subset<T, StoreDefaultArgs<ExtArgs>>): Prisma__StoreClient<$Result.GetResult<Prisma.$StorePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    images<T extends Vehicle$imagesArgs<ExtArgs> = {}>(args?: Subset<T, Vehicle$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VehicleImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    processingJobs<T extends Vehicle$processingJobsArgs<ExtArgs> = {}>(args?: Subset<T, Vehicle$processingJobsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProcessingJobPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6467,427 +6497,475 @@ export namespace Prisma {
 
 
   /**
-   * Fields of the ProcessingJob model
+   * Fields of the Vehicle model
    */
-  interface ProcessingJobFieldRefs {
-    readonly id: FieldRef<"ProcessingJob", 'String'>
-    readonly vehicleId: FieldRef<"ProcessingJob", 'String'>
-    readonly imageIds: FieldRef<"ProcessingJob", 'String[]'>
-    readonly status: FieldRef<"ProcessingJob", 'JobStatus'>
-    readonly errorMessage: FieldRef<"ProcessingJob", 'String'>
-    readonly createdAt: FieldRef<"ProcessingJob", 'DateTime'>
-    readonly completedAt: FieldRef<"ProcessingJob", 'DateTime'>
+  interface VehicleFieldRefs {
+    readonly id: FieldRef<"Vehicle", 'String'>
+    readonly stockNumber: FieldRef<"Vehicle", 'String'>
+    readonly vin: FieldRef<"Vehicle", 'String'>
+    readonly storeId: FieldRef<"Vehicle", 'String'>
+    readonly processingStatus: FieldRef<"Vehicle", 'ProcessingStatus'>
+    readonly createdAt: FieldRef<"Vehicle", 'DateTime'>
+    readonly updatedAt: FieldRef<"Vehicle", 'DateTime'>
   }
     
 
   // Custom InputTypes
   /**
-   * ProcessingJob findUnique
+   * Vehicle findUnique
    */
-  export type ProcessingJobFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type VehicleFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ProcessingJob
+     * Select specific fields to fetch from the Vehicle
      */
-    select?: ProcessingJobSelect<ExtArgs> | null
+    select?: VehicleSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ProcessingJob
+     * Omit specific fields from the Vehicle
      */
-    omit?: ProcessingJobOmit<ExtArgs> | null
+    omit?: VehicleOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ProcessingJobInclude<ExtArgs> | null
+    include?: VehicleInclude<ExtArgs> | null
     /**
-     * Filter, which ProcessingJob to fetch.
+     * Filter, which Vehicle to fetch.
      */
-    where: ProcessingJobWhereUniqueInput
+    where: VehicleWhereUniqueInput
   }
 
   /**
-   * ProcessingJob findUniqueOrThrow
+   * Vehicle findUniqueOrThrow
    */
-  export type ProcessingJobFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type VehicleFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ProcessingJob
+     * Select specific fields to fetch from the Vehicle
      */
-    select?: ProcessingJobSelect<ExtArgs> | null
+    select?: VehicleSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ProcessingJob
+     * Omit specific fields from the Vehicle
      */
-    omit?: ProcessingJobOmit<ExtArgs> | null
+    omit?: VehicleOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ProcessingJobInclude<ExtArgs> | null
+    include?: VehicleInclude<ExtArgs> | null
     /**
-     * Filter, which ProcessingJob to fetch.
+     * Filter, which Vehicle to fetch.
      */
-    where: ProcessingJobWhereUniqueInput
+    where: VehicleWhereUniqueInput
   }
 
   /**
-   * ProcessingJob findFirst
+   * Vehicle findFirst
    */
-  export type ProcessingJobFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type VehicleFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ProcessingJob
+     * Select specific fields to fetch from the Vehicle
      */
-    select?: ProcessingJobSelect<ExtArgs> | null
+    select?: VehicleSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ProcessingJob
+     * Omit specific fields from the Vehicle
      */
-    omit?: ProcessingJobOmit<ExtArgs> | null
+    omit?: VehicleOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ProcessingJobInclude<ExtArgs> | null
+    include?: VehicleInclude<ExtArgs> | null
     /**
-     * Filter, which ProcessingJob to fetch.
+     * Filter, which Vehicle to fetch.
      */
-    where?: ProcessingJobWhereInput
+    where?: VehicleWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of ProcessingJobs to fetch.
+     * Determine the order of Vehicles to fetch.
      */
-    orderBy?: ProcessingJobOrderByWithRelationInput | ProcessingJobOrderByWithRelationInput[]
+    orderBy?: VehicleOrderByWithRelationInput | VehicleOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for ProcessingJobs.
+     * Sets the position for searching for Vehicles.
      */
-    cursor?: ProcessingJobWhereUniqueInput
+    cursor?: VehicleWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` ProcessingJobs from the position of the cursor.
+     * Take `±n` Vehicles from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` ProcessingJobs.
+     * Skip the first `n` Vehicles.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of ProcessingJobs.
+     * Filter by unique combinations of Vehicles.
      */
-    distinct?: ProcessingJobScalarFieldEnum | ProcessingJobScalarFieldEnum[]
+    distinct?: VehicleScalarFieldEnum | VehicleScalarFieldEnum[]
   }
 
   /**
-   * ProcessingJob findFirstOrThrow
+   * Vehicle findFirstOrThrow
    */
-  export type ProcessingJobFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type VehicleFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ProcessingJob
+     * Select specific fields to fetch from the Vehicle
      */
-    select?: ProcessingJobSelect<ExtArgs> | null
+    select?: VehicleSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ProcessingJob
+     * Omit specific fields from the Vehicle
      */
-    omit?: ProcessingJobOmit<ExtArgs> | null
+    omit?: VehicleOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ProcessingJobInclude<ExtArgs> | null
+    include?: VehicleInclude<ExtArgs> | null
     /**
-     * Filter, which ProcessingJob to fetch.
+     * Filter, which Vehicle to fetch.
      */
-    where?: ProcessingJobWhereInput
+    where?: VehicleWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of ProcessingJobs to fetch.
+     * Determine the order of Vehicles to fetch.
      */
-    orderBy?: ProcessingJobOrderByWithRelationInput | ProcessingJobOrderByWithRelationInput[]
+    orderBy?: VehicleOrderByWithRelationInput | VehicleOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for searching for ProcessingJobs.
+     * Sets the position for searching for Vehicles.
      */
-    cursor?: ProcessingJobWhereUniqueInput
+    cursor?: VehicleWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` ProcessingJobs from the position of the cursor.
+     * Take `±n` Vehicles from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` ProcessingJobs.
+     * Skip the first `n` Vehicles.
      */
     skip?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
      * 
-     * Filter by unique combinations of ProcessingJobs.
+     * Filter by unique combinations of Vehicles.
      */
-    distinct?: ProcessingJobScalarFieldEnum | ProcessingJobScalarFieldEnum[]
+    distinct?: VehicleScalarFieldEnum | VehicleScalarFieldEnum[]
   }
 
   /**
-   * ProcessingJob findMany
+   * Vehicle findMany
    */
-  export type ProcessingJobFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type VehicleFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ProcessingJob
+     * Select specific fields to fetch from the Vehicle
      */
-    select?: ProcessingJobSelect<ExtArgs> | null
+    select?: VehicleSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ProcessingJob
+     * Omit specific fields from the Vehicle
      */
-    omit?: ProcessingJobOmit<ExtArgs> | null
+    omit?: VehicleOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ProcessingJobInclude<ExtArgs> | null
+    include?: VehicleInclude<ExtArgs> | null
     /**
-     * Filter, which ProcessingJobs to fetch.
+     * Filter, which Vehicles to fetch.
      */
-    where?: ProcessingJobWhereInput
+    where?: VehicleWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
      * 
-     * Determine the order of ProcessingJobs to fetch.
+     * Determine the order of Vehicles to fetch.
      */
-    orderBy?: ProcessingJobOrderByWithRelationInput | ProcessingJobOrderByWithRelationInput[]
+    orderBy?: VehicleOrderByWithRelationInput | VehicleOrderByWithRelationInput[]
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
      * 
-     * Sets the position for listing ProcessingJobs.
+     * Sets the position for listing Vehicles.
      */
-    cursor?: ProcessingJobWhereUniqueInput
+    cursor?: VehicleWhereUniqueInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Take `±n` ProcessingJobs from the position of the cursor.
+     * Take `±n` Vehicles from the position of the cursor.
      */
     take?: number
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
      * 
-     * Skip the first `n` ProcessingJobs.
+     * Skip the first `n` Vehicles.
      */
+    skip?: number
+    distinct?: VehicleScalarFieldEnum | VehicleScalarFieldEnum[]
+  }
+
+  /**
+   * Vehicle create
+   */
+  export type VehicleCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vehicle
+     */
+    select?: VehicleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vehicle
+     */
+    omit?: VehicleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Vehicle.
+     */
+    data: XOR<VehicleCreateInput, VehicleUncheckedCreateInput>
+  }
+
+  /**
+   * Vehicle createMany
+   */
+  export type VehicleCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Vehicles.
+     */
+    data: VehicleCreateManyInput | VehicleCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Vehicle createManyAndReturn
+   */
+  export type VehicleCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vehicle
+     */
+    select?: VehicleSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vehicle
+     */
+    omit?: VehicleOmit<ExtArgs> | null
+    /**
+     * The data used to create many Vehicles.
+     */
+    data: VehicleCreateManyInput | VehicleCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Vehicle update
+   */
+  export type VehicleUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vehicle
+     */
+    select?: VehicleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vehicle
+     */
+    omit?: VehicleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Vehicle.
+     */
+    data: XOR<VehicleUpdateInput, VehicleUncheckedUpdateInput>
+    /**
+     * Choose, which Vehicle to update.
+     */
+    where: VehicleWhereUniqueInput
+  }
+
+  /**
+   * Vehicle updateMany
+   */
+  export type VehicleUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Vehicles.
+     */
+    data: XOR<VehicleUpdateManyMutationInput, VehicleUncheckedUpdateManyInput>
+    /**
+     * Filter which Vehicles to update
+     */
+    where?: VehicleWhereInput
+    /**
+     * Limit how many Vehicles to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Vehicle updateManyAndReturn
+   */
+  export type VehicleUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vehicle
+     */
+    select?: VehicleSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vehicle
+     */
+    omit?: VehicleOmit<ExtArgs> | null
+    /**
+     * The data used to update Vehicles.
+     */
+    data: XOR<VehicleUpdateManyMutationInput, VehicleUncheckedUpdateManyInput>
+    /**
+     * Filter which Vehicles to update
+     */
+    where?: VehicleWhereInput
+    /**
+     * Limit how many Vehicles to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Vehicle upsert
+   */
+  export type VehicleUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vehicle
+     */
+    select?: VehicleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vehicle
+     */
+    omit?: VehicleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Vehicle to update in case it exists.
+     */
+    where: VehicleWhereUniqueInput
+    /**
+     * In case the Vehicle found by the `where` argument doesn't exist, create a new Vehicle with this data.
+     */
+    create: XOR<VehicleCreateInput, VehicleUncheckedCreateInput>
+    /**
+     * In case the Vehicle was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<VehicleUpdateInput, VehicleUncheckedUpdateInput>
+  }
+
+  /**
+   * Vehicle delete
+   */
+  export type VehicleDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Vehicle
+     */
+    select?: VehicleSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Vehicle
+     */
+    omit?: VehicleOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleInclude<ExtArgs> | null
+    /**
+     * Filter which Vehicle to delete.
+     */
+    where: VehicleWhereUniqueInput
+  }
+
+  /**
+   * Vehicle deleteMany
+   */
+  export type VehicleDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Vehicles to delete
+     */
+    where?: VehicleWhereInput
+    /**
+     * Limit how many Vehicles to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Vehicle.images
+   */
+  export type Vehicle$imagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VehicleImage
+     */
+    select?: VehicleImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the VehicleImage
+     */
+    omit?: VehicleImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: VehicleImageInclude<ExtArgs> | null
+    where?: VehicleImageWhereInput
+    orderBy?: VehicleImageOrderByWithRelationInput | VehicleImageOrderByWithRelationInput[]
+    cursor?: VehicleImageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: VehicleImageScalarFieldEnum | VehicleImageScalarFieldEnum[]
+  }
+
+  /**
+   * Vehicle.processingJobs
+   */
+  export type Vehicle$processingJobsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProcessingJob
+     */
+    select?: ProcessingJobSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ProcessingJob
+     */
+    omit?: ProcessingJobOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProcessingJobInclude<ExtArgs> | null
+    where?: ProcessingJobWhereInput
+    orderBy?: ProcessingJobOrderByWithRelationInput | ProcessingJobOrderByWithRelationInput[]
+    cursor?: ProcessingJobWhereUniqueInput
+    take?: number
     skip?: number
     distinct?: ProcessingJobScalarFieldEnum | ProcessingJobScalarFieldEnum[]
   }
 
   /**
-   * ProcessingJob create
+   * Vehicle without action
    */
-  export type ProcessingJobCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type VehicleDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the ProcessingJob
+     * Select specific fields to fetch from the Vehicle
      */
-    select?: ProcessingJobSelect<ExtArgs> | null
+    select?: VehicleSelect<ExtArgs> | null
     /**
-     * Omit specific fields from the ProcessingJob
+     * Omit specific fields from the Vehicle
      */
-    omit?: ProcessingJobOmit<ExtArgs> | null
+    omit?: VehicleOmit<ExtArgs> | null
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: ProcessingJobInclude<ExtArgs> | null
-    /**
-     * The data needed to create a ProcessingJob.
-     */
-    data: XOR<ProcessingJobCreateInput, ProcessingJobUncheckedCreateInput>
-  }
-
-  /**
-   * ProcessingJob createMany
-   */
-  export type ProcessingJobCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many ProcessingJobs.
-     */
-    data: ProcessingJobCreateManyInput | ProcessingJobCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-  /**
-   * ProcessingJob createManyAndReturn
-   */
-  export type ProcessingJobCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ProcessingJob
-     */
-    select?: ProcessingJobSelectCreateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the ProcessingJob
-     */
-    omit?: ProcessingJobOmit<ExtArgs> | null
-    /**
-     * The data used to create many ProcessingJobs.
-     */
-    data: ProcessingJobCreateManyInput | ProcessingJobCreateManyInput[]
-    skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProcessingJobIncludeCreateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * ProcessingJob update
-   */
-  export type ProcessingJobUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ProcessingJob
-     */
-    select?: ProcessingJobSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ProcessingJob
-     */
-    omit?: ProcessingJobOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProcessingJobInclude<ExtArgs> | null
-    /**
-     * The data needed to update a ProcessingJob.
-     */
-    data: XOR<ProcessingJobUpdateInput, ProcessingJobUncheckedUpdateInput>
-    /**
-     * Choose, which ProcessingJob to update.
-     */
-    where: ProcessingJobWhereUniqueInput
-  }
-
-  /**
-   * ProcessingJob updateMany
-   */
-  export type ProcessingJobUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update ProcessingJobs.
-     */
-    data: XOR<ProcessingJobUpdateManyMutationInput, ProcessingJobUncheckedUpdateManyInput>
-    /**
-     * Filter which ProcessingJobs to update
-     */
-    where?: ProcessingJobWhereInput
-    /**
-     * Limit how many ProcessingJobs to update.
-     */
-    limit?: number
-  }
-
-  /**
-   * ProcessingJob updateManyAndReturn
-   */
-  export type ProcessingJobUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ProcessingJob
-     */
-    select?: ProcessingJobSelectUpdateManyAndReturn<ExtArgs> | null
-    /**
-     * Omit specific fields from the ProcessingJob
-     */
-    omit?: ProcessingJobOmit<ExtArgs> | null
-    /**
-     * The data used to update ProcessingJobs.
-     */
-    data: XOR<ProcessingJobUpdateManyMutationInput, ProcessingJobUncheckedUpdateManyInput>
-    /**
-     * Filter which ProcessingJobs to update
-     */
-    where?: ProcessingJobWhereInput
-    /**
-     * Limit how many ProcessingJobs to update.
-     */
-    limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProcessingJobIncludeUpdateManyAndReturn<ExtArgs> | null
-  }
-
-  /**
-   * ProcessingJob upsert
-   */
-  export type ProcessingJobUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ProcessingJob
-     */
-    select?: ProcessingJobSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ProcessingJob
-     */
-    omit?: ProcessingJobOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProcessingJobInclude<ExtArgs> | null
-    /**
-     * The filter to search for the ProcessingJob to update in case it exists.
-     */
-    where: ProcessingJobWhereUniqueInput
-    /**
-     * In case the ProcessingJob found by the `where` argument doesn't exist, create a new ProcessingJob with this data.
-     */
-    create: XOR<ProcessingJobCreateInput, ProcessingJobUncheckedCreateInput>
-    /**
-     * In case the ProcessingJob was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<ProcessingJobUpdateInput, ProcessingJobUncheckedUpdateInput>
-  }
-
-  /**
-   * ProcessingJob delete
-   */
-  export type ProcessingJobDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ProcessingJob
-     */
-    select?: ProcessingJobSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ProcessingJob
-     */
-    omit?: ProcessingJobOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProcessingJobInclude<ExtArgs> | null
-    /**
-     * Filter which ProcessingJob to delete.
-     */
-    where: ProcessingJobWhereUniqueInput
-  }
-
-  /**
-   * ProcessingJob deleteMany
-   */
-  export type ProcessingJobDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which ProcessingJobs to delete
-     */
-    where?: ProcessingJobWhereInput
-    /**
-     * Limit how many ProcessingJobs to delete.
-     */
-    limit?: number
-  }
-
-  /**
-   * ProcessingJob without action
-   */
-  export type ProcessingJobDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the ProcessingJob
-     */
-    select?: ProcessingJobSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the ProcessingJob
-     */
-    omit?: ProcessingJobOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProcessingJobInclude<ExtArgs> | null
+    include?: VehicleInclude<ExtArgs> | null
   }
 
 
@@ -6905,6 +6983,38 @@ export namespace Prisma {
   export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+  export const ProcessingJobScalarFieldEnum: {
+    id: 'id',
+    vehicleId: 'vehicleId',
+    imageIds: 'imageIds',
+    status: 'status',
+    errorMessage: 'errorMessage',
+    createdAt: 'createdAt',
+    completedAt: 'completedAt'
+  };
+
+  export type ProcessingJobScalarFieldEnum = (typeof ProcessingJobScalarFieldEnum)[keyof typeof ProcessingJobScalarFieldEnum]
+
+
+  export const StoreScalarFieldEnum: {
+    id: 'id',
+    name: 'name',
+    address: 'address',
+    brandLogos: 'brandLogos',
+    imageUrl: 'imageUrl',
+    bgFrontQuarter: 'bgFrontQuarter',
+    bgFront: 'bgFront',
+    bgBackQuarter: 'bgBackQuarter',
+    bgBack: 'bgBack',
+    bgDriverSide: 'bgDriverSide',
+    bgPassengerSide: 'bgPassengerSide',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type StoreScalarFieldEnum = (typeof StoreScalarFieldEnum)[keyof typeof StoreScalarFieldEnum]
+
+
   export const UserScalarFieldEnum: {
     id: 'id',
     email: 'email',
@@ -6916,32 +7026,6 @@ export namespace Prisma {
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
-
-
-  export const StoreScalarFieldEnum: {
-    id: 'id',
-    name: 'name',
-    address: 'address',
-    brandLogos: 'brandLogos',
-    imageUrl: 'imageUrl',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
-  };
-
-  export type StoreScalarFieldEnum = (typeof StoreScalarFieldEnum)[keyof typeof StoreScalarFieldEnum]
-
-
-  export const VehicleScalarFieldEnum: {
-    id: 'id',
-    stockNumber: 'stockNumber',
-    vin: 'vin',
-    storeId: 'storeId',
-    processingStatus: 'processingStatus',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
-  };
-
-  export type VehicleScalarFieldEnum = (typeof VehicleScalarFieldEnum)[keyof typeof VehicleScalarFieldEnum]
 
 
   export const VehicleImageScalarFieldEnum: {
@@ -6963,17 +7047,17 @@ export namespace Prisma {
   export type VehicleImageScalarFieldEnum = (typeof VehicleImageScalarFieldEnum)[keyof typeof VehicleImageScalarFieldEnum]
 
 
-  export const ProcessingJobScalarFieldEnum: {
+  export const VehicleScalarFieldEnum: {
     id: 'id',
-    vehicleId: 'vehicleId',
-    imageIds: 'imageIds',
-    status: 'status',
-    errorMessage: 'errorMessage',
+    stockNumber: 'stockNumber',
+    vin: 'vin',
+    storeId: 'storeId',
+    processingStatus: 'processingStatus',
     createdAt: 'createdAt',
-    completedAt: 'completedAt'
+    updatedAt: 'updatedAt'
   };
 
-  export type ProcessingJobScalarFieldEnum = (typeof ProcessingJobScalarFieldEnum)[keyof typeof ProcessingJobScalarFieldEnum]
+  export type VehicleScalarFieldEnum = (typeof VehicleScalarFieldEnum)[keyof typeof VehicleScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -7020,16 +7104,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'UserRole'
+   * Reference to a field of type 'JobStatus'
    */
-  export type EnumUserRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserRole'>
+  export type EnumJobStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'JobStatus'>
     
 
 
   /**
-   * Reference to a field of type 'UserRole[]'
+   * Reference to a field of type 'JobStatus[]'
    */
-  export type ListEnumUserRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserRole[]'>
+  export type ListEnumJobStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'JobStatus[]'>
     
 
 
@@ -7048,16 +7132,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'ProcessingStatus'
+   * Reference to a field of type 'UserRole'
    */
-  export type EnumProcessingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProcessingStatus'>
+  export type EnumUserRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserRole'>
     
 
 
   /**
-   * Reference to a field of type 'ProcessingStatus[]'
+   * Reference to a field of type 'UserRole[]'
    */
-  export type ListEnumProcessingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProcessingStatus[]'>
+  export type ListEnumUserRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'UserRole[]'>
     
 
 
@@ -7097,16 +7181,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'JobStatus'
+   * Reference to a field of type 'ProcessingStatus'
    */
-  export type EnumJobStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'JobStatus'>
+  export type EnumProcessingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProcessingStatus'>
     
 
 
   /**
-   * Reference to a field of type 'JobStatus[]'
+   * Reference to a field of type 'ProcessingStatus[]'
    */
-  export type ListEnumJobStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'JobStatus[]'>
+  export type ListEnumProcessingStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ProcessingStatus[]'>
     
 
 
@@ -7126,6 +7210,166 @@ export namespace Prisma {
    * Deep Input Types
    */
 
+
+  export type ProcessingJobWhereInput = {
+    AND?: ProcessingJobWhereInput | ProcessingJobWhereInput[]
+    OR?: ProcessingJobWhereInput[]
+    NOT?: ProcessingJobWhereInput | ProcessingJobWhereInput[]
+    id?: StringFilter<"ProcessingJob"> | string
+    vehicleId?: StringFilter<"ProcessingJob"> | string
+    imageIds?: StringNullableListFilter<"ProcessingJob">
+    status?: EnumJobStatusFilter<"ProcessingJob"> | $Enums.JobStatus
+    errorMessage?: StringNullableFilter<"ProcessingJob"> | string | null
+    createdAt?: DateTimeFilter<"ProcessingJob"> | Date | string
+    completedAt?: DateTimeNullableFilter<"ProcessingJob"> | Date | string | null
+    vehicle?: XOR<VehicleScalarRelationFilter, VehicleWhereInput>
+  }
+
+  export type ProcessingJobOrderByWithRelationInput = {
+    id?: SortOrder
+    vehicleId?: SortOrder
+    imageIds?: SortOrder
+    status?: SortOrder
+    errorMessage?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    vehicle?: VehicleOrderByWithRelationInput
+  }
+
+  export type ProcessingJobWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: ProcessingJobWhereInput | ProcessingJobWhereInput[]
+    OR?: ProcessingJobWhereInput[]
+    NOT?: ProcessingJobWhereInput | ProcessingJobWhereInput[]
+    vehicleId?: StringFilter<"ProcessingJob"> | string
+    imageIds?: StringNullableListFilter<"ProcessingJob">
+    status?: EnumJobStatusFilter<"ProcessingJob"> | $Enums.JobStatus
+    errorMessage?: StringNullableFilter<"ProcessingJob"> | string | null
+    createdAt?: DateTimeFilter<"ProcessingJob"> | Date | string
+    completedAt?: DateTimeNullableFilter<"ProcessingJob"> | Date | string | null
+    vehicle?: XOR<VehicleScalarRelationFilter, VehicleWhereInput>
+  }, "id">
+
+  export type ProcessingJobOrderByWithAggregationInput = {
+    id?: SortOrder
+    vehicleId?: SortOrder
+    imageIds?: SortOrder
+    status?: SortOrder
+    errorMessage?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    completedAt?: SortOrderInput | SortOrder
+    _count?: ProcessingJobCountOrderByAggregateInput
+    _max?: ProcessingJobMaxOrderByAggregateInput
+    _min?: ProcessingJobMinOrderByAggregateInput
+  }
+
+  export type ProcessingJobScalarWhereWithAggregatesInput = {
+    AND?: ProcessingJobScalarWhereWithAggregatesInput | ProcessingJobScalarWhereWithAggregatesInput[]
+    OR?: ProcessingJobScalarWhereWithAggregatesInput[]
+    NOT?: ProcessingJobScalarWhereWithAggregatesInput | ProcessingJobScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"ProcessingJob"> | string
+    vehicleId?: StringWithAggregatesFilter<"ProcessingJob"> | string
+    imageIds?: StringNullableListFilter<"ProcessingJob">
+    status?: EnumJobStatusWithAggregatesFilter<"ProcessingJob"> | $Enums.JobStatus
+    errorMessage?: StringNullableWithAggregatesFilter<"ProcessingJob"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"ProcessingJob"> | Date | string
+    completedAt?: DateTimeNullableWithAggregatesFilter<"ProcessingJob"> | Date | string | null
+  }
+
+  export type StoreWhereInput = {
+    AND?: StoreWhereInput | StoreWhereInput[]
+    OR?: StoreWhereInput[]
+    NOT?: StoreWhereInput | StoreWhereInput[]
+    id?: StringFilter<"Store"> | string
+    name?: StringFilter<"Store"> | string
+    address?: StringFilter<"Store"> | string
+    brandLogos?: StringNullableListFilter<"Store">
+    imageUrl?: StringNullableFilter<"Store"> | string | null
+    bgFrontQuarter?: StringNullableFilter<"Store"> | string | null
+    bgFront?: StringNullableFilter<"Store"> | string | null
+    bgBackQuarter?: StringNullableFilter<"Store"> | string | null
+    bgBack?: StringNullableFilter<"Store"> | string | null
+    bgDriverSide?: StringNullableFilter<"Store"> | string | null
+    bgPassengerSide?: StringNullableFilter<"Store"> | string | null
+    createdAt?: DateTimeFilter<"Store"> | Date | string
+    updatedAt?: DateTimeFilter<"Store"> | Date | string
+    vehicles?: VehicleListRelationFilter
+  }
+
+  export type StoreOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    address?: SortOrder
+    brandLogos?: SortOrder
+    imageUrl?: SortOrderInput | SortOrder
+    bgFrontQuarter?: SortOrderInput | SortOrder
+    bgFront?: SortOrderInput | SortOrder
+    bgBackQuarter?: SortOrderInput | SortOrder
+    bgBack?: SortOrderInput | SortOrder
+    bgDriverSide?: SortOrderInput | SortOrder
+    bgPassengerSide?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    vehicles?: VehicleOrderByRelationAggregateInput
+  }
+
+  export type StoreWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: StoreWhereInput | StoreWhereInput[]
+    OR?: StoreWhereInput[]
+    NOT?: StoreWhereInput | StoreWhereInput[]
+    name?: StringFilter<"Store"> | string
+    address?: StringFilter<"Store"> | string
+    brandLogos?: StringNullableListFilter<"Store">
+    imageUrl?: StringNullableFilter<"Store"> | string | null
+    bgFrontQuarter?: StringNullableFilter<"Store"> | string | null
+    bgFront?: StringNullableFilter<"Store"> | string | null
+    bgBackQuarter?: StringNullableFilter<"Store"> | string | null
+    bgBack?: StringNullableFilter<"Store"> | string | null
+    bgDriverSide?: StringNullableFilter<"Store"> | string | null
+    bgPassengerSide?: StringNullableFilter<"Store"> | string | null
+    createdAt?: DateTimeFilter<"Store"> | Date | string
+    updatedAt?: DateTimeFilter<"Store"> | Date | string
+    vehicles?: VehicleListRelationFilter
+  }, "id">
+
+  export type StoreOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    address?: SortOrder
+    brandLogos?: SortOrder
+    imageUrl?: SortOrderInput | SortOrder
+    bgFrontQuarter?: SortOrderInput | SortOrder
+    bgFront?: SortOrderInput | SortOrder
+    bgBackQuarter?: SortOrderInput | SortOrder
+    bgBack?: SortOrderInput | SortOrder
+    bgDriverSide?: SortOrderInput | SortOrder
+    bgPassengerSide?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: StoreCountOrderByAggregateInput
+    _max?: StoreMaxOrderByAggregateInput
+    _min?: StoreMinOrderByAggregateInput
+  }
+
+  export type StoreScalarWhereWithAggregatesInput = {
+    AND?: StoreScalarWhereWithAggregatesInput | StoreScalarWhereWithAggregatesInput[]
+    OR?: StoreScalarWhereWithAggregatesInput[]
+    NOT?: StoreScalarWhereWithAggregatesInput | StoreScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Store"> | string
+    name?: StringWithAggregatesFilter<"Store"> | string
+    address?: StringWithAggregatesFilter<"Store"> | string
+    brandLogos?: StringNullableListFilter<"Store">
+    imageUrl?: StringNullableWithAggregatesFilter<"Store"> | string | null
+    bgFrontQuarter?: StringNullableWithAggregatesFilter<"Store"> | string | null
+    bgFront?: StringNullableWithAggregatesFilter<"Store"> | string | null
+    bgBackQuarter?: StringNullableWithAggregatesFilter<"Store"> | string | null
+    bgBack?: StringNullableWithAggregatesFilter<"Store"> | string | null
+    bgDriverSide?: StringNullableWithAggregatesFilter<"Store"> | string | null
+    bgPassengerSide?: StringNullableWithAggregatesFilter<"Store"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Store"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Store"> | Date | string
+  }
 
   export type UserWhereInput = {
     AND?: UserWhereInput | UserWhereInput[]
@@ -7187,143 +7431,6 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"User"> | string
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
-  }
-
-  export type StoreWhereInput = {
-    AND?: StoreWhereInput | StoreWhereInput[]
-    OR?: StoreWhereInput[]
-    NOT?: StoreWhereInput | StoreWhereInput[]
-    id?: StringFilter<"Store"> | string
-    name?: StringFilter<"Store"> | string
-    address?: StringFilter<"Store"> | string
-    brandLogos?: StringNullableListFilter<"Store">
-    imageUrl?: StringNullableFilter<"Store"> | string | null
-    createdAt?: DateTimeFilter<"Store"> | Date | string
-    updatedAt?: DateTimeFilter<"Store"> | Date | string
-    vehicles?: VehicleListRelationFilter
-  }
-
-  export type StoreOrderByWithRelationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    address?: SortOrder
-    brandLogos?: SortOrder
-    imageUrl?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    vehicles?: VehicleOrderByRelationAggregateInput
-  }
-
-  export type StoreWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    AND?: StoreWhereInput | StoreWhereInput[]
-    OR?: StoreWhereInput[]
-    NOT?: StoreWhereInput | StoreWhereInput[]
-    name?: StringFilter<"Store"> | string
-    address?: StringFilter<"Store"> | string
-    brandLogos?: StringNullableListFilter<"Store">
-    imageUrl?: StringNullableFilter<"Store"> | string | null
-    createdAt?: DateTimeFilter<"Store"> | Date | string
-    updatedAt?: DateTimeFilter<"Store"> | Date | string
-    vehicles?: VehicleListRelationFilter
-  }, "id">
-
-  export type StoreOrderByWithAggregationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    address?: SortOrder
-    brandLogos?: SortOrder
-    imageUrl?: SortOrderInput | SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    _count?: StoreCountOrderByAggregateInput
-    _max?: StoreMaxOrderByAggregateInput
-    _min?: StoreMinOrderByAggregateInput
-  }
-
-  export type StoreScalarWhereWithAggregatesInput = {
-    AND?: StoreScalarWhereWithAggregatesInput | StoreScalarWhereWithAggregatesInput[]
-    OR?: StoreScalarWhereWithAggregatesInput[]
-    NOT?: StoreScalarWhereWithAggregatesInput | StoreScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Store"> | string
-    name?: StringWithAggregatesFilter<"Store"> | string
-    address?: StringWithAggregatesFilter<"Store"> | string
-    brandLogos?: StringNullableListFilter<"Store">
-    imageUrl?: StringNullableWithAggregatesFilter<"Store"> | string | null
-    createdAt?: DateTimeWithAggregatesFilter<"Store"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"Store"> | Date | string
-  }
-
-  export type VehicleWhereInput = {
-    AND?: VehicleWhereInput | VehicleWhereInput[]
-    OR?: VehicleWhereInput[]
-    NOT?: VehicleWhereInput | VehicleWhereInput[]
-    id?: StringFilter<"Vehicle"> | string
-    stockNumber?: StringFilter<"Vehicle"> | string
-    vin?: StringFilter<"Vehicle"> | string
-    storeId?: StringFilter<"Vehicle"> | string
-    processingStatus?: EnumProcessingStatusFilter<"Vehicle"> | $Enums.ProcessingStatus
-    createdAt?: DateTimeFilter<"Vehicle"> | Date | string
-    updatedAt?: DateTimeFilter<"Vehicle"> | Date | string
-    store?: XOR<StoreScalarRelationFilter, StoreWhereInput>
-    images?: VehicleImageListRelationFilter
-    processingJobs?: ProcessingJobListRelationFilter
-  }
-
-  export type VehicleOrderByWithRelationInput = {
-    id?: SortOrder
-    stockNumber?: SortOrder
-    vin?: SortOrder
-    storeId?: SortOrder
-    processingStatus?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    store?: StoreOrderByWithRelationInput
-    images?: VehicleImageOrderByRelationAggregateInput
-    processingJobs?: ProcessingJobOrderByRelationAggregateInput
-  }
-
-  export type VehicleWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    stockNumber_storeId?: VehicleStockNumberStoreIdCompoundUniqueInput
-    AND?: VehicleWhereInput | VehicleWhereInput[]
-    OR?: VehicleWhereInput[]
-    NOT?: VehicleWhereInput | VehicleWhereInput[]
-    stockNumber?: StringFilter<"Vehicle"> | string
-    vin?: StringFilter<"Vehicle"> | string
-    storeId?: StringFilter<"Vehicle"> | string
-    processingStatus?: EnumProcessingStatusFilter<"Vehicle"> | $Enums.ProcessingStatus
-    createdAt?: DateTimeFilter<"Vehicle"> | Date | string
-    updatedAt?: DateTimeFilter<"Vehicle"> | Date | string
-    store?: XOR<StoreScalarRelationFilter, StoreWhereInput>
-    images?: VehicleImageListRelationFilter
-    processingJobs?: ProcessingJobListRelationFilter
-  }, "id" | "stockNumber_storeId">
-
-  export type VehicleOrderByWithAggregationInput = {
-    id?: SortOrder
-    stockNumber?: SortOrder
-    vin?: SortOrder
-    storeId?: SortOrder
-    processingStatus?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    _count?: VehicleCountOrderByAggregateInput
-    _max?: VehicleMaxOrderByAggregateInput
-    _min?: VehicleMinOrderByAggregateInput
-  }
-
-  export type VehicleScalarWhereWithAggregatesInput = {
-    AND?: VehicleScalarWhereWithAggregatesInput | VehicleScalarWhereWithAggregatesInput[]
-    OR?: VehicleScalarWhereWithAggregatesInput[]
-    NOT?: VehicleScalarWhereWithAggregatesInput | VehicleScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Vehicle"> | string
-    stockNumber?: StringWithAggregatesFilter<"Vehicle"> | string
-    vin?: StringWithAggregatesFilter<"Vehicle"> | string
-    storeId?: StringWithAggregatesFilter<"Vehicle"> | string
-    processingStatus?: EnumProcessingStatusWithAggregatesFilter<"Vehicle"> | $Enums.ProcessingStatus
-    createdAt?: DateTimeWithAggregatesFilter<"Vehicle"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"Vehicle"> | Date | string
   }
 
   export type VehicleImageWhereInput = {
@@ -7423,69 +7530,261 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"VehicleImage"> | Date | string
   }
 
-  export type ProcessingJobWhereInput = {
-    AND?: ProcessingJobWhereInput | ProcessingJobWhereInput[]
-    OR?: ProcessingJobWhereInput[]
-    NOT?: ProcessingJobWhereInput | ProcessingJobWhereInput[]
-    id?: StringFilter<"ProcessingJob"> | string
-    vehicleId?: StringFilter<"ProcessingJob"> | string
-    imageIds?: StringNullableListFilter<"ProcessingJob">
-    status?: EnumJobStatusFilter<"ProcessingJob"> | $Enums.JobStatus
-    errorMessage?: StringNullableFilter<"ProcessingJob"> | string | null
-    createdAt?: DateTimeFilter<"ProcessingJob"> | Date | string
-    completedAt?: DateTimeNullableFilter<"ProcessingJob"> | Date | string | null
-    vehicle?: XOR<VehicleScalarRelationFilter, VehicleWhereInput>
+  export type VehicleWhereInput = {
+    AND?: VehicleWhereInput | VehicleWhereInput[]
+    OR?: VehicleWhereInput[]
+    NOT?: VehicleWhereInput | VehicleWhereInput[]
+    id?: StringFilter<"Vehicle"> | string
+    stockNumber?: StringFilter<"Vehicle"> | string
+    vin?: StringFilter<"Vehicle"> | string
+    storeId?: StringFilter<"Vehicle"> | string
+    processingStatus?: EnumProcessingStatusFilter<"Vehicle"> | $Enums.ProcessingStatus
+    createdAt?: DateTimeFilter<"Vehicle"> | Date | string
+    updatedAt?: DateTimeFilter<"Vehicle"> | Date | string
+    store?: XOR<StoreScalarRelationFilter, StoreWhereInput>
+    images?: VehicleImageListRelationFilter
+    processingJobs?: ProcessingJobListRelationFilter
   }
 
-  export type ProcessingJobOrderByWithRelationInput = {
+  export type VehicleOrderByWithRelationInput = {
     id?: SortOrder
-    vehicleId?: SortOrder
-    imageIds?: SortOrder
-    status?: SortOrder
-    errorMessage?: SortOrderInput | SortOrder
+    stockNumber?: SortOrder
+    vin?: SortOrder
+    storeId?: SortOrder
+    processingStatus?: SortOrder
     createdAt?: SortOrder
-    completedAt?: SortOrderInput | SortOrder
-    vehicle?: VehicleOrderByWithRelationInput
+    updatedAt?: SortOrder
+    store?: StoreOrderByWithRelationInput
+    images?: VehicleImageOrderByRelationAggregateInput
+    processingJobs?: ProcessingJobOrderByRelationAggregateInput
   }
 
-  export type ProcessingJobWhereUniqueInput = Prisma.AtLeast<{
+  export type VehicleWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    AND?: ProcessingJobWhereInput | ProcessingJobWhereInput[]
-    OR?: ProcessingJobWhereInput[]
-    NOT?: ProcessingJobWhereInput | ProcessingJobWhereInput[]
-    vehicleId?: StringFilter<"ProcessingJob"> | string
-    imageIds?: StringNullableListFilter<"ProcessingJob">
-    status?: EnumJobStatusFilter<"ProcessingJob"> | $Enums.JobStatus
-    errorMessage?: StringNullableFilter<"ProcessingJob"> | string | null
-    createdAt?: DateTimeFilter<"ProcessingJob"> | Date | string
-    completedAt?: DateTimeNullableFilter<"ProcessingJob"> | Date | string | null
-    vehicle?: XOR<VehicleScalarRelationFilter, VehicleWhereInput>
-  }, "id">
+    stockNumber_storeId?: VehicleStockNumberStoreIdCompoundUniqueInput
+    AND?: VehicleWhereInput | VehicleWhereInput[]
+    OR?: VehicleWhereInput[]
+    NOT?: VehicleWhereInput | VehicleWhereInput[]
+    stockNumber?: StringFilter<"Vehicle"> | string
+    vin?: StringFilter<"Vehicle"> | string
+    storeId?: StringFilter<"Vehicle"> | string
+    processingStatus?: EnumProcessingStatusFilter<"Vehicle"> | $Enums.ProcessingStatus
+    createdAt?: DateTimeFilter<"Vehicle"> | Date | string
+    updatedAt?: DateTimeFilter<"Vehicle"> | Date | string
+    store?: XOR<StoreScalarRelationFilter, StoreWhereInput>
+    images?: VehicleImageListRelationFilter
+    processingJobs?: ProcessingJobListRelationFilter
+  }, "id" | "stockNumber_storeId">
 
-  export type ProcessingJobOrderByWithAggregationInput = {
+  export type VehicleOrderByWithAggregationInput = {
     id?: SortOrder
-    vehicleId?: SortOrder
-    imageIds?: SortOrder
-    status?: SortOrder
-    errorMessage?: SortOrderInput | SortOrder
+    stockNumber?: SortOrder
+    vin?: SortOrder
+    storeId?: SortOrder
+    processingStatus?: SortOrder
     createdAt?: SortOrder
-    completedAt?: SortOrderInput | SortOrder
-    _count?: ProcessingJobCountOrderByAggregateInput
-    _max?: ProcessingJobMaxOrderByAggregateInput
-    _min?: ProcessingJobMinOrderByAggregateInput
+    updatedAt?: SortOrder
+    _count?: VehicleCountOrderByAggregateInput
+    _max?: VehicleMaxOrderByAggregateInput
+    _min?: VehicleMinOrderByAggregateInput
   }
 
-  export type ProcessingJobScalarWhereWithAggregatesInput = {
-    AND?: ProcessingJobScalarWhereWithAggregatesInput | ProcessingJobScalarWhereWithAggregatesInput[]
-    OR?: ProcessingJobScalarWhereWithAggregatesInput[]
-    NOT?: ProcessingJobScalarWhereWithAggregatesInput | ProcessingJobScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"ProcessingJob"> | string
-    vehicleId?: StringWithAggregatesFilter<"ProcessingJob"> | string
-    imageIds?: StringNullableListFilter<"ProcessingJob">
-    status?: EnumJobStatusWithAggregatesFilter<"ProcessingJob"> | $Enums.JobStatus
-    errorMessage?: StringNullableWithAggregatesFilter<"ProcessingJob"> | string | null
-    createdAt?: DateTimeWithAggregatesFilter<"ProcessingJob"> | Date | string
-    completedAt?: DateTimeNullableWithAggregatesFilter<"ProcessingJob"> | Date | string | null
+  export type VehicleScalarWhereWithAggregatesInput = {
+    AND?: VehicleScalarWhereWithAggregatesInput | VehicleScalarWhereWithAggregatesInput[]
+    OR?: VehicleScalarWhereWithAggregatesInput[]
+    NOT?: VehicleScalarWhereWithAggregatesInput | VehicleScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Vehicle"> | string
+    stockNumber?: StringWithAggregatesFilter<"Vehicle"> | string
+    vin?: StringWithAggregatesFilter<"Vehicle"> | string
+    storeId?: StringWithAggregatesFilter<"Vehicle"> | string
+    processingStatus?: EnumProcessingStatusWithAggregatesFilter<"Vehicle"> | $Enums.ProcessingStatus
+    createdAt?: DateTimeWithAggregatesFilter<"Vehicle"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Vehicle"> | Date | string
+  }
+
+  export type ProcessingJobCreateInput = {
+    id?: string
+    imageIds?: ProcessingJobCreateimageIdsInput | string[]
+    status?: $Enums.JobStatus
+    errorMessage?: string | null
+    createdAt?: Date | string
+    completedAt?: Date | string | null
+    vehicle: VehicleCreateNestedOneWithoutProcessingJobsInput
+  }
+
+  export type ProcessingJobUncheckedCreateInput = {
+    id?: string
+    vehicleId: string
+    imageIds?: ProcessingJobCreateimageIdsInput | string[]
+    status?: $Enums.JobStatus
+    errorMessage?: string | null
+    createdAt?: Date | string
+    completedAt?: Date | string | null
+  }
+
+  export type ProcessingJobUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    imageIds?: ProcessingJobUpdateimageIdsInput | string[]
+    status?: EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    vehicle?: VehicleUpdateOneRequiredWithoutProcessingJobsNestedInput
+  }
+
+  export type ProcessingJobUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    vehicleId?: StringFieldUpdateOperationsInput | string
+    imageIds?: ProcessingJobUpdateimageIdsInput | string[]
+    status?: EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ProcessingJobCreateManyInput = {
+    id?: string
+    vehicleId: string
+    imageIds?: ProcessingJobCreateimageIdsInput | string[]
+    status?: $Enums.JobStatus
+    errorMessage?: string | null
+    createdAt?: Date | string
+    completedAt?: Date | string | null
+  }
+
+  export type ProcessingJobUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    imageIds?: ProcessingJobUpdateimageIdsInput | string[]
+    status?: EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type ProcessingJobUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    vehicleId?: StringFieldUpdateOperationsInput | string
+    imageIds?: ProcessingJobUpdateimageIdsInput | string[]
+    status?: EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
+    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type StoreCreateInput = {
+    id?: string
+    name: string
+    address: string
+    brandLogos?: StoreCreatebrandLogosInput | string[]
+    imageUrl?: string | null
+    bgFrontQuarter?: string | null
+    bgFront?: string | null
+    bgBackQuarter?: string | null
+    bgBack?: string | null
+    bgDriverSide?: string | null
+    bgPassengerSide?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    vehicles?: VehicleCreateNestedManyWithoutStoreInput
+  }
+
+  export type StoreUncheckedCreateInput = {
+    id?: string
+    name: string
+    address: string
+    brandLogos?: StoreCreatebrandLogosInput | string[]
+    imageUrl?: string | null
+    bgFrontQuarter?: string | null
+    bgFront?: string | null
+    bgBackQuarter?: string | null
+    bgBack?: string | null
+    bgDriverSide?: string | null
+    bgPassengerSide?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    vehicles?: VehicleUncheckedCreateNestedManyWithoutStoreInput
+  }
+
+  export type StoreUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    brandLogos?: StoreUpdatebrandLogosInput | string[]
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bgFrontQuarter?: NullableStringFieldUpdateOperationsInput | string | null
+    bgFront?: NullableStringFieldUpdateOperationsInput | string | null
+    bgBackQuarter?: NullableStringFieldUpdateOperationsInput | string | null
+    bgBack?: NullableStringFieldUpdateOperationsInput | string | null
+    bgDriverSide?: NullableStringFieldUpdateOperationsInput | string | null
+    bgPassengerSide?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vehicles?: VehicleUpdateManyWithoutStoreNestedInput
+  }
+
+  export type StoreUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    brandLogos?: StoreUpdatebrandLogosInput | string[]
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bgFrontQuarter?: NullableStringFieldUpdateOperationsInput | string | null
+    bgFront?: NullableStringFieldUpdateOperationsInput | string | null
+    bgBackQuarter?: NullableStringFieldUpdateOperationsInput | string | null
+    bgBack?: NullableStringFieldUpdateOperationsInput | string | null
+    bgDriverSide?: NullableStringFieldUpdateOperationsInput | string | null
+    bgPassengerSide?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    vehicles?: VehicleUncheckedUpdateManyWithoutStoreNestedInput
+  }
+
+  export type StoreCreateManyInput = {
+    id?: string
+    name: string
+    address: string
+    brandLogos?: StoreCreatebrandLogosInput | string[]
+    imageUrl?: string | null
+    bgFrontQuarter?: string | null
+    bgFront?: string | null
+    bgBackQuarter?: string | null
+    bgBack?: string | null
+    bgDriverSide?: string | null
+    bgPassengerSide?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type StoreUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    brandLogos?: StoreUpdatebrandLogosInput | string[]
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bgFrontQuarter?: NullableStringFieldUpdateOperationsInput | string | null
+    bgFront?: NullableStringFieldUpdateOperationsInput | string | null
+    bgBackQuarter?: NullableStringFieldUpdateOperationsInput | string | null
+    bgBack?: NullableStringFieldUpdateOperationsInput | string | null
+    bgDriverSide?: NullableStringFieldUpdateOperationsInput | string | null
+    bgPassengerSide?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type StoreUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    brandLogos?: StoreUpdatebrandLogosInput | string[]
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bgFrontQuarter?: NullableStringFieldUpdateOperationsInput | string | null
+    bgFront?: NullableStringFieldUpdateOperationsInput | string | null
+    bgBackQuarter?: NullableStringFieldUpdateOperationsInput | string | null
+    bgBack?: NullableStringFieldUpdateOperationsInput | string | null
+    bgDriverSide?: NullableStringFieldUpdateOperationsInput | string | null
+    bgPassengerSide?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UserCreateInput = {
@@ -7554,157 +7853,6 @@ export namespace Prisma {
     passwordHash?: StringFieldUpdateOperationsInput | string
     role?: EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
     name?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type StoreCreateInput = {
-    id?: string
-    name: string
-    address: string
-    brandLogos?: StoreCreatebrandLogosInput | string[]
-    imageUrl?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    vehicles?: VehicleCreateNestedManyWithoutStoreInput
-  }
-
-  export type StoreUncheckedCreateInput = {
-    id?: string
-    name: string
-    address: string
-    brandLogos?: StoreCreatebrandLogosInput | string[]
-    imageUrl?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    vehicles?: VehicleUncheckedCreateNestedManyWithoutStoreInput
-  }
-
-  export type StoreUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    brandLogos?: StoreUpdatebrandLogosInput | string[]
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    vehicles?: VehicleUpdateManyWithoutStoreNestedInput
-  }
-
-  export type StoreUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    brandLogos?: StoreUpdatebrandLogosInput | string[]
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    vehicles?: VehicleUncheckedUpdateManyWithoutStoreNestedInput
-  }
-
-  export type StoreCreateManyInput = {
-    id?: string
-    name: string
-    address: string
-    brandLogos?: StoreCreatebrandLogosInput | string[]
-    imageUrl?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type StoreUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    brandLogos?: StoreUpdatebrandLogosInput | string[]
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type StoreUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
-    brandLogos?: StoreUpdatebrandLogosInput | string[]
-    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type VehicleCreateInput = {
-    id?: string
-    stockNumber: string
-    vin: string
-    processingStatus?: $Enums.ProcessingStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    store: StoreCreateNestedOneWithoutVehiclesInput
-    images?: VehicleImageCreateNestedManyWithoutVehicleInput
-    processingJobs?: ProcessingJobCreateNestedManyWithoutVehicleInput
-  }
-
-  export type VehicleUncheckedCreateInput = {
-    id?: string
-    stockNumber: string
-    vin: string
-    storeId: string
-    processingStatus?: $Enums.ProcessingStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    images?: VehicleImageUncheckedCreateNestedManyWithoutVehicleInput
-    processingJobs?: ProcessingJobUncheckedCreateNestedManyWithoutVehicleInput
-  }
-
-  export type VehicleUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    stockNumber?: StringFieldUpdateOperationsInput | string
-    vin?: StringFieldUpdateOperationsInput | string
-    processingStatus?: EnumProcessingStatusFieldUpdateOperationsInput | $Enums.ProcessingStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    store?: StoreUpdateOneRequiredWithoutVehiclesNestedInput
-    images?: VehicleImageUpdateManyWithoutVehicleNestedInput
-    processingJobs?: ProcessingJobUpdateManyWithoutVehicleNestedInput
-  }
-
-  export type VehicleUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    stockNumber?: StringFieldUpdateOperationsInput | string
-    vin?: StringFieldUpdateOperationsInput | string
-    storeId?: StringFieldUpdateOperationsInput | string
-    processingStatus?: EnumProcessingStatusFieldUpdateOperationsInput | $Enums.ProcessingStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    images?: VehicleImageUncheckedUpdateManyWithoutVehicleNestedInput
-    processingJobs?: ProcessingJobUncheckedUpdateManyWithoutVehicleNestedInput
-  }
-
-  export type VehicleCreateManyInput = {
-    id?: string
-    stockNumber: string
-    vin: string
-    storeId: string
-    processingStatus?: $Enums.ProcessingStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type VehicleUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    stockNumber?: StringFieldUpdateOperationsInput | string
-    vin?: StringFieldUpdateOperationsInput | string
-    processingStatus?: EnumProcessingStatusFieldUpdateOperationsInput | $Enums.ProcessingStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type VehicleUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    stockNumber?: StringFieldUpdateOperationsInput | string
-    vin?: StringFieldUpdateOperationsInput | string
-    storeId?: StringFieldUpdateOperationsInput | string
-    processingStatus?: EnumProcessingStatusFieldUpdateOperationsInput | $Enums.ProcessingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -7820,73 +7968,81 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ProcessingJobCreateInput = {
+  export type VehicleCreateInput = {
     id?: string
-    imageIds?: ProcessingJobCreateimageIdsInput | string[]
-    status?: $Enums.JobStatus
-    errorMessage?: string | null
+    stockNumber: string
+    vin: string
+    processingStatus?: $Enums.ProcessingStatus
     createdAt?: Date | string
-    completedAt?: Date | string | null
-    vehicle: VehicleCreateNestedOneWithoutProcessingJobsInput
+    updatedAt?: Date | string
+    store: StoreCreateNestedOneWithoutVehiclesInput
+    images?: VehicleImageCreateNestedManyWithoutVehicleInput
+    processingJobs?: ProcessingJobCreateNestedManyWithoutVehicleInput
   }
 
-  export type ProcessingJobUncheckedCreateInput = {
+  export type VehicleUncheckedCreateInput = {
     id?: string
-    vehicleId: string
-    imageIds?: ProcessingJobCreateimageIdsInput | string[]
-    status?: $Enums.JobStatus
-    errorMessage?: string | null
+    stockNumber: string
+    vin: string
+    storeId: string
+    processingStatus?: $Enums.ProcessingStatus
     createdAt?: Date | string
-    completedAt?: Date | string | null
+    updatedAt?: Date | string
+    images?: VehicleImageUncheckedCreateNestedManyWithoutVehicleInput
+    processingJobs?: ProcessingJobUncheckedCreateNestedManyWithoutVehicleInput
   }
 
-  export type ProcessingJobUpdateInput = {
+  export type VehicleUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    imageIds?: ProcessingJobUpdateimageIdsInput | string[]
-    status?: EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
-    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    stockNumber?: StringFieldUpdateOperationsInput | string
+    vin?: StringFieldUpdateOperationsInput | string
+    processingStatus?: EnumProcessingStatusFieldUpdateOperationsInput | $Enums.ProcessingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    vehicle?: VehicleUpdateOneRequiredWithoutProcessingJobsNestedInput
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    store?: StoreUpdateOneRequiredWithoutVehiclesNestedInput
+    images?: VehicleImageUpdateManyWithoutVehicleNestedInput
+    processingJobs?: ProcessingJobUpdateManyWithoutVehicleNestedInput
   }
 
-  export type ProcessingJobUncheckedUpdateInput = {
+  export type VehicleUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    vehicleId?: StringFieldUpdateOperationsInput | string
-    imageIds?: ProcessingJobUpdateimageIdsInput | string[]
-    status?: EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
-    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    stockNumber?: StringFieldUpdateOperationsInput | string
+    vin?: StringFieldUpdateOperationsInput | string
+    storeId?: StringFieldUpdateOperationsInput | string
+    processingStatus?: EnumProcessingStatusFieldUpdateOperationsInput | $Enums.ProcessingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    images?: VehicleImageUncheckedUpdateManyWithoutVehicleNestedInput
+    processingJobs?: ProcessingJobUncheckedUpdateManyWithoutVehicleNestedInput
   }
 
-  export type ProcessingJobCreateManyInput = {
+  export type VehicleCreateManyInput = {
     id?: string
-    vehicleId: string
-    imageIds?: ProcessingJobCreateimageIdsInput | string[]
-    status?: $Enums.JobStatus
-    errorMessage?: string | null
+    stockNumber: string
+    vin: string
+    storeId: string
+    processingStatus?: $Enums.ProcessingStatus
     createdAt?: Date | string
-    completedAt?: Date | string | null
+    updatedAt?: Date | string
   }
 
-  export type ProcessingJobUpdateManyMutationInput = {
+  export type VehicleUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    imageIds?: ProcessingJobUpdateimageIdsInput | string[]
-    status?: EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
-    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    stockNumber?: StringFieldUpdateOperationsInput | string
+    vin?: StringFieldUpdateOperationsInput | string
+    processingStatus?: EnumProcessingStatusFieldUpdateOperationsInput | $Enums.ProcessingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ProcessingJobUncheckedUpdateManyInput = {
+  export type VehicleUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    vehicleId?: StringFieldUpdateOperationsInput | string
-    imageIds?: ProcessingJobUpdateimageIdsInput | string[]
-    status?: EnumJobStatusFieldUpdateOperationsInput | $Enums.JobStatus
-    errorMessage?: NullableStringFieldUpdateOperationsInput | string | null
+    stockNumber?: StringFieldUpdateOperationsInput | string
+    vin?: StringFieldUpdateOperationsInput | string
+    storeId?: StringFieldUpdateOperationsInput | string
+    processingStatus?: EnumProcessingStatusFieldUpdateOperationsInput | $Enums.ProcessingStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    completedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -7904,11 +8060,34 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type EnumUserRoleFilter<$PrismaModel = never> = {
-    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumUserRoleFilter<$PrismaModel> | $Enums.UserRole
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
+  export type EnumJobStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.JobStatus | EnumJobStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumJobStatusFilter<$PrismaModel> | $Enums.JobStatus
+  }
+
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
   export type DateTimeFilter<$PrismaModel = never> = {
@@ -7920,6 +8099,192 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type VehicleScalarRelationFilter = {
+    is?: VehicleWhereInput
+    isNot?: VehicleWhereInput
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
+  export type ProcessingJobCountOrderByAggregateInput = {
+    id?: SortOrder
+    vehicleId?: SortOrder
+    imageIds?: SortOrder
+    status?: SortOrder
+    errorMessage?: SortOrder
+    createdAt?: SortOrder
+    completedAt?: SortOrder
+  }
+
+  export type ProcessingJobMaxOrderByAggregateInput = {
+    id?: SortOrder
+    vehicleId?: SortOrder
+    status?: SortOrder
+    errorMessage?: SortOrder
+    createdAt?: SortOrder
+    completedAt?: SortOrder
+  }
+
+  export type ProcessingJobMinOrderByAggregateInput = {
+    id?: SortOrder
+    vehicleId?: SortOrder
+    status?: SortOrder
+    errorMessage?: SortOrder
+    createdAt?: SortOrder
+    completedAt?: SortOrder
+  }
+
+  export type StringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type EnumJobStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.JobStatus | EnumJobStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumJobStatusWithAggregatesFilter<$PrismaModel> | $Enums.JobStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumJobStatusFilter<$PrismaModel>
+    _max?: NestedEnumJobStatusFilter<$PrismaModel>
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type VehicleListRelationFilter = {
+    every?: VehicleWhereInput
+    some?: VehicleWhereInput
+    none?: VehicleWhereInput
+  }
+
+  export type VehicleOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type StoreCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    address?: SortOrder
+    brandLogos?: SortOrder
+    imageUrl?: SortOrder
+    bgFrontQuarter?: SortOrder
+    bgFront?: SortOrder
+    bgBackQuarter?: SortOrder
+    bgBack?: SortOrder
+    bgDriverSide?: SortOrder
+    bgPassengerSide?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StoreMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    address?: SortOrder
+    imageUrl?: SortOrder
+    bgFrontQuarter?: SortOrder
+    bgFront?: SortOrder
+    bgBackQuarter?: SortOrder
+    bgBack?: SortOrder
+    bgDriverSide?: SortOrder
+    bgPassengerSide?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type StoreMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+    address?: SortOrder
+    imageUrl?: SortOrder
+    bgFrontQuarter?: SortOrder
+    bgFront?: SortOrder
+    bgBackQuarter?: SortOrder
+    bgBack?: SortOrder
+    bgDriverSide?: SortOrder
+    bgPassengerSide?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumUserRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserRoleFilter<$PrismaModel> | $Enums.UserRole
   }
 
   export type UserCountOrderByAggregateInput = {
@@ -7952,24 +8317,6 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type StringWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
-  }
-
   export type EnumUserRoleWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
     in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
@@ -7978,181 +8325,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumUserRoleFilter<$PrismaModel>
     _max?: NestedEnumUserRoleFilter<$PrismaModel>
-  }
-
-  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type StringNullableListFilter<$PrismaModel = never> = {
-    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    has?: string | StringFieldRefInput<$PrismaModel> | null
-    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
-    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
-    isEmpty?: boolean
-  }
-
-  export type StringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type VehicleListRelationFilter = {
-    every?: VehicleWhereInput
-    some?: VehicleWhereInput
-    none?: VehicleWhereInput
-  }
-
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
-  }
-
-  export type VehicleOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type StoreCountOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    address?: SortOrder
-    brandLogos?: SortOrder
-    imageUrl?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type StoreMaxOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    address?: SortOrder
-    imageUrl?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type StoreMinOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    address?: SortOrder
-    imageUrl?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
-  export type EnumProcessingStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.ProcessingStatus | EnumProcessingStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.ProcessingStatus[] | ListEnumProcessingStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.ProcessingStatus[] | ListEnumProcessingStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumProcessingStatusFilter<$PrismaModel> | $Enums.ProcessingStatus
-  }
-
-  export type StoreScalarRelationFilter = {
-    is?: StoreWhereInput
-    isNot?: StoreWhereInput
-  }
-
-  export type VehicleImageListRelationFilter = {
-    every?: VehicleImageWhereInput
-    some?: VehicleImageWhereInput
-    none?: VehicleImageWhereInput
-  }
-
-  export type ProcessingJobListRelationFilter = {
-    every?: ProcessingJobWhereInput
-    some?: ProcessingJobWhereInput
-    none?: ProcessingJobWhereInput
-  }
-
-  export type VehicleImageOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type ProcessingJobOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type VehicleStockNumberStoreIdCompoundUniqueInput = {
-    stockNumber: string
-    storeId: string
-  }
-
-  export type VehicleCountOrderByAggregateInput = {
-    id?: SortOrder
-    stockNumber?: SortOrder
-    vin?: SortOrder
-    storeId?: SortOrder
-    processingStatus?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type VehicleMaxOrderByAggregateInput = {
-    id?: SortOrder
-    stockNumber?: SortOrder
-    vin?: SortOrder
-    storeId?: SortOrder
-    processingStatus?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type VehicleMinOrderByAggregateInput = {
-    id?: SortOrder
-    stockNumber?: SortOrder
-    vin?: SortOrder
-    storeId?: SortOrder
-    processingStatus?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type EnumProcessingStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.ProcessingStatus | EnumProcessingStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.ProcessingStatus[] | ListEnumProcessingStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.ProcessingStatus[] | ListEnumProcessingStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumProcessingStatusWithAggregatesFilter<$PrismaModel> | $Enums.ProcessingStatus
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumProcessingStatusFilter<$PrismaModel>
-    _max?: NestedEnumProcessingStatusFilter<$PrismaModel>
   }
 
   export type EnumImageTypeFilter<$PrismaModel = never> = {
@@ -8176,22 +8348,6 @@ export namespace Prisma {
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
-  export type VehicleScalarRelationFilter = {
-    is?: VehicleWhereInput
-    isNot?: VehicleWhereInput
   }
 
   export type VehicleImageCountOrderByAggregateInput = {
@@ -8284,75 +8440,124 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  export type EnumProcessingStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProcessingStatus | EnumProcessingStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ProcessingStatus[] | ListEnumProcessingStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProcessingStatus[] | ListEnumProcessingStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumProcessingStatusFilter<$PrismaModel> | $Enums.ProcessingStatus
   }
 
-  export type EnumJobStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.JobStatus | EnumJobStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumJobStatusFilter<$PrismaModel> | $Enums.JobStatus
+  export type StoreScalarRelationFilter = {
+    is?: StoreWhereInput
+    isNot?: StoreWhereInput
   }
 
-  export type ProcessingJobCountOrderByAggregateInput = {
+  export type VehicleImageListRelationFilter = {
+    every?: VehicleImageWhereInput
+    some?: VehicleImageWhereInput
+    none?: VehicleImageWhereInput
+  }
+
+  export type ProcessingJobListRelationFilter = {
+    every?: ProcessingJobWhereInput
+    some?: ProcessingJobWhereInput
+    none?: ProcessingJobWhereInput
+  }
+
+  export type VehicleImageOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ProcessingJobOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type VehicleStockNumberStoreIdCompoundUniqueInput = {
+    stockNumber: string
+    storeId: string
+  }
+
+  export type VehicleCountOrderByAggregateInput = {
     id?: SortOrder
-    vehicleId?: SortOrder
-    imageIds?: SortOrder
-    status?: SortOrder
-    errorMessage?: SortOrder
+    stockNumber?: SortOrder
+    vin?: SortOrder
+    storeId?: SortOrder
+    processingStatus?: SortOrder
     createdAt?: SortOrder
-    completedAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
-  export type ProcessingJobMaxOrderByAggregateInput = {
+  export type VehicleMaxOrderByAggregateInput = {
     id?: SortOrder
-    vehicleId?: SortOrder
-    status?: SortOrder
-    errorMessage?: SortOrder
+    stockNumber?: SortOrder
+    vin?: SortOrder
+    storeId?: SortOrder
+    processingStatus?: SortOrder
     createdAt?: SortOrder
-    completedAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
-  export type ProcessingJobMinOrderByAggregateInput = {
+  export type VehicleMinOrderByAggregateInput = {
     id?: SortOrder
-    vehicleId?: SortOrder
-    status?: SortOrder
-    errorMessage?: SortOrder
+    stockNumber?: SortOrder
+    vin?: SortOrder
+    storeId?: SortOrder
+    processingStatus?: SortOrder
     createdAt?: SortOrder
-    completedAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
-  export type EnumJobStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.JobStatus | EnumJobStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumJobStatusWithAggregatesFilter<$PrismaModel> | $Enums.JobStatus
+  export type EnumProcessingStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProcessingStatus | EnumProcessingStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ProcessingStatus[] | ListEnumProcessingStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProcessingStatus[] | ListEnumProcessingStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumProcessingStatusWithAggregatesFilter<$PrismaModel> | $Enums.ProcessingStatus
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumJobStatusFilter<$PrismaModel>
-    _max?: NestedEnumJobStatusFilter<$PrismaModel>
+    _min?: NestedEnumProcessingStatusFilter<$PrismaModel>
+    _max?: NestedEnumProcessingStatusFilter<$PrismaModel>
+  }
+
+  export type ProcessingJobCreateimageIdsInput = {
+    set: string[]
+  }
+
+  export type VehicleCreateNestedOneWithoutProcessingJobsInput = {
+    create?: XOR<VehicleCreateWithoutProcessingJobsInput, VehicleUncheckedCreateWithoutProcessingJobsInput>
+    connectOrCreate?: VehicleCreateOrConnectWithoutProcessingJobsInput
+    connect?: VehicleWhereUniqueInput
   }
 
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
 
-  export type EnumUserRoleFieldUpdateOperationsInput = {
-    set?: $Enums.UserRole
+  export type ProcessingJobUpdateimageIdsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type EnumJobStatusFieldUpdateOperationsInput = {
+    set?: $Enums.JobStatus
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
+  export type VehicleUpdateOneRequiredWithoutProcessingJobsNestedInput = {
+    create?: XOR<VehicleCreateWithoutProcessingJobsInput, VehicleUncheckedCreateWithoutProcessingJobsInput>
+    connectOrCreate?: VehicleCreateOrConnectWithoutProcessingJobsInput
+    upsert?: VehicleUpsertWithoutProcessingJobsInput
+    connect?: VehicleWhereUniqueInput
+    update?: XOR<XOR<VehicleUpdateToOneWithWhereWithoutProcessingJobsInput, VehicleUpdateWithoutProcessingJobsInput>, VehicleUncheckedUpdateWithoutProcessingJobsInput>
   }
 
   export type StoreCreatebrandLogosInput = {
@@ -8376,10 +8581,6 @@ export namespace Prisma {
   export type StoreUpdatebrandLogosInput = {
     set?: string[]
     push?: string | string[]
-  }
-
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
   }
 
   export type VehicleUpdateManyWithoutStoreNestedInput = {
@@ -8408,6 +8609,40 @@ export namespace Prisma {
     update?: VehicleUpdateWithWhereUniqueWithoutStoreInput | VehicleUpdateWithWhereUniqueWithoutStoreInput[]
     updateMany?: VehicleUpdateManyWithWhereWithoutStoreInput | VehicleUpdateManyWithWhereWithoutStoreInput[]
     deleteMany?: VehicleScalarWhereInput | VehicleScalarWhereInput[]
+  }
+
+  export type EnumUserRoleFieldUpdateOperationsInput = {
+    set?: $Enums.UserRole
+  }
+
+  export type VehicleCreateNestedOneWithoutImagesInput = {
+    create?: XOR<VehicleCreateWithoutImagesInput, VehicleUncheckedCreateWithoutImagesInput>
+    connectOrCreate?: VehicleCreateOrConnectWithoutImagesInput
+    connect?: VehicleWhereUniqueInput
+  }
+
+  export type EnumImageTypeFieldUpdateOperationsInput = {
+    set?: $Enums.ImageType
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type VehicleUpdateOneRequiredWithoutImagesNestedInput = {
+    create?: XOR<VehicleCreateWithoutImagesInput, VehicleUncheckedCreateWithoutImagesInput>
+    connectOrCreate?: VehicleCreateOrConnectWithoutImagesInput
+    upsert?: VehicleUpsertWithoutImagesInput
+    connect?: VehicleWhereUniqueInput
+    update?: XOR<XOR<VehicleUpdateToOneWithWhereWithoutImagesInput, VehicleUpdateWithoutImagesInput>, VehicleUncheckedUpdateWithoutImagesInput>
   }
 
   export type StoreCreateNestedOneWithoutVehiclesInput = {
@@ -8512,67 +8747,6 @@ export namespace Prisma {
     deleteMany?: ProcessingJobScalarWhereInput | ProcessingJobScalarWhereInput[]
   }
 
-  export type VehicleCreateNestedOneWithoutImagesInput = {
-    create?: XOR<VehicleCreateWithoutImagesInput, VehicleUncheckedCreateWithoutImagesInput>
-    connectOrCreate?: VehicleCreateOrConnectWithoutImagesInput
-    connect?: VehicleWhereUniqueInput
-  }
-
-  export type EnumImageTypeFieldUpdateOperationsInput = {
-    set?: $Enums.ImageType
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
-  }
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
-  }
-
-  export type VehicleUpdateOneRequiredWithoutImagesNestedInput = {
-    create?: XOR<VehicleCreateWithoutImagesInput, VehicleUncheckedCreateWithoutImagesInput>
-    connectOrCreate?: VehicleCreateOrConnectWithoutImagesInput
-    upsert?: VehicleUpsertWithoutImagesInput
-    connect?: VehicleWhereUniqueInput
-    update?: XOR<XOR<VehicleUpdateToOneWithWhereWithoutImagesInput, VehicleUpdateWithoutImagesInput>, VehicleUncheckedUpdateWithoutImagesInput>
-  }
-
-  export type ProcessingJobCreateimageIdsInput = {
-    set: string[]
-  }
-
-  export type VehicleCreateNestedOneWithoutProcessingJobsInput = {
-    create?: XOR<VehicleCreateWithoutProcessingJobsInput, VehicleUncheckedCreateWithoutProcessingJobsInput>
-    connectOrCreate?: VehicleCreateOrConnectWithoutProcessingJobsInput
-    connect?: VehicleWhereUniqueInput
-  }
-
-  export type ProcessingJobUpdateimageIdsInput = {
-    set?: string[]
-    push?: string | string[]
-  }
-
-  export type EnumJobStatusFieldUpdateOperationsInput = {
-    set?: $Enums.JobStatus
-  }
-
-  export type VehicleUpdateOneRequiredWithoutProcessingJobsNestedInput = {
-    create?: XOR<VehicleCreateWithoutProcessingJobsInput, VehicleUncheckedCreateWithoutProcessingJobsInput>
-    connectOrCreate?: VehicleCreateOrConnectWithoutProcessingJobsInput
-    upsert?: VehicleUpsertWithoutProcessingJobsInput
-    connect?: VehicleWhereUniqueInput
-    update?: XOR<XOR<VehicleUpdateToOneWithWhereWithoutProcessingJobsInput, VehicleUpdateWithoutProcessingJobsInput>, VehicleUncheckedUpdateWithoutProcessingJobsInput>
-  }
-
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -8587,11 +8761,25 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type NestedEnumUserRoleFilter<$PrismaModel = never> = {
-    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumUserRoleFilter<$PrismaModel> | $Enums.UserRole
+  export type NestedEnumJobStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.JobStatus | EnumJobStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumJobStatusFilter<$PrismaModel> | $Enums.JobStatus
+  }
+
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
   export type NestedDateTimeFilter<$PrismaModel = never> = {
@@ -8603,6 +8791,17 @@ export namespace Prisma {
     gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
@@ -8633,42 +8832,14 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
-  export type NestedEnumUserRoleWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
-    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
-    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
-    not?: NestedEnumUserRoleWithAggregatesFilter<$PrismaModel> | $Enums.UserRole
+  export type NestedEnumJobStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.JobStatus | EnumJobStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumJobStatusWithAggregatesFilter<$PrismaModel> | $Enums.JobStatus
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumUserRoleFilter<$PrismaModel>
-    _max?: NestedEnumUserRoleFilter<$PrismaModel>
-  }
-
-  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
-  }
-
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+    _min?: NestedEnumJobStatusFilter<$PrismaModel>
+    _max?: NestedEnumJobStatusFilter<$PrismaModel>
   }
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -8699,21 +8870,49 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedEnumProcessingStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.ProcessingStatus | EnumProcessingStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.ProcessingStatus[] | ListEnumProcessingStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.ProcessingStatus[] | ListEnumProcessingStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumProcessingStatusFilter<$PrismaModel> | $Enums.ProcessingStatus
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type NestedEnumProcessingStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.ProcessingStatus | EnumProcessingStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.ProcessingStatus[] | ListEnumProcessingStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.ProcessingStatus[] | ListEnumProcessingStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumProcessingStatusWithAggregatesFilter<$PrismaModel> | $Enums.ProcessingStatus
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumUserRoleFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserRoleFilter<$PrismaModel> | $Enums.UserRole
+  }
+
+  export type NestedEnumUserRoleWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.UserRole | EnumUserRoleFieldRefInput<$PrismaModel>
+    in?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    notIn?: $Enums.UserRole[] | ListEnumUserRoleFieldRefInput<$PrismaModel>
+    not?: NestedEnumUserRoleWithAggregatesFilter<$PrismaModel> | $Enums.UserRole
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumProcessingStatusFilter<$PrismaModel>
-    _max?: NestedEnumProcessingStatusFilter<$PrismaModel>
+    _min?: NestedEnumUserRoleFilter<$PrismaModel>
+    _max?: NestedEnumUserRoleFilter<$PrismaModel>
   }
 
   export type NestedEnumImageTypeFilter<$PrismaModel = never> = {
@@ -8726,17 +8925,6 @@ export namespace Prisma {
   export type NestedBoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
   export type NestedEnumImageTypeWithAggregatesFilter<$PrismaModel = never> = {
@@ -8784,35 +8972,81 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  export type NestedEnumProcessingStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProcessingStatus | EnumProcessingStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ProcessingStatus[] | ListEnumProcessingStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProcessingStatus[] | ListEnumProcessingStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumProcessingStatusFilter<$PrismaModel> | $Enums.ProcessingStatus
   }
 
-  export type NestedEnumJobStatusFilter<$PrismaModel = never> = {
-    equals?: $Enums.JobStatus | EnumJobStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumJobStatusFilter<$PrismaModel> | $Enums.JobStatus
-  }
-
-  export type NestedEnumJobStatusWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.JobStatus | EnumJobStatusFieldRefInput<$PrismaModel>
-    in?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
-    notIn?: $Enums.JobStatus[] | ListEnumJobStatusFieldRefInput<$PrismaModel>
-    not?: NestedEnumJobStatusWithAggregatesFilter<$PrismaModel> | $Enums.JobStatus
+  export type NestedEnumProcessingStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ProcessingStatus | EnumProcessingStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ProcessingStatus[] | ListEnumProcessingStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ProcessingStatus[] | ListEnumProcessingStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumProcessingStatusWithAggregatesFilter<$PrismaModel> | $Enums.ProcessingStatus
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumJobStatusFilter<$PrismaModel>
-    _max?: NestedEnumJobStatusFilter<$PrismaModel>
+    _min?: NestedEnumProcessingStatusFilter<$PrismaModel>
+    _max?: NestedEnumProcessingStatusFilter<$PrismaModel>
+  }
+
+  export type VehicleCreateWithoutProcessingJobsInput = {
+    id?: string
+    stockNumber: string
+    vin: string
+    processingStatus?: $Enums.ProcessingStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    store: StoreCreateNestedOneWithoutVehiclesInput
+    images?: VehicleImageCreateNestedManyWithoutVehicleInput
+  }
+
+  export type VehicleUncheckedCreateWithoutProcessingJobsInput = {
+    id?: string
+    stockNumber: string
+    vin: string
+    storeId: string
+    processingStatus?: $Enums.ProcessingStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    images?: VehicleImageUncheckedCreateNestedManyWithoutVehicleInput
+  }
+
+  export type VehicleCreateOrConnectWithoutProcessingJobsInput = {
+    where: VehicleWhereUniqueInput
+    create: XOR<VehicleCreateWithoutProcessingJobsInput, VehicleUncheckedCreateWithoutProcessingJobsInput>
+  }
+
+  export type VehicleUpsertWithoutProcessingJobsInput = {
+    update: XOR<VehicleUpdateWithoutProcessingJobsInput, VehicleUncheckedUpdateWithoutProcessingJobsInput>
+    create: XOR<VehicleCreateWithoutProcessingJobsInput, VehicleUncheckedCreateWithoutProcessingJobsInput>
+    where?: VehicleWhereInput
+  }
+
+  export type VehicleUpdateToOneWithWhereWithoutProcessingJobsInput = {
+    where?: VehicleWhereInput
+    data: XOR<VehicleUpdateWithoutProcessingJobsInput, VehicleUncheckedUpdateWithoutProcessingJobsInput>
+  }
+
+  export type VehicleUpdateWithoutProcessingJobsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stockNumber?: StringFieldUpdateOperationsInput | string
+    vin?: StringFieldUpdateOperationsInput | string
+    processingStatus?: EnumProcessingStatusFieldUpdateOperationsInput | $Enums.ProcessingStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    store?: StoreUpdateOneRequiredWithoutVehiclesNestedInput
+    images?: VehicleImageUpdateManyWithoutVehicleNestedInput
+  }
+
+  export type VehicleUncheckedUpdateWithoutProcessingJobsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stockNumber?: StringFieldUpdateOperationsInput | string
+    vin?: StringFieldUpdateOperationsInput | string
+    storeId?: StringFieldUpdateOperationsInput | string
+    processingStatus?: EnumProcessingStatusFieldUpdateOperationsInput | $Enums.ProcessingStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    images?: VehicleImageUncheckedUpdateManyWithoutVehicleNestedInput
   }
 
   export type VehicleCreateWithoutStoreInput = {
@@ -8876,12 +9110,78 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Vehicle"> | Date | string
   }
 
+  export type VehicleCreateWithoutImagesInput = {
+    id?: string
+    stockNumber: string
+    vin: string
+    processingStatus?: $Enums.ProcessingStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    store: StoreCreateNestedOneWithoutVehiclesInput
+    processingJobs?: ProcessingJobCreateNestedManyWithoutVehicleInput
+  }
+
+  export type VehicleUncheckedCreateWithoutImagesInput = {
+    id?: string
+    stockNumber: string
+    vin: string
+    storeId: string
+    processingStatus?: $Enums.ProcessingStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    processingJobs?: ProcessingJobUncheckedCreateNestedManyWithoutVehicleInput
+  }
+
+  export type VehicleCreateOrConnectWithoutImagesInput = {
+    where: VehicleWhereUniqueInput
+    create: XOR<VehicleCreateWithoutImagesInput, VehicleUncheckedCreateWithoutImagesInput>
+  }
+
+  export type VehicleUpsertWithoutImagesInput = {
+    update: XOR<VehicleUpdateWithoutImagesInput, VehicleUncheckedUpdateWithoutImagesInput>
+    create: XOR<VehicleCreateWithoutImagesInput, VehicleUncheckedCreateWithoutImagesInput>
+    where?: VehicleWhereInput
+  }
+
+  export type VehicleUpdateToOneWithWhereWithoutImagesInput = {
+    where?: VehicleWhereInput
+    data: XOR<VehicleUpdateWithoutImagesInput, VehicleUncheckedUpdateWithoutImagesInput>
+  }
+
+  export type VehicleUpdateWithoutImagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stockNumber?: StringFieldUpdateOperationsInput | string
+    vin?: StringFieldUpdateOperationsInput | string
+    processingStatus?: EnumProcessingStatusFieldUpdateOperationsInput | $Enums.ProcessingStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    store?: StoreUpdateOneRequiredWithoutVehiclesNestedInput
+    processingJobs?: ProcessingJobUpdateManyWithoutVehicleNestedInput
+  }
+
+  export type VehicleUncheckedUpdateWithoutImagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    stockNumber?: StringFieldUpdateOperationsInput | string
+    vin?: StringFieldUpdateOperationsInput | string
+    storeId?: StringFieldUpdateOperationsInput | string
+    processingStatus?: EnumProcessingStatusFieldUpdateOperationsInput | $Enums.ProcessingStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    processingJobs?: ProcessingJobUncheckedUpdateManyWithoutVehicleNestedInput
+  }
+
   export type StoreCreateWithoutVehiclesInput = {
     id?: string
     name: string
     address: string
     brandLogos?: StoreCreatebrandLogosInput | string[]
     imageUrl?: string | null
+    bgFrontQuarter?: string | null
+    bgFront?: string | null
+    bgBackQuarter?: string | null
+    bgBack?: string | null
+    bgDriverSide?: string | null
+    bgPassengerSide?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -8892,6 +9192,12 @@ export namespace Prisma {
     address: string
     brandLogos?: StoreCreatebrandLogosInput | string[]
     imageUrl?: string | null
+    bgFrontQuarter?: string | null
+    bgFront?: string | null
+    bgBackQuarter?: string | null
+    bgBack?: string | null
+    bgDriverSide?: string | null
+    bgPassengerSide?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -8986,6 +9292,12 @@ export namespace Prisma {
     address?: StringFieldUpdateOperationsInput | string
     brandLogos?: StoreUpdatebrandLogosInput | string[]
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bgFrontQuarter?: NullableStringFieldUpdateOperationsInput | string | null
+    bgFront?: NullableStringFieldUpdateOperationsInput | string | null
+    bgBackQuarter?: NullableStringFieldUpdateOperationsInput | string | null
+    bgBack?: NullableStringFieldUpdateOperationsInput | string | null
+    bgDriverSide?: NullableStringFieldUpdateOperationsInput | string | null
+    bgPassengerSide?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8996,6 +9308,12 @@ export namespace Prisma {
     address?: StringFieldUpdateOperationsInput | string
     brandLogos?: StoreUpdatebrandLogosInput | string[]
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bgFrontQuarter?: NullableStringFieldUpdateOperationsInput | string | null
+    bgFront?: NullableStringFieldUpdateOperationsInput | string | null
+    bgBackQuarter?: NullableStringFieldUpdateOperationsInput | string | null
+    bgBack?: NullableStringFieldUpdateOperationsInput | string | null
+    bgDriverSide?: NullableStringFieldUpdateOperationsInput | string | null
+    bgPassengerSide?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9062,126 +9380,6 @@ export namespace Prisma {
     errorMessage?: StringNullableFilter<"ProcessingJob"> | string | null
     createdAt?: DateTimeFilter<"ProcessingJob"> | Date | string
     completedAt?: DateTimeNullableFilter<"ProcessingJob"> | Date | string | null
-  }
-
-  export type VehicleCreateWithoutImagesInput = {
-    id?: string
-    stockNumber: string
-    vin: string
-    processingStatus?: $Enums.ProcessingStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    store: StoreCreateNestedOneWithoutVehiclesInput
-    processingJobs?: ProcessingJobCreateNestedManyWithoutVehicleInput
-  }
-
-  export type VehicleUncheckedCreateWithoutImagesInput = {
-    id?: string
-    stockNumber: string
-    vin: string
-    storeId: string
-    processingStatus?: $Enums.ProcessingStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    processingJobs?: ProcessingJobUncheckedCreateNestedManyWithoutVehicleInput
-  }
-
-  export type VehicleCreateOrConnectWithoutImagesInput = {
-    where: VehicleWhereUniqueInput
-    create: XOR<VehicleCreateWithoutImagesInput, VehicleUncheckedCreateWithoutImagesInput>
-  }
-
-  export type VehicleUpsertWithoutImagesInput = {
-    update: XOR<VehicleUpdateWithoutImagesInput, VehicleUncheckedUpdateWithoutImagesInput>
-    create: XOR<VehicleCreateWithoutImagesInput, VehicleUncheckedCreateWithoutImagesInput>
-    where?: VehicleWhereInput
-  }
-
-  export type VehicleUpdateToOneWithWhereWithoutImagesInput = {
-    where?: VehicleWhereInput
-    data: XOR<VehicleUpdateWithoutImagesInput, VehicleUncheckedUpdateWithoutImagesInput>
-  }
-
-  export type VehicleUpdateWithoutImagesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    stockNumber?: StringFieldUpdateOperationsInput | string
-    vin?: StringFieldUpdateOperationsInput | string
-    processingStatus?: EnumProcessingStatusFieldUpdateOperationsInput | $Enums.ProcessingStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    store?: StoreUpdateOneRequiredWithoutVehiclesNestedInput
-    processingJobs?: ProcessingJobUpdateManyWithoutVehicleNestedInput
-  }
-
-  export type VehicleUncheckedUpdateWithoutImagesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    stockNumber?: StringFieldUpdateOperationsInput | string
-    vin?: StringFieldUpdateOperationsInput | string
-    storeId?: StringFieldUpdateOperationsInput | string
-    processingStatus?: EnumProcessingStatusFieldUpdateOperationsInput | $Enums.ProcessingStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    processingJobs?: ProcessingJobUncheckedUpdateManyWithoutVehicleNestedInput
-  }
-
-  export type VehicleCreateWithoutProcessingJobsInput = {
-    id?: string
-    stockNumber: string
-    vin: string
-    processingStatus?: $Enums.ProcessingStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    store: StoreCreateNestedOneWithoutVehiclesInput
-    images?: VehicleImageCreateNestedManyWithoutVehicleInput
-  }
-
-  export type VehicleUncheckedCreateWithoutProcessingJobsInput = {
-    id?: string
-    stockNumber: string
-    vin: string
-    storeId: string
-    processingStatus?: $Enums.ProcessingStatus
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    images?: VehicleImageUncheckedCreateNestedManyWithoutVehicleInput
-  }
-
-  export type VehicleCreateOrConnectWithoutProcessingJobsInput = {
-    where: VehicleWhereUniqueInput
-    create: XOR<VehicleCreateWithoutProcessingJobsInput, VehicleUncheckedCreateWithoutProcessingJobsInput>
-  }
-
-  export type VehicleUpsertWithoutProcessingJobsInput = {
-    update: XOR<VehicleUpdateWithoutProcessingJobsInput, VehicleUncheckedUpdateWithoutProcessingJobsInput>
-    create: XOR<VehicleCreateWithoutProcessingJobsInput, VehicleUncheckedCreateWithoutProcessingJobsInput>
-    where?: VehicleWhereInput
-  }
-
-  export type VehicleUpdateToOneWithWhereWithoutProcessingJobsInput = {
-    where?: VehicleWhereInput
-    data: XOR<VehicleUpdateWithoutProcessingJobsInput, VehicleUncheckedUpdateWithoutProcessingJobsInput>
-  }
-
-  export type VehicleUpdateWithoutProcessingJobsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    stockNumber?: StringFieldUpdateOperationsInput | string
-    vin?: StringFieldUpdateOperationsInput | string
-    processingStatus?: EnumProcessingStatusFieldUpdateOperationsInput | $Enums.ProcessingStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    store?: StoreUpdateOneRequiredWithoutVehiclesNestedInput
-    images?: VehicleImageUpdateManyWithoutVehicleNestedInput
-  }
-
-  export type VehicleUncheckedUpdateWithoutProcessingJobsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    stockNumber?: StringFieldUpdateOperationsInput | string
-    vin?: StringFieldUpdateOperationsInput | string
-    storeId?: StringFieldUpdateOperationsInput | string
-    processingStatus?: EnumProcessingStatusFieldUpdateOperationsInput | $Enums.ProcessingStatus
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    images?: VehicleImageUncheckedUpdateManyWithoutVehicleNestedInput
   }
 
   export type VehicleCreateManyStoreInput = {

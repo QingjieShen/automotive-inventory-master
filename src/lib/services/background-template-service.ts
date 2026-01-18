@@ -81,28 +81,38 @@ export class BackgroundTemplateService {
    * the vehicle image type. Gallery images return null as they are not processed.
    * 
    * @param imageType - The type of vehicle image (e.g., FRONT, DRIVER_SIDE)
+   * @param storeId - Optional store ID to use store-specific backgrounds
    * @returns Background template result with URL and metadata, or null for gallery images
    * 
    * @example
    * ```typescript
    * const service = new BackgroundTemplateService({ bucketName: 'my-bucket' });
-   * const result = await service.selectBackgroundTemplate('FRONT_QUARTER');
+   * const result = await service.selectBackgroundTemplate('FRONT_QUARTER', 'store123');
    * // Returns: {
-   * //   templateUrl: 'https://storage.googleapis.com/my-bucket/backgrounds/studio-white.jpg',
-   * //   templateName: 'studio-white.jpg',
+   * //   templateUrl: 'https://storage.googleapis.com/my-bucket/stores/store123/backgrounds/bg-front_quarter.jpg',
+   * //   templateName: 'bg-front_quarter.jpg',
    * //   imageType: 'FRONT_QUARTER'
    * // }
    * ```
    */
   async selectBackgroundTemplate(
-    imageType: ImageType
+    imageType: ImageType,
+    storeId?: string
   ): Promise<BackgroundTemplateResult | null> {
     // Gallery images are not processed - return null
     if (!this.isKeyImageType(imageType)) {
       return null;
     }
 
-    // Get the template filename for this image type
+    // If storeId is provided, check for store-specific background
+    if (storeId) {
+      const storeBackground = await this.getStoreBackground(storeId, imageType);
+      if (storeBackground) {
+        return storeBackground;
+      }
+    }
+
+    // Fall back to default template
     const templateName = this.TEMPLATE_MAPPING[imageType];
     
     if (!templateName) {
@@ -119,6 +129,68 @@ export class BackgroundTemplateService {
       templateName,
       imageType,
     };
+  }
+
+  /**
+   * Get store-specific background image if configured
+   * 
+   * @param storeId - The store ID
+   * @param imageType - The image type
+   * @returns Background template result or null if not configured
+   */
+  private async getStoreBackground(
+    storeId: string,
+    imageType: ImageType
+  ): Promise<BackgroundTemplateResult | null> {
+    try {
+      // Import prisma dynamically to avoid circular dependencies
+      const { prisma } = await import('@/lib/prisma');
+      
+      const store = await prisma.store.findUnique({
+        where: { id: storeId },
+        select: {
+          bgFrontQuarter: true,
+          bgFront: true,
+          bgBackQuarter: true,
+          bgBack: true,
+          bgDriverSide: true,
+          bgPassengerSide: true,
+        },
+      });
+
+      if (!store) {
+        return null;
+      }
+
+      const fieldMap: Record<string, keyof typeof store> = {
+        FRONT_QUARTER: 'bgFrontQuarter',
+        FRONT: 'bgFront',
+        BACK_QUARTER: 'bgBackQuarter',
+        BACK: 'bgBack',
+        DRIVER_SIDE: 'bgDriverSide',
+        PASSENGER_SIDE: 'bgPassengerSide',
+      };
+
+      const field = fieldMap[imageType];
+      const backgroundUrl = store[field];
+
+      if (!backgroundUrl) {
+        return null;
+      }
+
+      // Extract filename from URL
+      const urlParts = backgroundUrl.split('/');
+      const templateName = urlParts[urlParts.length - 1];
+
+      return {
+        templateUrl: backgroundUrl,
+        templateName,
+        imageType,
+      };
+    } catch (error) {
+      console.error('Error fetching store background:', error);
+      return null;
+    }
   }
 
   /**

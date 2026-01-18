@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../src/generated/prisma"
@@ -14,36 +8,42 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum UserRole {
-  PHOTOGRAPHER
-  ADMIN
-  SUPER_ADMIN
+model ProcessingJob {
+  id           String    @id @default(cuid())
+  vehicleId    String
+  imageIds     String[]
+  status       JobStatus @default(QUEUED)
+  errorMessage String?
+  createdAt    DateTime  @default(now())
+  completedAt  DateTime?
+
+  // Relations
+  vehicle Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+
+  // Indexes for performance
+  @@index([vehicleId])
+  @@index([status])
+  @@map("processing_jobs")
 }
 
-enum ImageType {
-  FRONT_QUARTER
-  FRONT
-  BACK_QUARTER
-  BACK
-  DRIVER_SIDE
-  PASSENGER_SIDE
-  GALLERY
-  GALLERY_EXTERIOR
-  GALLERY_INTERIOR
-}
+model Store {
+  id                      String    @id @default(cuid())
+  name                    String
+  address                 String
+  brandLogos              String[]
+  imageUrl                String?
+  // Custom background images for key image types
+  bgFrontQuarter          String?
+  bgFront                 String?
+  bgBackQuarter           String?
+  bgBack                  String?
+  bgDriverSide            String?
+  bgPassengerSide         String?
+  vehicles                Vehicle[]
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
 
-enum ProcessingStatus {
-  NOT_STARTED
-  IN_PROGRESS
-  COMPLETED
-  ERROR
-}
-
-enum JobStatus {
-  QUEUED
-  PROCESSING
-  COMPLETED
-  FAILED
+  @@map("stores")
 }
 
 model User {
@@ -56,41 +56,6 @@ model User {
   updatedAt    DateTime @updatedAt
 
   @@map("users")
-}
-
-model Store {
-  id         String    @id @default(cuid())
-  name       String
-  address    String
-  brandLogos String[]
-  imageUrl   String?
-  vehicles   Vehicle[]
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-
-  @@map("stores")
-}
-
-model Vehicle {
-  id               String           @id @default(cuid())
-  stockNumber      String
-  vin              String           // NEW: Required VIN field (17 characters)
-  storeId          String
-  processingStatus ProcessingStatus @default(NOT_STARTED)
-  createdAt        DateTime         @default(now())
-  updatedAt        DateTime         @updatedAt
-
-  // Relations
-  store          Store            @relation(fields: [storeId], references: [id], onDelete: Cascade)
-  images         VehicleImage[]
-  processingJobs ProcessingJob[]
-
-  // Indexes for performance
-  @@index([stockNumber])
-  @@index([storeId])
-  @@index([vin])                   // NEW: Index for CSV queries
-  @@unique([stockNumber, storeId]) // Ensure stock numbers are unique per store
-  @@map("vehicles")
 }
 
 model VehicleImage {
@@ -118,20 +83,56 @@ model VehicleImage {
   @@map("vehicle_images")
 }
 
-model ProcessingJob {
-  id           String    @id @default(cuid())
-  vehicleId    String
-  imageIds     String[]
-  status       JobStatus @default(QUEUED)
-  errorMessage String?
-  createdAt    DateTime  @default(now())
-  completedAt  DateTime?
+model Vehicle {
+  id               String           @id @default(cuid())
+  stockNumber      String
+  vin              String           // NEW: Required VIN field (17 characters)
+  storeId          String
+  processingStatus ProcessingStatus @default(NOT_STARTED)
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
 
   // Relations
-  vehicle Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  store          Store            @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  images         VehicleImage[]
+  processingJobs ProcessingJob[]
 
   // Indexes for performance
-  @@index([vehicleId])
-  @@index([status])
-  @@map("processing_jobs")
+  @@index([stockNumber])
+  @@index([storeId])
+  @@index([vin])                   // NEW: Index for CSV queries
+  @@unique([stockNumber, storeId]) // Ensure stock numbers are unique per store
+  @@map("vehicles")
+}
+
+enum ImageType {
+  FRONT_QUARTER
+  FRONT
+  BACK_QUARTER
+  BACK
+  DRIVER_SIDE
+  PASSENGER_SIDE
+  GALLERY
+  GALLERY_EXTERIOR
+  GALLERY_INTERIOR
+}
+
+enum JobStatus {
+  QUEUED
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+enum ProcessingStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+  ERROR
+}
+
+enum UserRole {
+  PHOTOGRAPHER
+  ADMIN
+  SUPER_ADMIN
 }

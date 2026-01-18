@@ -15,6 +15,12 @@ export interface Store {
   address: string
   brandLogos: string[]
   imageUrl?: string
+  bgFrontQuarter?: string
+  bgFront?: string
+  bgBackQuarter?: string
+  bgBack?: string
+  bgDriverSide?: string
+  bgPassengerSide?: string
 }
 
 export interface Vehicle {

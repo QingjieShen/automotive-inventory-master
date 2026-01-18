@@ -93,14 +93,14 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.UserScalarFieldEnum = {
+exports.Prisma.ProcessingJobScalarFieldEnum = {
   id: 'id',
-  email: 'email',
-  passwordHash: 'passwordHash',
-  role: 'role',
-  name: 'name',
+  vehicleId: 'vehicleId',
+  imageIds: 'imageIds',
+  status: 'status',
+  errorMessage: 'errorMessage',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  completedAt: 'completedAt'
 };
 
 exports.Prisma.StoreScalarFieldEnum = {
@@ -109,16 +109,22 @@ exports.Prisma.StoreScalarFieldEnum = {
   address: 'address',
   brandLogos: 'brandLogos',
   imageUrl: 'imageUrl',
+  bgFrontQuarter: 'bgFrontQuarter',
+  bgFront: 'bgFront',
+  bgBackQuarter: 'bgBackQuarter',
+  bgBack: 'bgBack',
+  bgDriverSide: 'bgDriverSide',
+  bgPassengerSide: 'bgPassengerSide',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.VehicleScalarFieldEnum = {
+exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
-  stockNumber: 'stockNumber',
-  vin: 'vin',
-  storeId: 'storeId',
-  processingStatus: 'processingStatus',
+  email: 'email',
+  passwordHash: 'passwordHash',
+  role: 'role',
+  name: 'name',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -139,14 +145,14 @@ exports.Prisma.VehicleImageScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.ProcessingJobScalarFieldEnum = {
+exports.Prisma.VehicleScalarFieldEnum = {
   id: 'id',
-  vehicleId: 'vehicleId',
-  imageIds: 'imageIds',
-  status: 'status',
-  errorMessage: 'errorMessage',
+  stockNumber: 'stockNumber',
+  vin: 'vin',
+  storeId: 'storeId',
+  processingStatus: 'processingStatus',
   createdAt: 'createdAt',
-  completedAt: 'completedAt'
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -163,12 +169,6 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-exports.UserRole = exports.$Enums.UserRole = {
-  PHOTOGRAPHER: 'PHOTOGRAPHER',
-  ADMIN: 'ADMIN',
-  SUPER_ADMIN: 'SUPER_ADMIN'
-};
-
 exports.ImageType = exports.$Enums.ImageType = {
   FRONT_QUARTER: 'FRONT_QUARTER',
   FRONT: 'FRONT',
@@ -181,13 +181,6 @@ exports.ImageType = exports.$Enums.ImageType = {
   GALLERY_INTERIOR: 'GALLERY_INTERIOR'
 };
 
-exports.ProcessingStatus = exports.$Enums.ProcessingStatus = {
-  NOT_STARTED: 'NOT_STARTED',
-  IN_PROGRESS: 'IN_PROGRESS',
-  COMPLETED: 'COMPLETED',
-  ERROR: 'ERROR'
-};
-
 exports.JobStatus = exports.$Enums.JobStatus = {
   QUEUED: 'QUEUED',
   PROCESSING: 'PROCESSING',
@@ -195,12 +188,25 @@ exports.JobStatus = exports.$Enums.JobStatus = {
   FAILED: 'FAILED'
 };
 
+exports.ProcessingStatus = exports.$Enums.ProcessingStatus = {
+  NOT_STARTED: 'NOT_STARTED',
+  IN_PROGRESS: 'IN_PROGRESS',
+  COMPLETED: 'COMPLETED',
+  ERROR: 'ERROR'
+};
+
+exports.UserRole = exports.$Enums.UserRole = {
+  PHOTOGRAPHER: 'PHOTOGRAPHER',
+  ADMIN: 'ADMIN',
+  SUPER_ADMIN: 'SUPER_ADMIN'
+};
+
 exports.Prisma.ModelName = {
-  User: 'User',
+  ProcessingJob: 'ProcessingJob',
   Store: 'Store',
-  Vehicle: 'Vehicle',
+  User: 'User',
   VehicleImage: 'VehicleImage',
-  ProcessingJob: 'ProcessingJob'
+  Vehicle: 'Vehicle'
 };
 /**
  * Create the Client
@@ -241,6 +247,7 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -249,13 +256,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum UserRole {\n  PHOTOGRAPHER\n  ADMIN\n  SUPER_ADMIN\n}\n\nenum ImageType {\n  FRONT_QUARTER\n  FRONT\n  BACK_QUARTER\n  BACK\n  DRIVER_SIDE\n  PASSENGER_SIDE\n  GALLERY\n  GALLERY_EXTERIOR\n  GALLERY_INTERIOR\n}\n\nenum ProcessingStatus {\n  NOT_STARTED\n  IN_PROGRESS\n  COMPLETED\n  ERROR\n}\n\nenum JobStatus {\n  QUEUED\n  PROCESSING\n  COMPLETED\n  FAILED\n}\n\nmodel User {\n  id           String   @id @default(cuid())\n  email        String   @unique\n  passwordHash String\n  role         UserRole\n  name         String\n  createdAt    DateTime @default(now())\n  updatedAt    DateTime @updatedAt\n\n  @@map(\"users\")\n}\n\nmodel Store {\n  id         String    @id @default(cuid())\n  name       String\n  address    String\n  brandLogos String[]\n  imageUrl   String?\n  vehicles   Vehicle[]\n  createdAt  DateTime  @default(now())\n  updatedAt  DateTime  @updatedAt\n\n  @@map(\"stores\")\n}\n\nmodel Vehicle {\n  id               String           @id @default(cuid())\n  stockNumber      String\n  vin              String // NEW: Required VIN field (17 characters)\n  storeId          String\n  processingStatus ProcessingStatus @default(NOT_STARTED)\n  createdAt        DateTime         @default(now())\n  updatedAt        DateTime         @updatedAt\n\n  // Relations\n  store          Store           @relation(fields: [storeId], references: [id], onDelete: Cascade)\n  images         VehicleImage[]\n  processingJobs ProcessingJob[]\n\n  @@unique([stockNumber, storeId]) // Ensure stock numbers are unique per store\n  // Indexes for performance\n  @@index([stockNumber])\n  @@index([storeId])\n  @@index([vin]) // NEW: Index for CSV queries\n  @@map(\"vehicles\")\n}\n\nmodel VehicleImage {\n  id           String    @id @default(cuid())\n  vehicleId    String\n  originalUrl  String\n  processedUrl String?\n  optimizedUrl String? // NEW: Final optimized image URL from AI processing\n  thumbnailUrl String\n  imageType    ImageType\n  sortOrder    Int       @default(0)\n  isProcessed  Boolean   @default(false)\n  isOptimized  Boolean   @default(false) // NEW: Tracks AI processing completion\n  processedAt  DateTime? // NEW: When AI processing completed\n  uploadedAt   DateTime  @default(now())\n  updatedAt    DateTime  @updatedAt // NEW: For cache busting\n\n  // Relations\n  vehicle Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Cascade)\n\n  // Indexes for performance\n  @@index([vehicleId])\n  @@index([imageType])\n  @@index([isOptimized]) // NEW: For CSV feed queries\n  @@map(\"vehicle_images\")\n}\n\nmodel ProcessingJob {\n  id           String    @id @default(cuid())\n  vehicleId    String\n  imageIds     String[]\n  status       JobStatus @default(QUEUED)\n  errorMessage String?\n  createdAt    DateTime  @default(now())\n  completedAt  DateTime?\n\n  // Relations\n  vehicle Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Cascade)\n\n  // Indexes for performance\n  @@index([vehicleId])\n  @@index([status])\n  @@map(\"processing_jobs\")\n}\n",
-  "inlineSchemaHash": "79642e70fe1518d4c51c42e0a56edfac0357eb7d05b0bc47c4cb68a8a3aa995d",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../src/generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel ProcessingJob {\n  id           String    @id @default(cuid())\n  vehicleId    String\n  imageIds     String[]\n  status       JobStatus @default(QUEUED)\n  errorMessage String?\n  createdAt    DateTime  @default(now())\n  completedAt  DateTime?\n\n  // Relations\n  vehicle Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Cascade)\n\n  // Indexes for performance\n  @@index([vehicleId])\n  @@index([status])\n  @@map(\"processing_jobs\")\n}\n\nmodel Store {\n  id              String    @id @default(cuid())\n  name            String\n  address         String\n  brandLogos      String[]\n  imageUrl        String?\n  // Custom background images for key image types\n  bgFrontQuarter  String?\n  bgFront         String?\n  bgBackQuarter   String?\n  bgBack          String?\n  bgDriverSide    String?\n  bgPassengerSide String?\n  vehicles        Vehicle[]\n  createdAt       DateTime  @default(now())\n  updatedAt       DateTime  @updatedAt\n\n  @@map(\"stores\")\n}\n\nmodel User {\n  id           String   @id @default(cuid())\n  email        String   @unique\n  passwordHash String\n  role         UserRole\n  name         String\n  createdAt    DateTime @default(now())\n  updatedAt    DateTime @updatedAt\n\n  @@map(\"users\")\n}\n\nmodel VehicleImage {\n  id           String    @id @default(cuid())\n  vehicleId    String\n  originalUrl  String\n  processedUrl String?\n  optimizedUrl String? // NEW: Final optimized image URL from AI processing\n  thumbnailUrl String\n  imageType    ImageType\n  sortOrder    Int       @default(0)\n  isProcessed  Boolean   @default(false)\n  isOptimized  Boolean   @default(false) // NEW: Tracks AI processing completion\n  processedAt  DateTime? // NEW: When AI processing completed\n  uploadedAt   DateTime  @default(now())\n  updatedAt    DateTime  @updatedAt // NEW: For cache busting\n\n  // Relations\n  vehicle Vehicle @relation(fields: [vehicleId], references: [id], onDelete: Cascade)\n\n  // Indexes for performance\n  @@index([vehicleId])\n  @@index([imageType])\n  @@index([isOptimized]) // NEW: For CSV feed queries\n  @@map(\"vehicle_images\")\n}\n\nmodel Vehicle {\n  id               String           @id @default(cuid())\n  stockNumber      String\n  vin              String // NEW: Required VIN field (17 characters)\n  storeId          String\n  processingStatus ProcessingStatus @default(NOT_STARTED)\n  createdAt        DateTime         @default(now())\n  updatedAt        DateTime         @updatedAt\n\n  // Relations\n  store          Store           @relation(fields: [storeId], references: [id], onDelete: Cascade)\n  images         VehicleImage[]\n  processingJobs ProcessingJob[]\n\n  @@unique([stockNumber, storeId]) // Ensure stock numbers are unique per store\n  // Indexes for performance\n  @@index([stockNumber])\n  @@index([storeId])\n  @@index([vin]) // NEW: Index for CSV queries\n  @@map(\"vehicles\")\n}\n\nenum ImageType {\n  FRONT_QUARTER\n  FRONT\n  BACK_QUARTER\n  BACK\n  DRIVER_SIDE\n  PASSENGER_SIDE\n  GALLERY\n  GALLERY_EXTERIOR\n  GALLERY_INTERIOR\n}\n\nenum JobStatus {\n  QUEUED\n  PROCESSING\n  COMPLETED\n  FAILED\n}\n\nenum ProcessingStatus {\n  NOT_STARTED\n  IN_PROGRESS\n  COMPLETED\n  ERROR\n}\n\nenum UserRole {\n  PHOTOGRAPHER\n  ADMIN\n  SUPER_ADMIN\n}\n",
+  "inlineSchemaHash": "ce68644bc3b2b74cc494e57d5d6b00dd04ad6e7cf2ea8565d9452be0e7bdcbcb",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"passwordHash\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"UserRole\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"users\"},\"Store\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"address\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"brandLogos\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"imageUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"vehicles\",\"kind\":\"object\",\"type\":\"Vehicle\",\"relationName\":\"StoreToVehicle\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"stores\"},\"Vehicle\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"stockNumber\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"vin\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"storeId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"processingStatus\",\"kind\":\"enum\",\"type\":\"ProcessingStatus\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"store\",\"kind\":\"object\",\"type\":\"Store\",\"relationName\":\"StoreToVehicle\"},{\"name\":\"images\",\"kind\":\"object\",\"type\":\"VehicleImage\",\"relationName\":\"VehicleToVehicleImage\"},{\"name\":\"processingJobs\",\"kind\":\"object\",\"type\":\"ProcessingJob\",\"relationName\":\"ProcessingJobToVehicle\"}],\"dbName\":\"vehicles\"},\"VehicleImage\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"vehicleId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"originalUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"processedUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"optimizedUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"thumbnailUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"imageType\",\"kind\":\"enum\",\"type\":\"ImageType\"},{\"name\":\"sortOrder\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"isProcessed\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"isOptimized\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"processedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"uploadedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"vehicle\",\"kind\":\"object\",\"type\":\"Vehicle\",\"relationName\":\"VehicleToVehicleImage\"}],\"dbName\":\"vehicle_images\"},\"ProcessingJob\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"vehicleId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"imageIds\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"JobStatus\"},{\"name\":\"errorMessage\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"completedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"vehicle\",\"kind\":\"object\",\"type\":\"Vehicle\",\"relationName\":\"ProcessingJobToVehicle\"}],\"dbName\":\"processing_jobs\"}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"ProcessingJob\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"vehicleId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"imageIds\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"JobStatus\"},{\"name\":\"errorMessage\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"completedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"vehicle\",\"kind\":\"object\",\"type\":\"Vehicle\",\"relationName\":\"ProcessingJobToVehicle\"}],\"dbName\":\"processing_jobs\"},\"Store\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"address\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"brandLogos\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"imageUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"bgFrontQuarter\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"bgFront\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"bgBackQuarter\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"bgBack\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"bgDriverSide\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"bgPassengerSide\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"vehicles\",\"kind\":\"object\",\"type\":\"Vehicle\",\"relationName\":\"StoreToVehicle\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"stores\"},\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"passwordHash\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"UserRole\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"users\"},\"VehicleImage\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"vehicleId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"originalUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"processedUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"optimizedUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"thumbnailUrl\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"imageType\",\"kind\":\"enum\",\"type\":\"ImageType\"},{\"name\":\"sortOrder\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"isProcessed\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"isOptimized\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"processedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"uploadedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"vehicle\",\"kind\":\"object\",\"type\":\"Vehicle\",\"relationName\":\"VehicleToVehicleImage\"}],\"dbName\":\"vehicle_images\"},\"Vehicle\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"stockNumber\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"vin\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"storeId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"processingStatus\",\"kind\":\"enum\",\"type\":\"ProcessingStatus\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"store\",\"kind\":\"object\",\"type\":\"Store\",\"relationName\":\"StoreToVehicle\"},{\"name\":\"images\",\"kind\":\"object\",\"type\":\"VehicleImage\",\"relationName\":\"VehicleToVehicleImage\"},{\"name\":\"processingJobs\",\"kind\":\"object\",\"type\":\"ProcessingJob\",\"relationName\":\"ProcessingJobToVehicle\"}],\"dbName\":\"vehicles\"}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

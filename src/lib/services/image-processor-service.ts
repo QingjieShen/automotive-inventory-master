@@ -139,10 +139,17 @@ export class ImageProcessorService {
         imageType,
       });
 
-      // Step 2: Get the vehicle image record to access vehicleId
+      // Step 2: Get the vehicle image record to access vehicleId and storeId
       const vehicleImage = await prisma.vehicleImage.findUnique({
         where: { id: vehicleImageId },
-        select: { vehicleId: true },
+        select: { 
+          vehicleId: true,
+          vehicle: {
+            select: {
+              storeId: true,
+            },
+          },
+        },
       });
 
       if (!vehicleImage) {
@@ -157,8 +164,11 @@ export class ImageProcessorService {
       // Step 3: Download the original image
       const imageBuffer = await this.downloadImage(originalUrl);
 
-      // Step 4: Select background template for this image type
-      const templateResult = await this.templateService.selectBackgroundTemplate(imageType);
+      // Step 4: Select background template for this image type (with store-specific backgrounds)
+      const templateResult = await this.templateService.selectBackgroundTemplate(
+        imageType,
+        vehicleImage.vehicle.storeId
+      );
       
       if (!templateResult) {
         const error = `No background template found for image type: ${imageType}`;

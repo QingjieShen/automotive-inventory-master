@@ -122,12 +122,18 @@ function StoreManagementContent() {
         )}
 
         {/* Add Store Button */}
-        <div className="mb-6">
+        <div className="mb-6 flex gap-3">
           <button
             onClick={handleAddStore}
             className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-medium"
           >
             Add Store
+          </button>
+          <button
+            onClick={() => router.push('/admin/backgrounds')}
+            className="px-4 py-2 bg-purple-600 text-white rounded-md hover:bg-purple-700 font-medium"
+          >
+            Manage Key Images Backgrounds
           </button>
         </div>
 
